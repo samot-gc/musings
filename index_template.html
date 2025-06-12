@@ -59,7 +59,7 @@
         white-space: nowrap;
         vertical-align: middle;
     }
-    /* Updated widths */
+    /* Widths as requested */
     th.title-col {
         width: 50%;
     }
@@ -128,13 +128,10 @@
 <table id="papersTable" aria-label="List of papers">
     <thead>
         <tr>
-            <th class="title-col">
-                Title
-                <span class="sort-button asc" data-sort="title" role="button" aria-pressed="true" tabindex="0" title="Sort by Title"></span>
-            </th>
+            <th class="title-col">Title</th>
             <th class="year-col">
                 Year
-                <span class="sort-button" data-sort="year" role="button" aria-pressed="false" tabindex="0" title="Sort by Year"></span>
+                <span class="sort-button desc" data-sort="year" role="button" aria-pressed="true" tabindex="0" title="Sort by Year"></span>
             </th>
             <th class="authors-col">Authors</th>
             <th class="tags-col">Tags</th>
@@ -160,26 +157,21 @@
     const searchInput = document.getElementById("searchInput");
     const tagButtons = document.querySelectorAll(".tag-button");
     const tbody = document.getElementById("papersTbody");
-    const sortButtons = document.querySelectorAll(".sort-button");
+    const sortButton = document.querySelector(".sort-button[data-sort='year']");
 
     let activeTag = null;
-    let sortState = {
-        title: "asc",
-        year: null
-    };
+    let sortOrder = "desc";  // default sort: year descending
 
     function updateSortButtonUI() {
-        sortButtons.forEach(btn => {
-            const key = btn.dataset.sort;
-            if (sortState[key]) {
-                btn.classList.add(sortState[key]);
-                btn.classList.remove(sortState[key] === 'asc' ? 'desc' : 'asc');
-                btn.setAttribute("aria-pressed", "true");
-            } else {
-                btn.classList.remove("asc", "desc");
-                btn.setAttribute("aria-pressed", "false");
-            }
-        });
+        if (sortOrder === "asc") {
+            sortButton.classList.add("asc");
+            sortButton.classList.remove("desc");
+            sortButton.setAttribute("aria-pressed", "true");
+        } else {
+            sortButton.classList.add("desc");
+            sortButton.classList.remove("asc");
+            sortButton.setAttribute("aria-pressed", "true");
+        }
     }
 
     function filterAndSortRows() {
@@ -196,29 +188,18 @@
 
         const visibleRows = rows.filter(row => row.style.display !== "none");
 
-        const activeSort = Object.entries(sortState).find(([_, v]) => v !== null);
+        visibleRows.sort((a, b) => {
+            let aVal = parseInt(a.dataset.year) || 0;
+            let bVal = parseInt(b.dataset.year) || 0;
 
-        if (activeSort) {
-            const [sortKey, sortOrder] = activeSort;
+            if (aVal === bVal) return 0;
 
-            visibleRows.sort((a, b) => {
-                let aVal = a.dataset[sortKey];
-                let bVal = b.dataset[sortKey];
-
-                if (sortKey === "year") {
-                    aVal = parseInt(aVal) || 0;
-                    bVal = parseInt(bVal) || 0;
-                }
-
-                if (aVal === bVal) return 0;
-
-                if (sortOrder === "asc") {
-                    return aVal > bVal ? 1 : -1;
-                } else {
-                    return aVal < bVal ? 1 : -1;
-                }
-            });
-        }
+            if (sortOrder === "asc") {
+                return aVal > bVal ? 1 : -1;
+            } else {
+                return aVal < bVal ? 1 : -1;
+            }
+        });
 
         visibleRows.forEach(row => tbody.appendChild(row));
         updateSortButtonUI();
@@ -239,24 +220,15 @@
         });
     });
 
-    sortButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            const key = button.dataset.sort;
-            if (sortState[key] === "asc") {
-                sortState = { title: null, year: null };
-                sortState[key] = "desc";
-            } else {
-                sortState = { title: null, year: null };
-                sortState[key] = "asc";
-            }
-            filterAndSortRows();
-        });
-        button.addEventListener("keydown", e => {
-            if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                button.click();
-            }
-        });
+    sortButton.addEventListener("click", () => {
+        sortOrder = sortOrder === "asc" ? "desc" : "asc";
+        filterAndSortRows();
+    });
+    sortButton.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            sortButton.click();
+        }
     });
 
     filterAndSortRows();
