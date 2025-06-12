@@ -91,7 +91,7 @@ def build_markdown(papers):
 
     lines = []
     lines.append("# Musings\n")
-    lines.append("For an interactive, searchable, filterable, and sortable index, please visit [Musings Index](index.html).\n")
+    lines.append("For a searchable, filterable, and sortable index, please visit [Musings Index](https://samot-gc.github.io/musings/).\n")
     lines.append("\n")
     lines.append("| Title | Year | Authors | Tags |")
     lines.append("|-------|------|---------|------|")
