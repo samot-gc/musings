@@ -3,6 +3,7 @@ tags: []
 parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
 collections:
     - Reasoning
+year: 2024
 $version: 465
 $libraryID: 1
 $itemKey: 2BE75UEU

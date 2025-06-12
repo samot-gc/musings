@@ -5,6 +5,7 @@ tags:
 parent: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
 collections:
     - Reasoning
+year: 2025
 $version: 444
 $libraryID: 1
 $itemKey: C8WTKK7I

@@ -1,167 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Musings</title>
-  <style>
+<meta charset="UTF-8" />
+<title>Musings Index</title>
+<style>
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      margin: 2rem auto;
-      max-width: 960px;
-      padding: 0 1rem;
-      background: #fafafa;
-      color: #333;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1rem;
     }
-
     h1 {
-      text-align: center;
+        text-align: center;
     }
-
-    input {
-      font-size: 1rem;
-      padding: 0.5rem;
-      width: 100%;
-      margin-bottom: 1rem;
-      box-sizing: border-box;
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
     }
-
-    .tags-bar {
-      margin-bottom: 1rem;
+    .search-box input {
+        padding: 0.5rem;
+        width: 200px;
+        font-size: 1rem;
     }
-
-    .tag-btn {
-      background-color: #e0e0e0;
-      border: none;
-      border-radius: 4px;
-      padding: 0.3em 0.7em;
-      margin: 0.2em;
-      cursor: pointer;
-      font-size: 0.9em;
+    .tag-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
     }
-
-    .tag-btn.active {
-      background-color: #9ecae1;
+    .tag-button {
+        padding: 0.3rem 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #f5f5f5;
+        cursor: pointer;
+        font-size: 0.9rem;
+        user-select: none;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease;
     }
-
+    .tag-button.active {
+        background: #007acc;
+        color: white;
+        border-color: #007acc;
+    }
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-bottom: 2rem;
+        width: 100%;
+        border-collapse: collapse;
     }
-
-    th, td {
-      padding: 0.75rem;
-      text-align: left;
-      border-bottom: 1px solid #ddd;
+    th {
+        text-align: left;
+        border-bottom: 2px solid #ccc;
+        padding: 0.5rem;
+        user-select: none;
+        white-space: nowrap;
+        vertical-align: middle;
     }
-
-    tr:hover {
-      background-color: #f1f1f1;
+    /* Updated widths */
+    th.title-col {
+        width: 50%;
     }
-
-    .tag {
-      background: #e0e0e0;
-      border-radius: 4px;
-      padding: 0.2em 0.6em;
-      font-size: 0.85em;
-      margin-right: 0.3em;
-      display: inline-block;
+    th.year-col {
+        width: 10%;
     }
-  </style>
+    th.authors-col {
+        width: 20%;
+    }
+    th.tags-col {
+        width: 20%;
+    }
+    td {
+        padding: 0.5rem;
+        vertical-align: top;
+        overflow-wrap: break-word;
+    }
+    a {
+        color: #007acc;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .sort-button {
+        font-size: 0.9rem;
+        margin-left: 0.3rem;
+        cursor: pointer;
+        color: #666;
+        user-select: none;
+        vertical-align: middle;
+        display: inline-block;
+        width: 1.2em;
+        text-align: center;
+    }
+    .sort-button:hover {
+        color: #000;
+    }
+    .sort-button.asc::after {
+        content: "▲";
+        font-size: 0.7rem;
+        margin-left: 0.2em;
+    }
+    .sort-button.desc::after {
+        content: "▼";
+        font-size: 0.7rem;
+        margin-left: 0.2em;
+    }
+</style>
 </head>
 <body>
-  <h1>Musings</h1>
+<h1>Musings</h1>
 
-  <input type="text" id="searchBox" placeholder="Search papers..." oninput="filterTable()" />
+<div class="controls">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search papers..." aria-label="Search papers" />
+    </div>
+</div>
 
-  <div class="tags-bar">
-    <strong>Filter by tag:</strong>
+<div class="tag-buttons" role="list">
     
-      <button class="tag-btn" onclick="toggleTag(this)" data-tag="continuous thoughts">continuous thoughts</button>
+    <button class="tag-button" data-tag="continuous thoughts" type="button">continuous thoughts</button>
     
-      <button class="tag-btn" onclick="toggleTag(this)" data-tag="reasoning">reasoning</button>
+    <button class="tag-button" data-tag="reasoning" type="button">reasoning</button>
     
-  </div>
+</div>
 
-  <table id="papersTable">
+<table id="papersTable" aria-label="List of papers">
     <thead>
-      <tr>
-        <th>Title</th>
-        <th>Authors</th>
-        <th>Year</th>
-        <th>Tags</th>
-      </tr>
+        <tr>
+            <th class="title-col">
+                Title
+                <span class="sort-button asc" data-sort="title" role="button" aria-pressed="true" tabindex="0" title="Sort by Title"></span>
+            </th>
+            <th class="year-col">
+                Year
+                <span class="sort-button" data-sort="year" role="button" aria-pressed="false" tabindex="0" title="Sort by Year"></span>
+            </th>
+            <th class="authors-col">Authors</th>
+            <th class="tags-col">Tags</th>
+        </tr>
     </thead>
-    <tbody>
-      
-      <tr data-tags="continuous thoughts,reasoning">
-        <td><a href="papers/Soft%20Thinking.html">Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space</a></td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>
-          
-            <span class="tag">continuous thoughts</span>
-          
-            <span class="tag">reasoning</span>
-          
-        </td>
-      </tr>
-      
-      <tr data-tags="">
-        <td><a href="papers/DeepSeekMath%20GRPO.html">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a></td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>
-          
-        </td>
-      </tr>
-      
-      <tr data-tags="continuous thoughts,reasoning">
-        <td><a href="papers/Mixture%20of%20Inputs.html">Text Generation Beyond Discrete Token Sampling</a></td>
-        <td>['Zhuang', 'Liu', 'Singh', 'Shang', 'Gao']</td>
-        <td>2025</td>
-        <td>
-          
-            <span class="tag">continuous thoughts</span>
-          
-            <span class="tag">reasoning</span>
-          
-        </td>
-      </tr>
-      
+    <tbody id="papersTbody">
+        
+        <tr data-title="text generation beyond discrete token sampling" data-year="2025" data-tags="continuous thoughts,reasoning">
+            <td><a href="papers/Mixture%20of%20Inputs.html">Text Generation Beyond Discrete Token Sampling</a></td>
+            <td>2025</td>
+            <td>Zhuang, Liu, Singh, Shang, Gao</td>
+            <td>
+                
+                <span>continuous thoughts</span>, 
+                
+                <span>reasoning</span>
+                
+            </td>
+        </tr>
+        
+        <tr data-title="soft thinking: unlocking the reasoning potential of llms in continuous concept space" data-year="2025" data-tags="continuous thoughts,reasoning">
+            <td><a href="papers/Soft%20Thinking.html">Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space</a></td>
+            <td>2025</td>
+            <td>N/A</td>
+            <td>
+                
+                <span>continuous thoughts</span>, 
+                
+                <span>reasoning</span>
+                
+            </td>
+        </tr>
+        
+        <tr data-title="deepseekmath: pushing the limits of mathematical reasoning in open language models" data-year="2024" data-tags="">
+            <td><a href="papers/DeepSeekMath%20GRPO.html">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a></td>
+            <td>2024</td>
+            <td>N/A</td>
+            <td>
+                
+            </td>
+        </tr>
+        
     </tbody>
-  </table>
+</table>
 
-  <script>
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const tagButtons = document.querySelectorAll(".tag-button");
+    const tbody = document.getElementById("papersTbody");
+    const sortButtons = document.querySelectorAll(".sort-button");
+
     let activeTag = null;
+    let sortState = {
+        title: "asc",
+        year: null
+    };
 
-    function toggleTag(button) {
-      const tag = button.dataset.tag;
-      const allButtons = document.querySelectorAll(".tag-btn");
-      allButtons.forEach(btn => btn.classList.remove("active"));
-
-      if (activeTag === tag) {
-        activeTag = null;
-        filterTable();
-      } else {
-        activeTag = tag;
-        button.classList.add("active");
-        filterTable();
-      }
+    function updateSortButtonUI() {
+        sortButtons.forEach(btn => {
+            const key = btn.dataset.sort;
+            if (sortState[key]) {
+                btn.classList.add(sortState[key]);
+                btn.classList.remove(sortState[key] === 'asc' ? 'desc' : 'asc');
+                btn.setAttribute("aria-pressed", "true");
+            } else {
+                btn.classList.remove("asc", "desc");
+                btn.setAttribute("aria-pressed", "false");
+            }
+        });
     }
 
-    function filterTable() {
-      const searchQuery = document.getElementById("searchBox").value.toLowerCase();
-      const rows = document.querySelectorAll("#papersTable tbody tr");
+    function filterAndSortRows() {
+        const query = searchInput.value.toLowerCase();
+        const rows = Array.from(tbody.querySelectorAll("tr"));
 
-      rows.forEach(row => {
-        const text = row.innerText.toLowerCase();
-        const tags = row.dataset.tags.split(",");
-        const matchesSearch = text.includes(searchQuery);
-        const matchesTag = !activeTag || tags.includes(activeTag);
-        row.style.display = (matchesSearch && matchesTag) ? "" : "none";
-      });
+        rows.forEach(row => {
+            const title = row.dataset.title;
+            const tags = row.dataset.tags.split(",");
+            const matchQuery = title.includes(query);
+            const matchTag = !activeTag || tags.includes(activeTag);
+            row.style.display = (matchQuery && matchTag) ? "" : "none";
+        });
+
+        const visibleRows = rows.filter(row => row.style.display !== "none");
+
+        const activeSort = Object.entries(sortState).find(([_, v]) => v !== null);
+
+        if (activeSort) {
+            const [sortKey, sortOrder] = activeSort;
+
+            visibleRows.sort((a, b) => {
+                let aVal = a.dataset[sortKey];
+                let bVal = b.dataset[sortKey];
+
+                if (sortKey === "year") {
+                    aVal = parseInt(aVal) || 0;
+                    bVal = parseInt(bVal) || 0;
+                }
+
+                if (aVal === bVal) return 0;
+
+                if (sortOrder === "asc") {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+        }
+
+        visibleRows.forEach(row => tbody.appendChild(row));
+        updateSortButtonUI();
     }
-  </script>
+
+    searchInput.addEventListener("input", filterAndSortRows);
+
+    tagButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            if (activeTag === button.dataset.tag) {
+                activeTag = null;
+                button.classList.remove("active");
+            } else {
+                activeTag = button.dataset.tag;
+                tagButtons.forEach(btn => btn.classList.toggle("active", btn === button));
+            }
+            filterAndSortRows();
+        });
+    });
+
+    sortButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const key = button.dataset.sort;
+            if (sortState[key] === "asc") {
+                sortState = { title: null, year: null };
+                sortState[key] = "desc";
+            } else {
+                sortState = { title: null, year: null };
+                sortState[key] = "asc";
+            }
+            filterAndSortRows();
+        });
+        button.addEventListener("keydown", e => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                button.click();
+            }
+        });
+    });
+
+    filterAndSortRows();
+</script>
 </body>
 </html>

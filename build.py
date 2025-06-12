@@ -40,7 +40,7 @@ def main():
 
         paper_info = {
             "title": meta.get("parent", os.path.splitext(filename)[0]),
-            "authors": meta.get("authors", "N/A"),
+            "authors": ", ".join(meta.get("authors")) if isinstance(meta.get("authors"), list) else meta.get("authors", "N/A"),
             "year": meta.get("year", "N/A"),
             "tags": meta.get("tags", []),
             "filename": urllib.parse.quote(filename.replace(".md", ".html"))
