@@ -1,6 +1,6 @@
 # Musings
 
-For an interactive, searchable, filterable, and sortable index, please visit [Musings Index](index.html).
+For a searchable, filterable, and sortable index, please visit [Musings Index](https://samot-gc.github.io/musings/).
 
 
 
