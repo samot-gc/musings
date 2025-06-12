@@ -32,7 +32,7 @@ The main theoretical contribution is the introduction of GRPO, which extends PPO
 
 with
 
-> $L_\textsf{PPO}(q, o, \theta', \theta) = \frac1{|o|} \sum_{t=1}^{|o|} \min\bigl\{ \frac{\pi_\theta(o_t \mid q, o_{< t})}{\pi_{\theta'}(o_t \mid q, o_{< t})} A_t, (1 + \operatorname{sgn}(A_t) \varepsilon) A_t \bigr\} - \beta D_\textsf{KL}( \pi_\theta \mathrel{\|} \pi_\textsf{rel})$.
+> $L_\textsf{PPO}(q, o, \theta', \theta) = \frac1{|o|} \sum_{t=1}^{|o|} \min\bigl\{ \frac{\pi_\theta(o_t \mid q, o_{< t})}{\pi_{\theta'}(o_t \mid q, o_{< t})} A_t, (1 + \textup{sgn}(A_t) \varepsilon) A_t \bigr\} - \beta D_\textsf{KL}( \pi_\theta \mathrel{\|} \pi_\textsf{rel})$.
 
 *   $\pi_\theta$/$\pi_{\theta'}$ are the current/old policy models;
 *   $q$/$o$ are questions/outputs sampled from the question dataset/old policy;
@@ -53,7 +53,7 @@ More specifically, for each question $q$, GRPO samples a *group* of outputs $\{o
 
 except that now the advantage $A_t$ is replaced with the estimate $\hat A_{i, t}$ based on the rewards of the outputs inside each group only; in all its glory,
 
-> $L_\textsf{GRPO}(q, \{o_1, ..., o_G\}, \theta', \theta) = \frac1G \sum_{i=1}^G \frac1{|o_i|} \sum_{t=1}^{|o_t|} \min\bigl\{ \frac{\pi_\theta(o_{i, t} \mid q, o_{i, < t})}{\pi_{\theta'}(o_{i, t} \mid q, o_{i, < t})} \hat A_{i, t}, (1 + \operatorname{sgn}(\hat A_{i, t}) \varepsilon) \hat A_{i, t} \bigr\} - \beta D_\textsf{KL}(\pi_\theta \mathrel{\|} \pi_\textsf{rel})$.
+> $L_\textsf{GRPO}(q, \{o_1, ..., o_G\}, \theta', \theta) = \frac1G \sum_{i=1}^G \frac1{|o_i|} \sum_{t=1}^{|o_t|} \min\bigl\{ \frac{\pi_\theta(o_{i, t} \mid q, o_{i, < t})}{\pi_{\theta'}(o_{i, t} \mid q, o_{i, < t})} \hat A_{i, t}, (1 + \textup{sgn}(\hat A_{i, t}) \varepsilon) \hat A_{i, t} \bigr\} - \beta D_\textsf{KL}(\pi_\theta \mathrel{\|} \pi_\textsf{rel})$.
 
 An unbiased estimator of $D_\textsf{KL}(\pi_\theta \mathrel{\|} \pi_\textsf{rel})$ is used, namely
 
@@ -61,6 +61,6 @@ An unbiased estimator of $D_\textsf{KL}(\pi_\theta \mathrel{\|} \pi_\textsf{rel}
 
 One of the key benefits of GRPO over PPO is not needing to learn/evaluate the advantage $A_t$, which can be costly. Two options are mentioned: "outcome" in #4.1.2 and "process" in #4.1.3. For example, in "outcome",
 
-> $\hat A_{i,t} = (r_i - \operatorname{mean}(r)) / \operatorname{stddev}(r)$ for all $t$
+> $\hat A_{i,t} = (r_i - \textup{mean}(r)) / \textup{stddev}(r)$ for all $t$
 
 where $r_i$ is the reward for $o_i$ and $r = (r_i)_{i=1}^G$; in particular, the same advantage is prescribed to each timestep $\hat A_{i,t}$.

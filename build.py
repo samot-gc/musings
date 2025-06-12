@@ -60,61 +60,48 @@ def load_papers():
         }
 
         papers.append(paper_info)
-
-    return papers
-
-def build_html(papers):
+    
     # Sort by year desc (None treated as 0), then title asc
     def sort_key(p):
         year = p["year"] if isinstance(p["year"], int) else 0
         return (-year, p["title"].lower())
-
+    
     papers_sorted = sorted(papers, key=sort_key)
+    
+    return papers_sorted
 
+def build_html(papers):
     env = Environment(loader=FileSystemLoader("."))
     template = env.get_template(TEMPLATE_FILE)
 
-    all_tags = sorted({tag for paper in papers_sorted for tag in paper["tags"]})
+    all_tags = sorted({tag for paper in papers for tag in paper["tags"]})
 
-    output_html = template.render(papers=papers_sorted, all_tags=all_tags)
+    output_html = template.render(papers=papers, all_tags=all_tags)
 
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(output_html)
 
-def build_markdown(papers):
-    # Sort by year desc then title asc
-    def sort_key(p):
-        year = p["year"] if isinstance(p["year"], int) else 0
-        return (-year, p["title"].lower())
+def build_markdown(papers, output_file="README.md"):
+    readme_lines = []
+    readme_lines.append("**Note**: A searchable, filterable, and sortable version of this index is available [here](./index.html).\n")
+    readme_lines.append("\n")
+    readme_lines.append("| Title | Year | Authors | Tags |")
+    readme_lines.append("|-------|------|---------|------|")
 
-    papers_sorted = sorted(papers, key=sort_key)
+    for paper in papers:
+        title = paper["title"]
+        year = paper["year"]
+        authors = paper["authors"]
+        tags = ", ".join(paper["tags"])
+        md_filename = urllib.parse.quote(paper["filename"].replace(".html", ".md"))
+        github_url = f"https://github.com/samot-gc/musings/blob/main/papers/{md_filename}"
+        title_link = f"[{title}]({github_url})"
 
-    lines = []
-    lines.append("# Musings\n")
-    lines.append("For a searchable, filterable, and sortable index, please visit [Musings Index](https://samot-gc.github.io/musings/).\n")
-    lines.append("\n")
-    lines.append("| Title | Year | Authors | Tags |")
-    lines.append("|-------|------|---------|------|")
+        readme_lines.append(f"| {title_link} | {year} | {authors} | {tags} |")
 
-    def md_escape(text):
-        return str(text).replace('|', '\\|')
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write("\n".join(readme_lines))
 
-    for paper in papers_sorted:
-        title = paper["title"] or "N/A"
-        filename = paper["filename"]
-        year = paper["year"] if paper["year"] is not None else "N/A"
-        authors = paper["authors"] or "N/A"
-        tags = paper["tags"] or []
-        tags_str = ", ".join(tags) if tags else "N/A"
-
-        lines.append(
-            f"| [{md_escape(title)}](papers/{md_escape(filename)}) | {md_escape(year)} | {md_escape(authors)} | {md_escape(tags_str)} |"
-        )
-
-    readme_content = "\n".join(lines)
-
-    with open(OUTPUT_MD, "w", encoding="utf-8") as f:
-        f.write(readme_content)
 
 def main():
     papers = load_papers()

@@ -53,13 +53,13 @@ Let $e_i \in \mathbb R$ denote the embedding of token $i \in V$. MoI feeds a mix
 
 *Soft Thinking*/*Direct Mixture* takes $w_{t, i} = p_{t, i}$, where $p_t = (p_{t,i})_{i \in V}$ is the next-token distribution at step $t$. Mixture of Inputs *mixes* this with the observed token. Let $y_{t,i} \in \{0, 1\}$ be the indicator that token $i \in V$ is chosen. Let
 
-> $w_t \sim \operatorname{Dir}(\alpha_t)$ and $y \sim \operatorname{Multinomial}(w_t)$
+> $w_t \sim \textup{Dir}(\alpha_t)$ and $y \sim \textup{Multinomial}(w_t)$
 
 where $\alpha_t = H(p_t) p_t$ and $H(p_t)$ is the normalised entropy:
 
 > $H(p) = - (\log |V|)^{-1} \sum_{i \in V} p_i \log p_i \in [0, 1]$.
 
-Recall that the Dirichlet distribution $\operatorname{Dir}(\alpha)$ is a continuous, multivariate probability distribution with pdf
+Recall that the Dirichlet distribution $\textup{Dir}(\alpha)$ is a continuous, multivariate probability distribution with pdf
 
 > $f_\alpha(x) \propto \prod_i x_i^{\alpha_i - 1}$ for $x$ in the simplex (ie, $x_i \ge 0$ and $\sum_i x_i = 1$).
 
