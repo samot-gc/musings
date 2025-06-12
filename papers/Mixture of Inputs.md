@@ -1,9 +1,18 @@
 ---
-tags: []
+tags:
+    - 'continuous thoughts'
+    - reasoning
 parent: 'Text Generation Beyond Discrete Token Sampling'
 collections:
     - Reasoning
-$version: 389
+authors:
+    - Zhuang
+    - Liu
+    - Singh
+    - Shang
+    - Gao
+year: 2025
+$version: 437
 $libraryID: 1
 $itemKey: RBHTUY4H
 
@@ -104,23 +113,6 @@ Interestingly, *Direct Mixture* frequently *underperforms* versus the baseline. 
     *   Direct Mixture → 60.10
 
 The results for QwQ-32B on LiveCodeBench are significantly different too. One potential difference is the lack of a *cold stop* in *Direct Mixture* versus the *Soft Thinking* paper.
-
-<!--
-| Model                  | Method         | Input Info   | AIME  | CountDown4 | GPQA-D | LiveCodeBench | Average |
-| ---------------------- | -------------- | ------------ | ----- | ---------- | ------ | ------------- | ------- |
-| **QwQ-32B**            | Baseline       | Output Token | 77.78 | 79.25      | 58.08  | 76.32         | 72.86   |
-|                        | Direct Mixture | Output Dist  | -5.78 | -12.37     | -6.76  | -22.90        | -11.90  |
-|                        | MoI            | Token + Dist | +2.22 | +0.76      | +2.02  | -1.67         | +1.29   |
-| **Nemotron-Super-49B** | Baseline       | Output Token | 54.89 | 56.93      | 60.60  | 39.92         | 53.09   |
-|                        | Direct Mixture | Output Dist  | +5.11 | -5.21      | -4.45  | -3.08         | -1.41   |
-|                        | MoI            | Token + Dist | +2.22 | +2.60      | +0.05  | +0.58         | +2.36   |
-| **Gemma-3-27B**        | Baseline       | Output Token | 25.56 | 56.51      | 46.97  | 31.31         | 40.09   |
-|                        | Direct Mixture | Output Dist  | +0.88 | -1.04      | +4.40  | +0.30         | +1.56   |
-|                        | MoI            | Token + Dist | +1.33 | +2.87      | +0.50  | +1.56         | +1.56   |
-| **DAPO-Qwen-32B**      | Baseline       | Output Token | 64.67 | 72.03      | 42.42  | 54.01         | 58.28   |
-|                        | Direct Mixture | Output Dist  | -2.00 | -5.00      | -13.55 | -30.14        | -10.38  |
-|                        | MoI            | Token + Dist | -0.23 | +6.72      | +0.51  | +1.17         | +2.05   |
--->
 
 ## Limitations and Concerns
 

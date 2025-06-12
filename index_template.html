@@ -76,11 +76,9 @@
 
   <div class="tags-bar">
     <strong>Filter by tag:</strong>
-    
-      <button class="tag-btn" onclick="toggleTag(this)" data-tag="continuous thoughts">continuous thoughts</button>
-    
-      <button class="tag-btn" onclick="toggleTag(this)" data-tag="reasoning">reasoning</button>
-    
+    {% for tag in all_tags %}
+      <button class="tag-btn" onclick="toggleTag(this)" data-tag="{{ tag }}">{{ tag }}</button>
+    {% endfor %}
   </div>
 
   <table id="papersTable">
@@ -93,42 +91,18 @@
       </tr>
     </thead>
     <tbody>
-      
-      <tr data-tags="continuous thoughts,reasoning">
-        <td><a href="papers/Soft%20Thinking.html">Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space</a></td>
-        <td>N/A</td>
-        <td>N/A</td>
+      {% for paper in papers %}
+      <tr data-tags="{{ paper.tags|join(',') }}">
+        <td><a href="papers/{{ paper.filename }}">{{ paper.title }}</a></td>
+        <td>{{ paper.authors }}</td>
+        <td>{{ paper.year }}</td>
         <td>
-          
-            <span class="tag">continuous thoughts</span>
-          
-            <span class="tag">reasoning</span>
-          
+          {% for tag in paper.tags %}
+            <span class="tag">{{ tag }}</span>
+          {% endfor %}
         </td>
       </tr>
-      
-      <tr data-tags="">
-        <td><a href="papers/DeepSeekMath%20GRPO.html">DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models</a></td>
-        <td>N/A</td>
-        <td>N/A</td>
-        <td>
-          
-        </td>
-      </tr>
-      
-      <tr data-tags="continuous thoughts,reasoning">
-        <td><a href="papers/Mixture%20of%20Inputs.html">Text Generation Beyond Discrete Token Sampling</a></td>
-        <td>['Zhuang', 'Liu', 'Singh', 'Shang', 'Gao']</td>
-        <td>2025</td>
-        <td>
-          
-            <span class="tag">continuous thoughts</span>
-          
-            <span class="tag">reasoning</span>
-          
-        </td>
-      </tr>
-      
+      {% endfor %}
     </tbody>
   </table>
 

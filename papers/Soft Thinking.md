@@ -1,9 +1,11 @@
 ---
-tags: []
+tags:
+    - 'continuous thoughts'
+    - reasoning
 parent: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
 collections:
     - Reasoning
-$version: 379
+$version: 444
 $libraryID: 1
 $itemKey: C8WTKK7I
 
@@ -21,12 +23,14 @@ $itemKey: C8WTKK7I
 *   *Soft Thinking* generates *concept tokens* in continuous concept space corresponding to LLM-produced distribution over the vocab (at given step)
 *   It's related to superposition of all possible tokens: it's a convex combination, weighted by probabilities
 *   This flexibility enables the exploration of different reasoning paths, and avoids making hard (consequential) decisions too early
+*   A *cold stop* (entropy threshold) is used to mitigate out-of-distribution issues
 
 ## Related Papers
 
 *   *Text Generation Beyond Discrete Token Sampling* ("Mixture of Inputs")
 
-    *   This paper seems to suggest that setting the weights to the probabilities, as in *Soft Thinking* and referred to as *Direct Mixture* here, leads to a degradation of performance; details are in Section 6.1
+    *   This paper seems to suggest that setting the weights to the probabilities, as in *Soft Thinking* and referred to as *Direct Mixture* here, leads to a degradation of performance, but they don’t (appear to) employ the cold stop; details are in Section 6.1 of that paper
+    *
 
 *   *Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
 
