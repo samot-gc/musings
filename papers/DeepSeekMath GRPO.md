@@ -1,10 +1,14 @@
 ---
-tags: []
+tags:
+    - grpo
+    - reasoning
+    - training
 parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
 collections:
     - Reasoning
+authors: DeekSeek
 year: 2024
-$version: 465
+$version: 477
 $libraryID: 1
 $itemKey: 2BE75UEU
 
@@ -18,8 +22,11 @@ $itemKey: 2BE75UEU
 ## High-Level Summary
 
 *   Introduce DeepSeekMath 7B, a LLM focused on mathematical capabilities
+
 *   Achieves comparable performance with Minerva 540B, even with \~77x fewer parameters
+
 *   Introduces and uses *Group Relative Policy Optimisation* (GRPO): GRPO foregoes the critic model, instead estimating the baseline from group scores
+
 *   Provide a unified paradigm to understand different models, and use to explore reasons behind the effective RL
 
 The main theoretical contribution is the introduction of GRPO, which extends PPO.
@@ -34,11 +41,15 @@ with
 
 > $L_\textsf{PPO}(q, o, \theta', \theta) = \frac1{|o|} \sum_{t=1}^{|o|} \min\bigl\{ \frac{\pi_\theta(o_t \mid q, o_{< t})}{\pi_{\theta'}(o_t \mid q, o_{< t})} A_t, (1 + \textup{sgn}(A_t) \varepsilon) A_t \bigr\} - \beta D_\textsf{KL}( \pi_\theta \mathrel{\|} \pi_\textsf{rel})$.
 
-*   $\pi_\theta$/$\pi_{\theta'}$ are the current/old policy models;
-*   $q$/$o$ are questions/outputs sampled from the question dataset/old policy;
-*   $A_t$ is the *advantage* based on the rewards and a learned value function;
-*   $\varepsilon$ is a clipping hyperparameter for stabilising training;
-*   $\beta$ is a hyperparameter governing per-token KL penalty.
+*   $\pi_\theta$ / $\pi_{\theta'}$  are the current/old policy models;
+
+*   $q$ / $o$  are questions/outputs sampled from the question dataset/old policy;
+
+*   $A_t$  is the *advantage* based on the rewards and a learned value function;
+
+*   $\varepsilon$  is a clipping hyperparameter for stabilising training;
+
+*   $\beta$  is a hyperparameter governing per-token KL penalty.
 
 The value function is treated as a baseline in estimating the advantage. In the LLM context, usually only the last token is assigned a reward score, which may complicate training a value function that is accurate at each token. *Group Relative Policy Optimisation* (GRPO) addresses this:
 

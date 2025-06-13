@@ -102,7 +102,6 @@ def build_markdown(papers, output_file="README.md"):
 
 def main():
     papers = load_papers()
-    print(papers)
     build_html(papers)
     build_markdown(papers)
 

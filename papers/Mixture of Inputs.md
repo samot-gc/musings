@@ -1,7 +1,9 @@
 ---
 tags:
     - 'continuous thoughts'
+    - inference
     - reasoning
+    - superposition
 parent: 'Text Generation Beyond Discrete Token Sampling'
 collections:
     - Reasoning
@@ -12,7 +14,7 @@ authors:
     - Shang
     - Gao
 year: 2025
-$version: 437
+$version: 476
 $libraryID: 1
 $itemKey: RBHTUY4H
 
@@ -26,10 +28,15 @@ $itemKey: RBHTUY4H
 ## High-Level Ideas
 
 *   Training-free method that enables human-like 'fluid' reasoning before being articulated as natural language
+
 *   Standard Chain-of-Thought (CoT) sample one token per step and follow that path, potentially abandoning valuable alternatives
+
 *   *Mixture of Inputs* feeds both the sampled token *and* its probability distribution
+
 *   A Bayesian method is used: the token distribution is the prior and the sampled token the observation\*
+
 *   It's related to superposition of all possible tokens: it's a convex combination, weighted by probabilities
+
 *   This flexibility enables the exploration of different reasoning paths, and avoids making hard (consequential) decisions too early
 
 \*It's not clear to me how updating a prior from a draw from itself is helpful: how is the observation *evidence* of anything? See below for elaboration
