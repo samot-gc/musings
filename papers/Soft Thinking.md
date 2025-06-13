@@ -31,7 +31,6 @@ $itemKey: C8WTKK7I
 *   *Text Generation Beyond Discrete Token Sampling* ("Mixture of Inputs")
 
     *   This paper seems to suggest that setting the weights to the probabilities, as in *Soft Thinking* and referred to as *Direct Mixture* here, leads to a degradation of performance, but they don’t (appear to) employ the cold stop; details are in Section 6.1 of that paper
-    *
 
 *   *Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
 
@@ -81,6 +80,7 @@ In summary, I'd suggest that the accuracy increase is modest, but the generation
 
 The first table is the *accuracy* (higher → better) and the second the *generation length* (lower → better).
 
+<!---
 | Model                             | Method        | MATH 500 | AIME 2024 | GSM8K | GPQA-Diamond | Average |
 | --------------------------------- | ------------- | -------- | --------- | ----- | ------------ | ------- |
 | **QwQ-32B**                       | CoT baseline  | 97.66    | 76.88     | 96.67 | 64.17        | 83.84   |
@@ -90,7 +90,7 @@ The first table is the *accuracy* (higher → better) and the second the *genera
 | ...                               |               |          |           |       |              |         |
 | **DeepSeek-R1-Distill-Llama-70B** | ...           |          |           |       |              |         |
 | ...                               |               |          |           |       |              |         |
-
+--->
 
 The *soft thinking* results all utilise a *cold stop*, with threshold $\tau$ optimised for the problem at hand. An ablation study is conducted regarding *cold stop*—namely, $\tau = 0$ is forced, ensuring the cold stop is never activated.
 

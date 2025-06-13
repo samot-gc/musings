@@ -44,7 +44,6 @@
 <p><em>Text Generation Beyond Discrete Token Sampling</em> ("Mixture of Inputs")</p>
 <ul>
 <li>This paper seems to suggest that setting the weights to the probabilities, as in <em>Soft Thinking</em> and referred to as <em>Direct Mixture</em> here, leads to a degradation of performance, but they don’t (appear to) employ the cold stop; details are in Section 6.1 of that paper</li>
-<li></li>
 </ul>
 </li>
 <li>
@@ -88,84 +87,6 @@
 <p>In summary, I'd suggest that the accuracy increase is modest, but the generation length reduction is significant.</p>
 <p><img src="attachments/TXT5PX7V.png" alt="img alt=&quot;Table of results&quot; data-attachment-key=&quot;TXT5PX7V&quot; width=&quot;859&quot; height=&quot;731&quot; src=&quot;attachments/TXT5PX7V.png&quot; ztype=&quot;zimage&quot;> | 859"></p>
 <p>The first table is the <em>accuracy</em> (higher → better) and the second the <em>generation length</em> (lower → better).</p>
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Method</th>
-<th>MATH 500</th>
-<th>AIME 2024</th>
-<th>GSM8K</th>
-<th>GPQA-Diamond</th>
-<th>Average</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>QwQ-32B</strong></td>
-<td>CoT baseline</td>
-<td>97.66</td>
-<td>76.88</td>
-<td>96.67</td>
-<td>64.17</td>
-<td>83.84</td>
-</tr>
-<tr>
-<td></td>
-<td>CoT greedy</td>
-<td>97.00</td>
-<td>80.00</td>
-<td>96.57</td>
-<td>65.17</td>
-<td>84.68</td>
-</tr>
-<tr>
-<td></td>
-<td>Soft Thinking</td>
-<td>98.00</td>
-<td>83.33</td>
-<td>96.81</td>
-<td>67.17</td>
-<td>86.32</td>
-</tr>
-<tr>
-<td><strong>DeepSeek-R1-Distill-Qwen-32B</strong></td>
-<td>...</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>...</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>DeepSeek-R1-Distill-Llama-70B</strong></td>
-<td>...</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>...</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <p>The <em>soft thinking</em> results all utilise a <em>cold stop</em>, with threshold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span> optimised for the problem at hand. An ablation study is conducted regarding <em>cold stop</em>—namely, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\tau = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> is forced, ensuring the cold stop is never activated.</p>
 <p>The four lines in the table below correspond to different strategies.</p>
 <ul>
