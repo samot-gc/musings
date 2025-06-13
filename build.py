@@ -48,26 +48,24 @@ def load_papers():
         if tags is None:
             tags = []
 
-        # Filename for link: URL-encoded .html version of markdown filename
-        html_filename = urllib.parse.quote(filename.replace(".md", ".html"))
-
         paper_info = {
             "title": meta.get("parent", os.path.splitext(filename)[0]),
             "authors": authors,
             "year": meta.get("year"),  # keep None if missing for sorting
             "tags": tags,
-            "filename": html_filename,
+            "md_filename": filename,  # raw .md filename
+            "html_filename": urllib.parse.quote(filename.replace(".md", ".html")),
         }
 
         papers.append(paper_info)
-    
+
     # Sort by year desc (None treated as 0), then title asc
     def sort_key(p):
         year = p["year"] if isinstance(p["year"], int) else 0
         return (-year, p["title"].lower())
-    
+
     papers_sorted = sorted(papers, key=sort_key)
-    
+
     return papers_sorted
 
 def build_html(papers):
@@ -93,7 +91,7 @@ def build_markdown(papers, output_file="README.md"):
         year = paper["year"]
         authors = paper["authors"]
         tags = ", ".join(paper["tags"])
-        md_filename = urllib.parse.quote(paper["filename"].replace(".html", ".md"))
+        md_filename = urllib.parse.quote(paper["md_filename"])
         github_url = f"https://github.com/samot-gc/musings/blob/main/papers/{md_filename}"
         title_link = f"[{title}]({github_url})"
 
@@ -102,9 +100,9 @@ def build_markdown(papers, output_file="README.md"):
     with open(output_file, "w", encoding="utf-8") as f:
         f.write("\n".join(readme_lines))
 
-
 def main():
     papers = load_papers()
+    print(papers)
     build_html(papers)
     build_markdown(papers)
 

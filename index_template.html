@@ -140,7 +140,7 @@
     <tbody id="papersTbody">
         {% for paper in papers %}
         <tr data-title="{{ paper.title | lower }}" data-year="{{ paper.year | int(default=0) }}" data-tags="{{ paper.tags | join(',') }}">
-            <td><a href="papers/{{ paper.filename }}">{{ paper.title }}</a></td>
+            <td><a href="papers/{{ paper.html_filename }}">{{ paper.title }}</a></td>
             <td>{{ paper.year }}</td>
             <td>{{ paper.authors }}</td>
             <td>
