@@ -17,7 +17,7 @@ authors:
     - Shen
     - Wang
 year: 2025
-$version: 475
+$version: 606
 $libraryID: 1
 $itemKey: C8WTKK7I
 
@@ -31,15 +31,10 @@ $itemKey: C8WTKK7I
 ## High-Level Ideas
 
 *   Training-free method that enables human-like 'soft' reasoning
-
 *   Standard Chain-of-Thought (CoT) sample one token per step and follow that path, potentially abandoning valuable alternatives
-
 *   *Soft Thinking* generates *concept tokens* in continuous concept space corresponding to LLM-produced distribution over the vocab (at given step)
-
 *   It's related to superposition of all possible tokens: it's a convex combination, weighted by probabilities
-
 *   This flexibility enables the exploration of different reasoning paths, and avoids making hard (consequential) decisions too early
-
 *   A *cold stop* (entropy threshold) is used to mitigate out-of-distribution issues
 
 ## Related Papers
@@ -113,9 +108,12 @@ The *soft thinking* results all utilise a *cold stop*, with threshold $\tau$ opt
 The four lines in the table below correspond to different strategies.
 
 *   COCONUT-TF: the training-free COCONUT approach simply feeds the previous hidden state as the next input embedding.
+
 *   Average Embedding: the (embeddings of the) top 5 tokens are averaged and fed.
-*   w/o Cold Stop: *soft thinking* without cold stop—ie, $\tau = 0$ enforced.
-*   w/ Cold Stop: full *soft thinking*, with cold-stop threshold $\tau$ optimised (swept).
+
+*   w/o Cold Stop: *soft thinking* without cold stop—ie,  $\tau = 0$  enforced.
+
+*   w/ Cold Stop: full *soft thinking*, with cold-stop threshold  $\tau$  optimised (swept).
 
 ![\<img alt="Ablation study" data-attachment-key="IVA9NW7K" width="1123" height="260" src="attachments/IVA9NW7K.png" ztype="zimage"> | 1123](attachments/IVA9NW7K.png)
 
