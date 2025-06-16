@@ -92,9 +92,9 @@ A *cold stop* is also implemented, where the entropy is tracked in real time. Th
 
 In summary, I'd suggest that the accuracy increase is modest, but the generation length reduction is significant.
 
-![\<img alt="Table of results" data-attachment-key="TXT5PX7V" width="859" height="731" src="attachments/TXT5PX7V.png" ztype="zimage"> | 859](attachments/TXT5PX7V.png)
-
 The first table is the *accuracy* (higher → better) and the second the *generation length* (lower → better).
+
+![\<img alt="Table of results" data-attachment-key="TXT5PX7V" width="859" height="731" src="attachments/TXT5PX7V.png" ztype="zimage"> | 859](attachments/TXT5PX7V.png){ style="display: block; margin: 0 auto" }
 
 <!---
 | Model                             | Method        | MATH 500 | AIME 2024 | GSM8K | GPQA-Diamond | Average |
