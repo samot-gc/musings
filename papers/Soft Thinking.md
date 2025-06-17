@@ -55,29 +55,60 @@ where $\mathsf{ct}[k]$/$e(k)$ is the selection probability/embedding of the $k$-
 
 The theoretical justification is based on linear approximations in the expression
 
-> $p(y \mid x) = \sum_{t_1} p(t_1 \mid x) \sum_{t_2} p(t_2 \mid x, t_1) ... \sum_{t_m} p(t_m \mid x, t_{1:m-1}) p(y \mid x, t_{1:m})$;
+\[
+    \textstyle
+    p(y \mid x)
+=   \sum_{t_1} p(t_1 \mid x) \sum_{t_2} p(t_2 \mid x, t_1) ... \sum_{t_m} p(t_m \mid x, t_{1:m-1}) p(y \mid x, t_{1:m});
+\]
 
 here, $t_j$ is the $j$-th (intermediate reasoning) token. To emphasise, $p(\cdot \mid x, t_{1:j})$ is the probability of the next token given the input $x$ and intermediate reasoning tokens $t_1, ..., t_j$. Once some stopping criterion is achieved, the model outputs an *answer*, denoted $y$.
 
 This expansion entails exponentially-in-$m$ many paths, indexed by the choice of intermediate reasoning tokens. If we only expanded one layer,
 
-> $p(y \mid x) = \sum_{t_1} p(t_1 \mid x) p(y \mid x, t_1)$.
+\[
+    \textstyle
+    p(y \mid x)
+=   \sum_{t_1} p(t_1 \mid x) p(y \mid x, t_1).
+\]
 
 In expectation,
 
-> $\mathsf{ct}_1 = \mathbb E[t_1] = \sum_{t_1} p(t_1 \mid x) t_1 = p(\cdot \mid x)$.
+\[
+    \textstyle
+    \mathsf{ct}_1
+=   \mathbb E[t_1]
+=   \sum_{t_1} p(t_1 \mid x) t_1
+=   p(\cdot \mid x)/
+\]
 
 Linearising the previous expression about its mean, (ie, replacing random $t_1$ by its non-random mean $\mathsf{ct}_1$),
 
-> $p(y \mid x) = \sum_{t_1} p(t_1 \mid x) p(y \mid x, t_1) \approx p(y \mid x, \sum_{t_1} p(t_1 \mid x) t_1) = p(y \mid x, \mathsf{ct}_1)$.
+\[
+    \textstyle
+    p(y \mid x)
+=   \sum_{t_1} p(t_1 \mid x) p(y \mid x, t_1)
+\approx
+    p(y \mid x, \sum_{t_1} p(t_1 \mid x) t_1)
+=   p(y \mid x, \mathsf{ct}_1).
+\]
 
 The approximation is repeated given $\mathsf{ct}_1$:
 
-> $p(y \mid x, \mathsf{ct}_1) = \sum_{t_2} p(t_2 \mid \mathsf{ct}_1) p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2) \approx p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2)$.
+\[
+    \textstyle
+    p(y \mid x, \mathsf{ct}_1)
+=   \sum_{t_2} p(t_2 \mid \mathsf{ct}_1) p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2)
+\approx
+    p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2).
+\]
 
 Iterating,
 
-> $p(y \mid x) \approx p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2, ..., \mathsf{ct}_m)$.
+\[
+    p(y \mid x)
+\approx
+    p(y \mid x, \mathsf{ct}_1, \mathsf{ct}_2, ..., \mathsf{ct}_m).
+\]
 
 In contrast, discrete CoT replaces each summation $\sum_{t_j} p(t_j \mid \cdot)$ with sampling a single token, which discards the mass from all other paths. *Soft thinking* preserves the distribution through the concept tokens, whilst collapsing the exponential path summation to a single forward pass.
 

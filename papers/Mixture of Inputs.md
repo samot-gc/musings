@@ -56,31 +56,63 @@ The particular mixture is chosen through Bayesian inference: the distribution of
 
 Let $e_i \in \mathbb R$ denote the embedding of token $i \in V$. MoI feeds a mixture (convex combination)
 
-> $h_t = \sum_{i \in V} w_{t, i} e_i$ where $w_{t,i} \ge 0$ and $\sum_{i \in V} w_{t, i} = 1$.
+\[
+    \textstyle
+    h_t = \sum_{i \in V} w_{t, i} e_i
+\quad\text{where}\quad
+    w_{t,i} \ge 0 \text{ and } \sum_{i \in V} w_{t, i} = 1.
+\]
 
 *Soft Thinking*/*Direct Mixture* takes $w_{t, i} = p_{t, i}$, where $p_t = (p_{t,i})_{i \in V}$ is the next-token distribution at step $t$. Mixture of Inputs *mixes* this with the observed token. Let $y_{t,i} \in \{0, 1\}$ be the indicator that token $i \in V$ is chosen. Let
 
-> $w_t \sim \textup{Dir}(\alpha_t)$ and $y \sim \textup{Multinomial}(w_t)$
+\[
+    w_t \sim \textup{Dir}(\alpha_t)
+\quad\text{and}\quad
+    y \sim \textup{Multinomial}(w_t)
+\]
 
 where $\alpha_t = H(p_t) p_t$ and $H(p_t)$ is the normalised entropy:
 
-> $H(p) = - (\log |V|)^{-1} \sum_{i \in V} p_i \log p_i \in [0, 1]$.
+\[
+    H(p)
+=   - (\log |V|)^{-1} \sum_{i \in V} p_i \log p_i \in [0, 1].
+\]
 
 Recall that the Dirichlet distribution $\textup{Dir}(\alpha)$ is a continuous, multivariate probability distribution with pdf
 
-> $f_\alpha(x) \propto \prod_i x_i^{\alpha_i - 1}$ for $x$ in the simplex (ie, $x_i \ge 0$ and $\sum_i x_i = 1$).
+\[
+    \textstyle
+    f_\alpha(x)
+\propto
+    \prod_i x_i^{\alpha_i - 1}
+\quad\text{for $x$\text in the simplex (ie, $x_i \ge 0$ and $\sum_i x_i = 1$).}
+\]
 
 If $\alpha = H(p) p$, then the total concentration $\alpha_0 := \sum_{i \in V} \alpha_i = H(p)$ increases as the uncertainty (of $p_t$) increases. Whilst the expectation $\mathbb E[w_i] = \alpha_i / \alpha_0 = p_i$ doesn't depend on the (normalised) entropy $H(p)$, the variance does, but only weakly:
 
-> $\mathbb V\textup{ar}[w_i] = p_i (1 - p_i) / \bigl(1 + H(p)\bigr) \in \bigl[ \tfrac12 p_i (1 - p_i), p_i (1 - p_i) \bigr]$.
+\[
+    \mathbb V\textup{ar}[w_i]
+=   p_i (1 - p_i) / \bigl(1 + H(p)\bigr) \in \bigl[ \tfrac12 p_i (1 - p_i), p_i (1 - p_i) \bigr].
+\]
 
 Instead of this exact formulation an estimation is used, with a concentration hyperparameter $\beta \ge 0$:
 
-> $w_{t, i} := \tfrac1{\beta + 1} \bigl( H p_{t, i} + (\beta + 1 - H) y_{t, i} \bigr)$.
+\[
+    w_{t, i}
+:=  \tfrac1{\beta + 1} \bigl( H p_{t, i} + (\beta + 1 - H) y_{t, i} \bigr)/
+\]
 
 This can be formulated as
 
-> $w_{t, i} = \tfrac1{\beta + 1} \bigl( H p_{t,i} + (1 - H) y_{t,i} + \beta y_{t,i} \bigr) \to \begin{cases} p_{t,i} & \text{as } H \to 1, \\ y_{t,i} & \text{as } H \to 0 \text{ or } \beta \to \infty, \end{cases}$
+\[
+    w_{t, i}
+=   \tfrac1{\beta + 1} \bigl( H p_{t,i} + (1 - H) y_{t,i} + \beta y_{t,i} \bigr)
+\to
+\begin{cases}
+p_{t,i} & \text{as } H \to 1 \text{ and } \beta \to 0, \\
+y_{t,i} & \text{as } H \to 0 \text{ or } \beta \to \infty,
+\end{cases}
+\]
 
 providing an interpolation between just the distribution (*Direct Mixture*/*Soft Thinking*) and just the token (CoT). The connection with the Dirichlet prior isn't so clear to me.
 
