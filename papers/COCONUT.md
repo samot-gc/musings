@@ -75,7 +75,7 @@ A pre-trained GPT-2 is used as the base model for all the experiments. This is o
 3.  *ICoT*. Language reasoning chains are used in trainto to 'internalise' CoT; direct prediction is used in inference
 4.  *Pause*. Training only uses questions and answers, no reasoning; special `<pause>` tokens are inserted between these, potentially providing additional capacity to derive the answer
 
-![evaluation table](attachments/COCONUT%20-%20Evaluation.png)
+![evaluation table](attachments/COCONUT%20-%20Evaluation.png){ style="display: block; margin: 0 auto" }
 
 -   GSM8k is a mathematical reasoning benchmark, at the level of primary and early-secondary school
 -   ProntoQA is a logical reasoning benchmark, requring the model to choose from multiple possible reasoning paths
@@ -102,7 +102,7 @@ Regardless of the set-up, the increase over no CoT is minimal for the 8B model. 
 
 The continuous thoughts are fully differentiable, allowing for backpropagation. Some repetitive computation can be avoided using KV cache, but the sequential nature poses challenges for parallelisation. Further, a multi-stage training framework is required, to internalise from explicit to latent, which may restrict usability on larger models with longer reasoning chains.
 
-![training procedure](attachments/COCONUT%20-%20Training.png)
+![training procedure](attachments/COCONUT%20-%20Training.png){ style="display: block; margin: 0 auto" }
 
 
 ## Take-Aways

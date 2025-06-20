@@ -34,11 +34,18 @@ year: 2025
 
 ## Related Papers
 
--   *Text Generation Beyond Discrete Token Sampling* ("Mixture of Inputs")
+-   [*Let Models Speak Ciphers: Multiagent Debate through Embeddings*](http://arxiv.org/abs/2310.06272)
+    -   main idea (weighted average of embedded tokens) seems exactly the same
+    -   CIPHER paper also has a debate element
 
-    -   This paper seems to suggest that setting the weights to the probabilities, as in *Soft Thinking* and referred to as *Direct Mixture* here, leads to a degradation of performance, but they don’t (appear to) employ the cold stop; details are in Section 6.1 of that paper
+-   [*Text Generation Beyond Discrete Token Sampling*](http://arxiv.org/abs/2505.14827) ("Mixture of Inputs")
 
--   *Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
+    -   Mixes the distribution (soft thinking) with the sampled token (CoT)
+    -   When only using distribution, calls it *Direct Mixture*; performs badly, but no cold stop
+
+-   [*Training Large Language Models to Reason in a Continuous Latent Space*](https://arxiv.org/abs/2412.06769) (COCONUT)
+
+-   [*Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*](http://arxiv.org/abs/2505.12514)
 
 ## Some Details
 
