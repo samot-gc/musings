@@ -1,4 +1,4 @@
-**Note**: A searchable, filterable, and sortable version of this index is available [here](./index.html).
+A searchable, filterable, and sortable version of this index is available on the [GitHub page](https://samot-gc.github.io/musings/index.html).
 
 
 

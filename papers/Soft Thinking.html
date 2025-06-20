@@ -25,7 +25,7 @@
       <div class="crossnote markdown-preview  ">
       
 <h1 id="soft-thinking-summary">Soft Thinking Summary </h1>
-<p><em>Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space</em></p>
+<p><a href="https://arxiv.org/abs/2505.15778"><em>Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space</em></a></p>
 <ul>
 <li>2025-05; Zhang, He, Yan, Shen, Zhao, Wang, Shen, Wang</li>
 </ul>
@@ -93,7 +93,7 @@
 <h2 id="results">Results </h2>
 <p>In summary, I'd suggest that the accuracy increase is modest, but the generation length reduction is significant.</p>
 <p>The first table is the <em>accuracy</em> (higher → better) and the second the <em>generation length</em> (lower → better).</p>
-<p><img src="attachments/TXT5PX7V.png" alt="img alt=&quot;Table of results&quot; data-attachment-key=&quot;TXT5PX7V&quot; width=&quot;859&quot; height=&quot;731&quot; src=&quot;attachments/TXT5PX7V.png&quot; ztype=&quot;zimage&quot;> | 859" style="display: block; margin: 0 auto"></p>
+<p><img src="attachments/Soft%20Thinking%20-%20Evaluation%20-%20Table.png" alt="Table of results" style="display: block; margin: 0 auto"></p>
 <p>The <em>soft thinking</em> results all utilise a <em>cold stop</em>, with threshold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span> optimised for the problem at hand. An ablation study is conducted regarding <em>cold stop</em>—namely, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\tau = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> is forced, ensuring the cold stop is never activated.</p>
 <p>The four lines in the table below correspond to different strategies.</p>
 <ul>
@@ -104,15 +104,15 @@
 <p>Average Embedding: the (embeddings of the) top 5 tokens are averaged and fed.</p>
 </li>
 <li>
-<p>w/o Cold Stop: <em>soft thinking</em> without cold stop—ie,  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\tau = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>  enforced.</p>
+<p>w/o Cold Stop: <em>soft thinking</em> without cold stop—ie, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\tau = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> enforced.</p>
 </li>
 <li>
-<p>w/ Cold Stop: full <em>soft thinking</em>, with cold-stop threshold  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span>  optimised (swept).</p>
+<p>w/ Cold Stop: full <em>soft thinking</em>, with cold-stop threshold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>τ</mi></mrow><annotation encoding="application/x-tex">\tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.1132em;">τ</span></span></span></span> optimised (swept).</p>
 </li>
 </ul>
-<p><img src="attachments/IVA9NW7K.png" alt="img alt=&quot;Ablation study&quot; data-attachment-key=&quot;IVA9NW7K&quot; width=&quot;1123&quot; height=&quot;260&quot; src=&quot;attachments/IVA9NW7K.png&quot; ztype=&quot;zimage&quot;> | 1123"></p>
-<h2 id="limitations-and-concerns">Limitations and Concerns </h2>
-<p>...</p>
+<p><img src="attachments/Soft%20Thinking%20-%20Ablation.png" alt="Ablation study"></p>
+<p>This is all summarised in a figure given above the abstract.</p>
+<p><img src="attachments/Soft%20Thinking%20-%20Evaluation%20-%20Figure.png" alt="Figure of results" style="display: block; margin: 0 auto"></p>
 
       </div>
       

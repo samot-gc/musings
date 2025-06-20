@@ -47,7 +47,6 @@ year: 2024
     -   shows COCONUT is able to keep possible solutions in superposition
 
 -   [*Let Models Speak Ciphers: Multiagent Debate through Embeddings*](http://arxiv.org/abs/2310.06272)
-    -   earlier version of very similar idea
 
 
 ## Some Details

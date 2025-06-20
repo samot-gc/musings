@@ -81,7 +81,7 @@ def build_html(papers):
 
 def build_markdown(papers, output_file="README.md"):
     readme_lines = []
-    readme_lines.append("**Note**: A searchable, filterable, and sortable version of this index is available [here](./index.html).\n")
+    readme_lines.append("A searchable, filterable, and sortable version of this index is available on the [GitHub page](https://samot-gc.github.io/musings/index.html).\n")
     readme_lines.append("\n")
     readme_lines.append("| Title | Year | Authors | Tags |")
     readme_lines.append("|-------|------|---------|------|")
