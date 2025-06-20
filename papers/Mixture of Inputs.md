@@ -4,14 +4,14 @@ tags:
     - inference
     - reasoning
     - superposition
-parent: 'Text Generation Beyond Discrete Token Samplinng
+parent: 'Text Generation Beyond Discrete Token Sampling'
 authors:
     - Zhuang
     - Liu
     - Singh
     - Shang
     - Gao
-year: 204H
+year: 2024
 
 ---
 # Mixture of Inputs Summary
