@@ -5,8 +5,6 @@ tags:
     - reasoning
     - superposition
 parent: 'Text Generation Beyond Discrete Token Sampling'
-collections:
-    - Reasoning
 authors:
     - Zhuang
     - Liu
@@ -14,37 +12,35 @@ authors:
     - Shang
     - Gao
 year: 2025
-$version: 476
-$libraryID: 1
-$itemKey: RBHTUY4H
 
 ---
 # Mixture of Inputs Summary
 
-*Text Generation Beyond Discrete Token Sampling*
+[*Text Generation Beyond Discrete Token Sampling*](https://arxiv.org/abs/2505.14827)
 
-*   2025-05; Zhuang, Liu, Singh, Shang, Gao
+-   2025-05; Zhuang, Liu, Singh, Shang, Gao
 
 ## High-Level Ideas
 
-*   Training-free method that enables human-like 'fluid' reasoning before being articulated as natural language
+-   Training-free method that enables human-like 'fluid' reasoning before being articulated as natural language
 
-*   Standard Chain-of-Thought (CoT) sample one token per step and follow that path, potentially abandoning valuable alternatives
+-   Standard Chain-of-Thought (CoT) sample one token per step and follow that path, potentially abandoning valuable alternatives
 
-*   *Mixture of Inputs* feeds both the sampled token *and* its probability distribution
+-   *Mixture of Inputs* feeds both the sampled token *and* its probability distribution
 
-*   A Bayesian method is used: the token distribution is the prior and the sampled token the observation\*
+-   A Bayesian method is used: the token distribution is the prior and the sampled token the observation\*
 
-*   It's related to superposition of all possible tokens: it's a convex combination, weighted by probabilities
+-   It's related to superposition of all possible tokens: it's a convex combination, weighted by probabilities
 
-*   This flexibility enables the exploration of different reasoning paths, and avoids making hard (consequential) decisions too early
+-   This flexibility enables the exploration of different reasoning paths, and avoids making hard (consequential) decisions too early
 
 \*It's not clear to me how updating a prior from a draw from itself is helpful: how is the observation *evidence* of anything? See below for elaboration
 
 ## Related Papers
 
-*   *Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space*
-*   *Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
+-   *Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space*
+
+-   *Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
 
 ## Some Discussion
 
@@ -99,7 +95,7 @@ Instead of this exact formulation an estimation is used, with a concentration hy
 
 \[
     w_{t, i}
-:=  \tfrac1{\beta + 1} \bigl( H p_{t, i} + (\beta + 1 - H) y_{t, i} \bigr)/
+:=  \tfrac1{\beta + 1} \bigl( H p_{t, i} + (\beta + 1 - H) y_{t, i} \bigr).
 \]
 
 This can be formulated as
@@ -122,16 +118,16 @@ In summary, I'd suggest the results are good, but far from outstanding: the aver
 
 | Model                  | Method         | Input Info   | AIME  | +/-   | CountDown4 | +/-    | GPQA-D | +-/    | LiveCodeBench | +/-    | Average | +/-    |
 | ---------------------- | -------------- | ------------ | ----- | ----- | ---------- | ------ | ------ | ------ | ------------- | ------ | ------- | ------ |
-| **QwQ-32B**            | Baseline       | Output Token | 77.78 |       | 79.25      |        | 58.08  |        | 76.32         |        | 72.86   |        |
+| **QwQ-32B*-            | Baseline       | Output Token | 77.78 |       | 79.25      |        | 58.08  |        | 76.32         |        | 72.86   |        |
 |                        | Direct Mixture | Output Dist  | 72.00 | -5.78 | 66.88      | -12.37 | 51.32  | -6.76  | 53.42         | -22.90 | 60.96   | -11.90 |
 |                        | MoI            | Token + Dist | 80.00 | +2.22 | 80.01      | +0.76  | 60.10  | +2.02  | 74.65         | -1.67  | 74.15   | +1.29  |
 | **Nemotron-Super-49B** | Baseline       | Output Token | 54.89 |       | 56.93      |        | 60.60  |        | 39.92         |        | 53.09   |        |
 |                        | Direct Mixture | Output Dist  | 60.00 | +5.11 | 51.72      | -5.21  | 56.15  | -4.45  | 36.84         | -3.08  | 51.68   | -1.41  |
 |                        | MoI            | Token + Dist | 57.11 | +2.22 | 59.53      | +2.60  | 60.65  | +0.05  | 40.50         | +0.58  | 55.45   | +2.36  |
-| **Gemma-3-27B**        | Baseline       | Output Token | 25.56 |       | 56.51      |        | 46.97  |        | 31.31         |        | 40.09   |        |
+| **Gemma-3-27B*-        | Baseline       | Output Token | 25.56 |       | 56.51      |        | 46.97  |        | 31.31         |        | 40.09   |        |
 |                        | Direct Mixture | Output Dist  | 26.44 | +0.88 | 55.47      | -1.04  | 51.37  | +4.40  | 31.61         | +0.30  | 41.65   | +1.56  |
 |                        | MoI            | Token + Dist | 26.89 | +1.33 | 59.38      | +2.87  | 47.47  | +0.50  | 32.87         | +1.56  | 41.65   | +1.56  |
-| **DAPO-Qwen-32B**      | Baseline       | Output Token | 64.67 |       | 72.03      |        | 42.42  |        | 54.01         |        | 58.28   |        |
+| **DAPO-Qwen-32B*-      | Baseline       | Output Token | 64.67 |       | 72.03      |        | 42.42  |        | 54.01         |        | 58.28   |        |
 |                        | Direct Mixture | Output Dist  | 62.67 | -2.00 | 67.03      | -5.00  | 28.87  | -13.55 | 23.87         | -30.14 | 47.90   | -10.38 |
 |                        | MoI            | Token + Dist | 64.44 | -0.23 | 78.75      | +6.72  | 42.93  | +0.51  | 55.18         | +1.17  | 60.33   | +2.05  |
 
@@ -140,19 +136,15 @@ In summary, I'd suggest the results are good, but far from outstanding: the aver
 
 Interestingly, *Direct Mixture* frequently *underperforms* versus the baseline. This is somewhat in contradiction to the improvements seen in the *Soft Thinking* paper. The degradation is particularly pronounced for the Qwen models. The (model, benchmark) pair (QwQ-32B, GPQA-D) is used in both papers, but markedly different evaluations are reported in *Soft Thinking*.
 
-*   *Soft Thinking* paper:
+-   *Soft Thinking* paper:
 
-    *   CoT baseline → 64.17
-    *   CoT-Greedy → 65.15
-    *   Soft Thinking → 67.17
+    -   CoT baseline → 64.17
+    -   CoT-Greedy → 65.15
+    -   Soft Thinking → 67.17
 
-*   *Mixture of Inputs* paper:
+-   *Mixture of Inputs* paper:
 
-    *   CoT baseline → 58.08
-    *   Direct Mixture → 60.10
+    -   CoT baseline → 58.08
+    -   Direct Mixture → 60.10
 
 The results for QwQ-32B on LiveCodeBench are significantly different too. One potential difference is the lack of a *cold stop* in *Direct Mixture* versus the *Soft Thinking* paper.
-
-## Limitations and Concerns
-
-...

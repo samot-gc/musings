@@ -5,8 +5,6 @@ tags:
     - rl
     - superposition
 parent: 'Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought'
-collections:
-    - Reasoning
 authors:
     - Zhu
     - Hao
@@ -15,40 +13,37 @@ authors:
     - Russell
     - Tian
 year: 2025
-$version: 623
-$libraryID: 1
-$itemKey: CH3DQZKQ
 
 ---
 # Reasoning by Superposition Summary
 
-*Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*
+[*Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*](https://arxiv.org/abs/2505.12514)
 
-*   2025-05; Zhu, Hao, Hu, Jiao, Russell, Tian
+-   2025-05; Zhu, Hao, Hu, Jiao, Russell, Tian
 
 ## High-Level Summary
 
-*   Theoretical analysis of continuous chain of thought
-*   Concretely, continuous CoT solves graph-reachability with diameter number of steps, rather than vertex squared—ie, *d* vs *O*(*n*^2^)
-*   The continuous thought vector is a superposition enabling encoding of multiple search frontiers simultaneously—a 'parallel BFS'
-*   Notably, this approach emerged *naturally*, without explicit supervision
-*   Construction works for widely-used position encodings, not problem-specific ones
+-   Theoretical analysis of continuous chain of thought
+-   Concretely, continuous CoT solves graph-reachability with diameter number of steps, rather than vertex squared—ie, *d* vs *O*(*n*^2^)
+-   The continuous thought vector is a superposition enabling encoding of multiple search frontiers simultaneously—a 'parallel BFS'
+-   Notably, this approach emerged *naturally*, without explicit supervision
+-   Construction works for widely-used position encodings, not problem-specific ones
 
 ## Some Details
 
 Graph Reachability Problem
 
-*   Input:
+-   Input:
 
-    *   direct graph $\mathcal G = (\mathcal V, \mathcal E)$ where $\mathcal V = \{v_1, ..., v_n\}$ is the vocab
-    *   root node $r$ and two candidate destination nodes $c_1$ and $c_2$
+    -   direct graph $\mathcal G = (\mathcal V, \mathcal E)$ where $\mathcal V = \{v_1, ..., v_n\}$ is the vocab
+    -   root node $r$ and two candidate destination nodes $c_1$ and $c_2$
 
-*   Objective:
+-   Objective:
 
-    *   determine which of $c_1$ and $c_2$ is reachable from $r$
-    *   it is given that precisely one is reachable
+    -   determine which of $c_1$ and $c_2$ is reachable from $r$
+    -   it is given that precisely one is reachable
 
-*   Edge $e = (s, t) \in E \subseteq V^2$ is of the form $(\textsf{source}, \textsf{target})$
+-   Edge $e = (s, t) \in E \subseteq V^2$ is of the form $(\textsf{source}, \textsf{target})$
 
 > **Attention Chooser** (simplified)**.** If the current token is $\langle x \rangle$, then there is a construction of key-/query-matrices such that almost all attention is paid to position $i - \ell$, where $i$ is the current position and $\ell$ a pre-defined lag.
 
