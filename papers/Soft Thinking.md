@@ -115,7 +115,7 @@ In summary, I'd suggest that the accuracy increase is modest, but the generation
 
 The first table is the *accuracy* (higher → better) and the second the *generation length* (lower → better).
 
-![\<img alt="Table of results" data-attachment-key="TXT5PX7V" width="859" height="731" src="attachments/TXT5PX7V.png" ztype="zimage"> | 859](attachments/TXT5PX7V.png){ style="display: block; margin: 0 auto" }
+![Table of results](attachments/Soft%20Thinking%20-%20Evaluation%20-%20Table.png){ style="display: block; margin: 0 auto" }
 
 The *soft thinking* results all utilise a *cold stop*, with threshold $\tau$ optimised for the problem at hand. An ablation study is conducted regarding *cold stop*—namely, $\tau = 0$ is forced, ensuring the cold stop is never activated.
 
@@ -129,8 +129,9 @@ The four lines in the table below correspond to different strategies.
 
 -   w/ Cold Stop: full *soft thinking*, with cold-stop threshold $\tau$ optimised (swept).
 
-![\<img alt="Ablation study" data-attachment-key="IVA9NW7K" width="1123" height="260" src="attachments/IVA9NW7K.png" ztype="zimage"> | 1123](attachments/IVA9NW7K.png)
+![Ablation study](attachments/Soft%20Thinking%20-%20Ablation.png)
 
-## Limitations and Concerns
+This is all summarised in a figure given above the abstract.
 
-...
+![Figure of results](attachments/Soft%20Thinking%20-%20Evaluation%20-%20Figure.png){ style="display: block; margin: 0 auto" }
+

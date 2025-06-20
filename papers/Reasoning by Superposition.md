@@ -60,6 +60,6 @@ An MLP layer filters noise and equilibrates the weights remaining in the superpo
 
 ## Empirical Validation
 
-The theoretical claims are backed up with some empirical validation. The figure below compares the accuracy of Coconut with two layers (blue) with vanilla CoT (brown), CoT\* with 12 layers (green) and no CoT (pink).
+The theoretical claims are backed up with some empirical validation. The figure below compares the accuracy of Coconut with two layers (blue, 98%) with vanilla CoT (brown, 75%), CoT\* with 12 layers (green, 83%) and no CoT (pink, 75%).
 
-![\<img alt="accuracy comparison: Coconut → 98%, CoT → 75%, CoT\* → 83%, baseline → 75%" data-attachment-key="KDB8U76S" width="280" height="359" src="attachments/KDB8U76S.png" ztype="zimage"> | 280](attachments/KDB8U76S.png){ style="display: block; margin: 0 auto" }
+![accuracy comparison: Coconut → 98%, CoT → 75%, CoT\* → 83%, baseline → 75%](attachments/Reasoning%20by%20Superposition%20-%20Empirical%20Accuracy.png){ style="display: block; margin: 0 auto" }

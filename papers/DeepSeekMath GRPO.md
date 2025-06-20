@@ -51,7 +51,7 @@ The value function is treated as a baseline in estimating the advantage. In the 
 -   it removes the need for additional value-function approximation;
 -   instead, it uses the average reward of multiple sampled outputs (to same question) as the baseline.
 
-![\<img alt="PPO vs GRPO" data-attachment-key="ID6WHF97" width="792" height="382" src="attachments/ID6WHF97.png" ztype="zimage"> | 792](attachments/ID6WHF97.png){ style="display: block; margin: 0 auto" }
+![PPO vs GRPO](attachments/DeepSeekMath%20-%20PPO%20vs%20GRPO.png){ style="display: block; margin: 0 auto" }
 
 More specifically, for each question $q$, GRPO samples a *group* of outputs $\{o_1, ..., o_G\}$ from the old policy $\pi_{\theta'}$ and maximises an analogous surrogate objective
 
