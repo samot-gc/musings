@@ -4,6 +4,7 @@ A searchable, filterable, and sortable version of this index is available on the
 
 | Title | Year | Authors | Tags |
 |-------|------|---------|------|
+| [Continous Chain of Thought Enables Parellel Exploration and Reasoning](https://github.com/samot-gc/musings/blob/main/papers/COT2.md) | 2025 | Gozeten, Ildiz, Zhang, Harutyunyan, Rawat, Oymak | continuous thoughts, inference, reasoning, superposition |
 | [Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought](https://github.com/samot-gc/musings/blob/main/papers/Reasoning%20by%20Superposition.md) | 2025 | Zhu, Hao, Hu, Jiao, Russell, Tian | inference, reasoning, rl, superposition |
 | [RL Algorithms Deep-Dive: TRPO, PPO & GRPO](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms%20Deep-Dive%20-%20TRPO%2C%20PPO%20%26%20GRPO.md) | 2025 | Olesker-Taylor | grpo, ppo, trpo, rl, training, own |
 | [Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space](https://github.com/samot-gc/musings/blob/main/papers/Soft%20Thinking.md) | 2025 | Zhang, He, Yan, Shen, Zhao, Wang, Shen, Wang | continuous thoughts, inference, reasoning, superposition |

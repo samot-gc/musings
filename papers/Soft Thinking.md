@@ -4,6 +4,7 @@ tags:
     - inference
     - reasoning
     - superposition
+method: 'soft thinking'
 parent: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
 authors:
     - Zhang
@@ -22,6 +23,8 @@ year: 2025
 [*Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space*](https://arxiv.org/abs/2505.15778)
 
 -   2025-05; Zhang, He, Yan, Shen, Zhao, Wang, Shen, Wang
+
+[TOC]
 
 ## High-Level Ideas
 

@@ -21,6 +21,8 @@ year: 2025
 
 -   2025-05; Zhu, Hao, Hu, Jiao, Russell, Tian
 
+[TOC]
+
 ## High-Level Summary
 
 -   Theoretical analysis of continuous chain of thought

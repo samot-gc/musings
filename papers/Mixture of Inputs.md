@@ -4,6 +4,7 @@ tags:
     - inference
     - reasoning
     - superposition
+method: 'mixture of inputs'
 parent: 'Text Generation Beyond Discrete Token Sampling'
 authors:
     - Zhuang
@@ -17,7 +18,10 @@ year: 2024
 # Mixture of Inputs Summary
 
 [*Text Generation Beyond Discrete Token Sampling*](https://arxiv.org/abs/2505.14827)
+
 -   2025-05; Zhuang, Liu, Singh, Shang, Gao
+
+[TOC]
 
 ## High-Level Ideas
 

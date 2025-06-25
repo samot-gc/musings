@@ -4,6 +4,7 @@ tags:
     - inference
     - reasoning
     - superposition
+method: CIPHER
 parent: 'Let Models Speak Ciphers: Multiagent Debate through Embeddings'
 authors:
     - Pham
@@ -23,6 +24,8 @@ year: 2023
 [*Let Models Speak Ciphers: Multiagent Debate through Embeddings*](http://arxiv.org/abs/2310.06272)
 
 -   2023-10; Pham, Liu, Yang, Chen, Liu, Yuan, Plummer, Wang, Yang
+
+[TOC]
 
 ## High-Level Ideas
 

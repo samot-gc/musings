@@ -17,6 +17,8 @@ year: 2025
 
 -   2025-06; Olesker-Taylor
 
+[TOC]
+
 ## High-Level Objective
 
 The high-level objective for policy optimisation is to maximise the expected reward over policies:
@@ -231,7 +233,7 @@ Indeed, $\rho_{\pi_\theta} \to \rho_{\pi_{\theta'}}$ does not change the leading
 
 ### Constrained Optimisation
 
-One potential avenue is to use a *conservative mixture*: let $\pi_\star = \arg\max_{\pi_\star} L_\pi(\pi_\star)$ and define $\pi' := \alpha \pi_\star + (1 - \alpha) \pi$. Then, [Kakade & Langford (2002)](https://dl.acm.org/doi/10.5555/645531.656005) derived the lower bound
+One potential avenue is to use a *conservative mixture*: let $\pi_\star = \mathop{\textsf{arg}}\mathop{\textsf{max}}_{\pi_\star} L_\pi(\pi_\star)$ and define $\pi' := \alpha \pi_\star + (1 - \alpha) \pi$. Then, [Kakade & Langford (2002)](https://dl.acm.org/doi/10.5555/645531.656005) derived the lower bound
 
 \[
     \textstyle
@@ -239,7 +241,7 @@ One potential avenue is to use a *conservative mixture*: let $\pi_\star = \arg\m
 \ge - 2 \varepsilon \gamma (1 - \gamma)^{-2} \alpha^2
 \quad\textsf{where}\quad
     \varepsilon
-=   \max_s | \mathbb E_{A' \sim \pi'(\cdot \mid s)}[\mathcal A_\pi(s, A')] |.
+=   \mathop{\textsf{max}}_s | \mathbb E_{A' \sim \pi'(\cdot \mid s)}[\mathcal A_\pi(s, A')] |.
 \]
 
 This policy class is unwieldy and restrictive in practice. In fact, the proof can be extended to show, for any policy $\pi'$, that
@@ -250,7 +252,7 @@ This policy class is unwieldy and restrictive in practice. In fact, the proof ca
 \quad\textsf{where}\quad
     \textstyle
     \mathsf{KL}^\star(\pi \mathrel{\|} \pi')
-=   \max_s
+=   \mathop{\textsf{max}}_s
     \mathsf{KL}\bigl( \pi(\cdot \mid s) \bigm\| \pi'(\cdot \mid s ) \bigr).
 \]
 
@@ -441,7 +443,7 @@ Finally, *Generalised Advantage Estimation* (GAE) takes an exponential weighting
     \bigl( r_k + \gamma (1-\lambda) V(s_{k+1}) \bigr).
 \]
 
-Equivalently, $G^{\textsf{GAE}(\lambda)} = \mathbb E_{K \sim \operatorname{Geom}_0(\lambda)}[ G^{\textsf{A3C}(K)} ]$. This interpolates between A3C(0) ($\lambda = 0$) and Monte Carlo ($\lambda = 1$).
+Equivalently, $G^{\textsf{GAE}(\lambda)} = \mathbb E_{K \sim \mathop{\textsf{Geom}}_0(\lambda)}[ G^{\textsf{A3C}(K)} ]$. This interpolates between A3C(0) ($\lambda = 0$) and Monte Carlo ($\lambda = 1$).
 
 ## PPO: Proximal Policy Optimisation
 
@@ -470,7 +472,7 @@ A popular extension adjusts the objective by *clipping* the probability ratio $r
 \qquad
     \textsf{now,}
 \quad
-    \mathbb E[ \min\{ r_\pi(\pi') \mathcal A_\pi, \operatorname{clip}(r_\pi(\pi'), 1 - \varepsilon, 1 + \varepsilon) \mathcal A_\pi \} ].
+    \mathbb E[ \mathop{\textsf{min}}\{ r_\pi(\pi') \mathcal A_\pi, \mathop{\textsf{clip}}(r_\pi(\pi'), 1 - \varepsilon, 1 + \varepsilon) \mathcal A_\pi \} ].
 \]
 
 The clipping stops the probability ratio $r_\pi(\pi')$ from changing too much. The objective is the pessimistic minimum of this clipping and the previous, unclipped version. The clipping has no effect to first order around the current policy—ie, if $\pi' \approx \pi$. It is really there to stop overly large updates from happening, which was observed without this clipped term in the minimum.
@@ -479,11 +481,14 @@ Thinking about positive advantage for the moment, we want to increase the probab
 
 This tends to work a bit better than TRPO on continuous control (eg, robotics) and much better on discrete problems (eg, Atari).
 
+
 ## GRPO: Group Relative Policy Optimisation
 
-The "critic" model, required to estimate the value of actions, in RL algorithms like PPO requires training. This training can be resource intensive. GRPO removes the need for a critic model, instead sampling a "group" of actions and comparing their *relative* reward. This does not take into account future rewards (ie, the value function at the new state), which the critic in PPO does.
+### General Method
 
-More precisely, instead of drawing a single action $A \sim \pi(\cdot \mid s)$, iid actions $A_1, ..., A_G \sim^\mathsf{iid} \pi(\cdot \mid s)$ are drawn. The $i$-th advantage $\widehat{\mathcal A}_i$ (ie, of $A_i$) is calculated *relative to $(A_1, ..., A_G)$*. For example, one option is to take
+The "critic" model, required to estimate the value of actions, in RL algorithms like PPO requires training. This training can be resource intensive. GRPO removes the need for a critic model, instead sampling a "group" of actions and comparing their *relative* reward. This does not take into account future rewards (ie, the value function at the new state), which the critic in PPO does. Further, it is an *off-policy* method: there is a fixed distribution $\mu$ over states (or questions) from which the states are drawn.
+
+More precisely, instead of drawing a single action $A \sim \pi(\cdot \mid s)$, many (iid) actions $A_1, ..., A_G \sim^\mathsf{iid} \pi(\cdot \mid s)$ are drawn. The $i$-th advantage $\widehat{\mathcal A}_i$ (ie, of $A_i$) is calculated *relative to $(A_1, ..., A_G)$*. For example, one option is to take
 
 \[
     \widehat{\mathcal A}_i = (r_i - \mathop{\textsf{mean}} r) / \mathop{\textsf{std}} r,
@@ -498,21 +503,98 @@ where $r_i$ is the (random) reward received after taking action $A_i$; naturally
     \mathop{\textsf{std}} r = \sqrt{ \frac1G \sum_{i=1}^G (r_i - \mathop{\textsf{mean}} r) }.
 \]
 
-Additionally, a KL penalisation term is included in the objective, between the new policy $\pi'$ and a *reference* policy $\pi_\textsf{ref}$. This *is not* the old policy $\pi_\theta$; DeepSeek suggest it is usually the initial supervised fine-tune model—ie, the one *before* GRPO RL is applied. In fact, rather than calculate the KL exactly, an unbiased estimator is used:
+Additionally, a KL penalisation term is included in the objective, between the new policy $\pi'$ and a *reference* policy $\pi_\textsf{ref}$. This *is not* the old policy $\pi_\theta$; DeepSeek suggest it is usually the initial supervised fine-tune model—ie, the one *before* GRPO RL is applied.
+
+Altogether, the final surrogate objective, to be maximised, is
 
 \[
     \textstyle
-    \widehat{\mathsf{KL}}_s(\pi' \mathrel{\|} \pi_\textsf{ref})
-:=  \tfrac1G
-    \sum_{i=1}^G
-    (r_i - 1 - \log r_i)
-\ge 0
-\quad\textsf{where}\quad
-    r_i
-:=  \pi_\textsf{ref}(A_i \mid s) / \pi'(A_i \mid s).
+    L^\textsf{GRPO}_\pi(\pi')
+=   \mathbb E_{S \sim \mu, A_1, ..., A_G \sim^\mathsf{iid} \pi(\cdot \mid S)}\bigl[
+        \tfrac1G
+        \sum_{i=1}^G
+        \bigl(
+            \mathop{\textsf{min--clip}}(r_i \widehat{\mathcal A}_i)
+        -   \beta \mathsf{KL}(\pi' \mathrel{\|} \pi_\textsf{ref})
+        \bigr)
+    \bigr]
 \]
 
-The clipping prevents the new policy $\pi'$ from being too far from the old policy $\pi$, and this final KL penalty prevents *any* policy being considered from being too far from the *original* (reference) policy $\pi_\textsf{ref}$.
+where
+\(
+    r_i
+:=  \pi'(A \mid S) / \pi(A \mid S)
+\)
+and $\widehat{\mathcal A}_i$ is the (relative) advantage, as before; here, $\mathop{\textsf{min--clip}}(x) := \min\{x, \mathop{\textsf{clip}}(x, 1 + \varepsilon, 1 - \varepsilon)\}$. Importantly, the *whole* sum must be inside the expectation, since the (relative) advantage is calculated based on $(A_1, ..., A_G)$. Notice how $S \sim \mu$, not a measure which depends on the current policy $\pi$ (or the proposed $\pi'$).
+
+We (unnecessarily) left the KL inside the expectation, and even the summation. This is because, rather than calculate the KL exactly, the following unbiased estimator is typically used:
+
+\[
+    \textstyle
+    \widehat{\mathsf{KL}}_i
+:=  r^\textsf{ref}_i - 1 - \log r^\textsf{ref}_i
+\ge 0
+\quad\textsf{where}\quad
+    r^\textsf{ref}_i
+:=  \pi_\textsf{ref}(A_i \mid S) / \pi(A_i \mid S).
+\]
+
+The clipping prevents the new policy $\pi'$ from being too far from the old policy $\pi$, and this final KL penalty prevents *any* policy used from being too far from the *original* (reference) policy $\pi_\textsf{ref}$.
+
+Noteably, GRPO *does not* consider any future rewards—it would need a critic (or some other addition) to do that. This makes is suitable for Question–Answer models, which is the context it was introduced in. Such scenarios are special because there are no 'onward states' beyond the answer, and hence no future rewards.
 
 
+### Set-Up for Question–Answer Models
 
+Question–Answer models can, and frequently do, have *reasoning traces* (interpreted broadly). In particular, given a question $q$, an action $A$ may generate output $O_1$, ..., $O_m$, where $m$ is the (enforced) length of the reasoning. In this case, and individual reward *can* (but needn't) be applied to each part of the trace. This leads to a summation of the form
+
+\[
+    \textstyle
+    \tfrac1G
+    \sum_{i=1}^G
+    \tfrac1{|O_i|}
+    \sum_{t=1}^m
+    \mathop{\textsf{min--clip}}(r_{i,t} \widehat{\mathcal A}_{i,t})
+\]
+
+where
+\(
+    r_{i,t}
+=   \pi'(o_{i,t} \mid q, o_{i, 1:t-1}) / \pi(o_{i,t} \mid q, o_{i, 1:t-1})
+\)
+and $\widehat{\mathcal A}_{i,t}$ is the advantage of the $t$-th token in the $i$-th trace. A canonical choice is to reward the token based on the final result (there is no need for the reward to be 'Markovian'):
+\(
+    \widehat{\mathcal A}_{i,t}
+=   \widehat{\mathcal A}_t.
+\)
+But, it is possible to use more refined strategies.
+
+
+## Comparison: TRPO/PPO vs GRPO
+
+## Training Differences: TRPO/PPO vs GRPO
+
+One important distinction between the TRPO/PPO and GRPO paradigms is the manner in which the (surrogate) objective is estimated.
+
+-   TRPO/PPO is an *on-policy* method.
+    -   It samples a long trajectory $(S_t, A_t)_{t\ge0}$ in a given step, in order to get a good estimate on the expectation, which includes $S \sim \rho_\pi$, which takes into account the discounting.
+    -   If the environment does not permit long samples (>1k steps), such as an Atari game, then many trajectories are sampled; all start from a fixed distribution $p_0$ over initial states.
+    -   As the algorithm processes, the distribution $\rho_\pi$ changes.
+
+-   GRPO is an *off-policy* method.
+    -   The state (eg, question) is drawn from a *fixed* distribution $S \sim \mu$. Once the state $S$ has been sampled, a group of $G$ actions are sampled *from the same state*: $A_1, ..., A_G \sim^\mathsf{iid} \pi(\cdot \mid S)$.
+    -   These $G$ state–action pairs (each with the same state) are averaged.
+
+GRPO really is designed with question–answer models in mind. TRPO/PPO make less sense in this context, since there are no future rewards to discount (a bit like $\gamma = 0$), and the trajectories are all single-step.
+
+
+### Potential Extension for GRPO
+
+The lack of a critic model makes the process both faster to train, but also (often, more importantly) more memory efficient. The critic may often be as large as the modle being trained. However, it is my feeling that it is really the *lack of future rewards* which removes the need for a critic, rather than the use of *relative rewards*:
+
+-   estimating value functions is difficult because of the need to behave optimally in the future;
+-   if the future rewards are ignored ($\gamma = 0$), this goes away.
+
+The sample means and standard deviations are proxies for the true means and standard deviations under the current policy. These may be quite crude estimators when the number $G$ of samples is small—eg, $G = 4$. Potentially, a better estimate on these—eg, by using a large number of samples—may improve performance.
+
+However, increasing $G$ may hurt performance elsewhere: the (surrogate) objective is an average, so the signal may decrease, by some type of concentration/LLN. One option could be to increase $G$ and divide by $\sqrt G$ instead of $G$.

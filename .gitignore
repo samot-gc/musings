@@ -1,2 +1,5 @@
 potm/
 .vscode/
+
+__pycache__
+build_utils/__pycache__

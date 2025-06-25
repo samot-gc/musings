@@ -4,6 +4,7 @@ tags:
     - inference
     - reasoning
     - superposition
+method: COCONUT
 parent: 'Training Large Language Models to Reason in a Continuous Latent Space'
 authors:
     - Hao
@@ -21,6 +22,8 @@ year: 2024
 [*Training Large Language Models to Reason in a Continuous Latent Space*](https://arxiv.org/abs/2412.06769)
 
 -   2024-12; Hao, Sukhbaatar, Su, Li, Hu, Weston, Tian
+
+[TOC]
 
 ## High-Level Ideas
 

@@ -15,6 +15,8 @@ year: 2024
 
 -   2024-07; Shao, Wang, Zhu, Xu, Song, Bi, Zhang, Zhang, Li, Wu, Guo
 
+[TOC]
+
 ## High-Level Summary
 
 -   Introduce DeepSeekMath 7B, a LLM focused on mathematical capabilities
@@ -82,7 +84,7 @@ One of the key benefits of GRPO over PPO is not needing to learn/evaluate the ad
 
 \[
     \hat A_{i,t}
-=   (r_i - \textup{mean}(r)) / \textup{stddev}(r)
+=   \bigl( r_i - \textup{mean}(r) \bigr) / \textup{stddev}(r)
 \quad\text{for all}\quad
     t.
 \]
