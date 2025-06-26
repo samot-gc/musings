@@ -4,6 +4,7 @@ tags:
     - reasoning
     - rl
     - training
+method: GRPO
 parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
 authors: DeekSeek
 year: 2024

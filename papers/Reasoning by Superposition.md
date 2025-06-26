@@ -4,6 +4,7 @@ tags:
     - reasoning
     - rl
     - superposition
+method: COCONUT
 parent: 'Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought'
 authors:
     - Zhu
@@ -26,7 +27,7 @@ year: 2025
 ## High-Level Summary
 
 -   Theoretical analysis of continuous chain of thought
--   Concretely, continuous CoT solves graph-reachability with diameter number of steps, rather than vertex squared—ie, *d* vs *O*(*n*^2^)
+-   Concretely, continuous CoT solves graph-reachability with diameter number of steps, rather than vertex squared—ie, $d$ vs $\mathcal O(n^2)$
 -   The continuous thought vector is a superposition enabling encoding of multiple search frontiers simultaneously—a 'parallel BFS'
 -   Notably, this approach emerged *naturally*, without explicit supervision
 -   Construction works for widely-used position encodings, not problem-specific ones
