@@ -6,7 +6,7 @@ tags:
     - training
 method: GRPO
 parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
-authors: DeekSeek
+authors: DeepSeek-AI
 year: 2024
 
 ---
@@ -14,7 +14,7 @@ year: 2024
 
 [*DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models*](https://arxiv.org/abs/2402.03300)
 
--   2024-07; Shao, Wang, Zhu, Xu, Song, Bi, Zhang, Zhang, Li, Wu, Guo
+-   2024-07; DeepSeek-AI
 
 [TOC]
 
@@ -27,7 +27,7 @@ year: 2024
 
 The main theoretical contribution is the introduction of GRPO, which extends PPO.
 
-## PPO to GRPO
+## Evolution: PPO to GRPO
 
 *Proximal Policy Optimisation* (PPO) is an actor—critic RL algorithm which maximises a surrogate objective:
 
@@ -102,7 +102,7 @@ where $r_i$ is the reward for $o_i$ and $r = (r_i)_{i=1}^G$; in particular, the 
 
     -   This *can* lead to more efficient training, but requires multiple role-outs per example (the group of responses)
 
--   Critic model (or lack thereof)
+-   Critic model (or lack thereof):
 
     -   PPO requires a *separate* critic model to estimate the value, which often requires training
 
