@@ -8,7 +8,7 @@ tags:
     - own
 parent: 'RL Algorithms Deep-Dive: TRPO, PPO & GRPO'
 authors: Olesker-Taylor
-year: 2025
+date: 202506
 
 ---
 # RL Algorithms Deep-Dive

@@ -15,7 +15,7 @@ authors:
     - Wang
     - Shen
     - Wang
-year: 2025
+date: 202505
 
 ---
 # Soft Thinking Summary

@@ -7,14 +7,14 @@ tags:
 method: GRPO
 parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
 authors: DeepSeek-AI
-year: 2024
+date: 202404
 
 ---
 # DeepSeekMath Summary
 
 [*DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models*](https://arxiv.org/abs/2402.03300)
 
--   2024-07; DeepSeek-AI
+-   2024-04; DeepSeek-AI
 
 [TOC]
 

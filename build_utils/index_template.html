@@ -63,7 +63,7 @@
     th.title-col {
         width: 50%;
     }
-    th.year-col {
+    th.date-col {
         width: 10%;
     }
     th.authors-col {
@@ -131,9 +131,9 @@
         <tr>
             <th class="title-col">Title</th>
 			<th class="method">Method</th>
-            <th class="year-col">
-                Year
-                <span class="sort-button desc" data-sort="year" role="button" aria-pressed="true" tabindex="0" title="Sort by Year"></span>
+            <th class="date-col">
+                Date
+                <span class="sort-button desc" data-sort="date" role="button" aria-pressed="true" tabindex="0" title="Sort by Date"></span>
             </th>
             <th class="authors-col">Authors</th>
             <th class="tags-col">Tags</th>
@@ -141,10 +141,10 @@
     </thead>
     <tbody id="papersTbody">
         {% for paper in papers %}
-        <tr data-title="{{ paper.title | lower }}" data-year="{{ paper.year | int(default=0) }}" data-tags="{{ paper.tags | join(',') }}">
+        <tr data-title="{{ paper.title | lower }}" data-date="{{ paper.date | int(default=0) }}" data-tags="{{ paper.tags | join(',') }}">
             <td><a href="papers/{{ paper.filename_url }}.html">{{ paper.title }}</a></td>
             <td>{{ paper.method if paper.method else "n/a" }}</td>
-			<td>{{ paper.year }}</td>
+			<td>{{ paper.date }}</td>
             <td>{{ paper.authors }}</td>
             <td>
                 {% for tag in paper.tags %}
@@ -160,10 +160,10 @@
     const searchInput = document.getElementById("searchInput");
     const tagButtons = document.querySelectorAll(".tag-button");
     const tbody = document.getElementById("papersTbody");
-    const sortButton = document.querySelector(".sort-button[data-sort='year']");
+    const sortButton = document.querySelector(".sort-button[data-sort='date']");
 
     let activeTag = null;
-    let sortOrder = "desc";  // default sort: year descending
+    let sortOrder = "desc";  // default sort: date descending
 
     function updateSortButtonUI() {
         if (sortOrder === "asc") {
@@ -192,8 +192,8 @@
         const visibleRows = rows.filter(row => row.style.display !== "none");
 
         visibleRows.sort((a, b) => {
-            let aVal = parseInt(a.dataset.year) || 0;
-            let bVal = parseInt(b.dataset.year) || 0;
+            let aVal = parseInt(a.dataset.date) || 0;
+            let bVal = parseInt(b.dataset.date) || 0;
 
             if (aVal === bVal) return 0;
 

@@ -7,7 +7,7 @@ tags:
 method: GRPO
 parent: Magistral
 authors: Minstral-AI
-year: 2025
+date: 202506
 
 ---
 # Magistral Summary

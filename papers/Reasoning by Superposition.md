@@ -13,7 +13,7 @@ authors:
     - Jiao
     - Russell
     - Tian
-year: 2025
+date: 202505
 
 ---
 # Reasoning by Superposition Summary

@@ -48,7 +48,7 @@ def build_paperlist():
         paper_info = {
             "title": meta.get("parent", filename_raw),
             "authors": authors,
-            "year": meta.get("year"),  # keep None if missing for sorting
+            "date": meta.get("date"),  # keep None if missing for sorting
             "method": meta.get("method", "n/a"),
             "tags": tags,
             "filename_raw": filename_raw,  # raw .md filename
@@ -57,10 +57,10 @@ def build_paperlist():
 
         papers.append(paper_info)
 
-    # Sort by year desc (None treated as 0), then title asc
+    # Sort by date desc (None treated as 0), then title asc
     def sort_key(p):
-        year = p["year"] if isinstance(p["year"], int) else 0
-        return (-year, p["title"].lower())
+        date = p["date"] if isinstance(p["date"], int) else 0
+        return (-date, p["title"].lower())
 
     papers_sorted = sorted(papers, key=sort_key)
 

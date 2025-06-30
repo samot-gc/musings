@@ -12,7 +12,7 @@ authors:
     - Singh
     - Shang
     - Gao
-year: 2024
+date: 202505
 
 ---
 # Mixture of Inputs Summary

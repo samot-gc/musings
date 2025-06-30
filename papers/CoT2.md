@@ -15,7 +15,7 @@ authors:
     - Harutyunyan
     - Rawat
     - Oymak
-year: 2025
+date: 202505
 
 ---
 
@@ -58,7 +58,7 @@ year: 2025
 The paper introduces a continuous-token approach. Classical CoT feeds the thought token back into the LLM to produce the next thought token. Their underlying idea is very similar to *soft thinking*: instead of sampling a single token, it samples/deterministically selects a continuous superposition. Two primary methods are suggested.
 
 1.  *Base* (aka *soft thinking*): deterministically feed full distribution $\alpha_t$ each step
-2.  *MTS* (multi-token sampling): sample $K$ discrete tokens $t_1, ..., t_K$ and average them; CoT corresopnds to $K = 1$
+2.  *MTS* (multi-token sampling): sample $K$ discrete tokens $t_1, ..., t_K$ and average them; CoT corresponds to $K = 1$
 
 For more formal details on how to implement this, see the summary on *soft thinking* or *mixture of inputs*, for example.
 
