@@ -15,6 +15,8 @@ date: 202505
 -   [ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models](https://arxiv.org/abs/2505.24864)
 -   2025-05; NVIDIA
 
+[TOC]
+
 ## High-Level Summary
 
 -   Introduces Nemotron-Research-Reasoning-Qwen-1.5B, a reasoning model based on DeepSeek-R1-1.5B
