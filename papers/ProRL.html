@@ -79,11 +79,60 @@
 Typically RL implementations run for no more than a few hundred steps. Contrastingly, ProRL demonstrated continued improvement beyond 2000 training steps; see Figure 1 (left) above. This gave the algorithm sufficient time to explore and uncover new strategies—so they hypothesise.
 </details></li>
 </ol>
-<h3 id="results-nemotron-research-reasoning-qwen-15b">Results: Nemotron-Research-Reasoning-Qwen-1.5B </h3>
-<p>The result is, in their words, "the world's best 1.5B reasoning model"—and that is perhaps justified. Their base model is DeepSeek-R1-Distill-Qwen-1.5B.</p>
+<h2 id="results-nemotron-research-reasoning-qwen-15b">Results: Nemotron-Research-Reasoning-Qwen-1.5B </h2>
+<p>The result is, in their words, "the world's best 1.5B reasoning model"—and that is perhaps justified. In short, Nemotron-Research-Reasoning-Qwen-1.5B outperforms its baseline, DeepSeek-R1-Distill-Qwen-1.5B, by approximately</p>
+<blockquote>
+<p>15% on maths and code, 25% on STEM reasoning, 22% on instruction following and &gt;50% on text-based logic puzzles from <a href="https://github.com/open-thought/reasoning-gym">Reasoning Gym</a>.</p>
+</blockquote>
+<p>It is comparable with, even outperforms, the much larger DeepSeek-R1-Distill-Qwen-7B.</p>
+<p>It also outperforms the domain-specialised baselines of DeepScaleR-1.5B and DeepCoder-1.5B on maths and code, respectively, by around 5%.</p>
 <p><img src="attachments/ProRL%20-%20Tables.png" alt="Nemotron evaluation"></p>
-<hr>
-<p>incomplete... to be continued...</p>
+<p>The subcategories in the "Reasoning [Gym]" benchmark are detailed in Table 5 in <a href="https://arxiv.org/pdf/2505.24864v1#subsection.F.1">§F.1</a>. The final three benchmarks in Table 3 (ie, acre, boxnet and game) are <em>out-of-distribution</em> tasks: these were not included in the RL training data.</p>
+<p>The training set-up used <code>verl</code>, with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ε</mi><mtext mathvariant="sans-serif">low</mtext></msub><mo>=</mo><mn>0.2</mn></mrow><annotation encoding="application/x-tex">\varepsilon_\textsf{low} = 0.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textsf mtight">low</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.2</span></span></span></span> and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>ε</mi><mtext mathvariant="sans-serif">high</mtext></msub><mo>=</mo><mn>0.4</mn></mrow><annotation encoding="application/x-tex">\varepsilon_\textsf{high} = 0.4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7167em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">ε</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord text mtight"><span class="mord textsf mtight">high</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.4</span></span></span></span> (as mentioned above), alongside dynamic sampling for filtering too easy/hard questions. For each question, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>16</mn></mrow><annotation encoding="application/x-tex">16</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">16</span></span></span></span> responses were sampled, with a (high) sampling temperature of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.2</mn></mrow><annotation encoding="application/x-tex">1.2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.2</span></span></span></span> and response length capped at 8k tokens "to maintain concise and stable generations". Evaluation used <code>vllm</code> with a sampling temperature of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0.6</mn></mrow><annotation encoding="application/x-tex">0.6</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.6</span></span></span></span> and a maximum response length of 32k.</p>
+<p>A context window limit of 8k was used throughout most of the training, until the final stage (~200 steps) in which it was increased to 16k tokens. It was observed that the model adapted quickly, with a noticeable increase in response length.</p>
+<p><img src="attachments/ProRL%20-%20Dynamics.png" alt="Training dynamics" style="display: block; margin: 0 auto"></p>
+<p>The dataset consisted of 136k examples. On 4 8xH100-80GB boxes, the whole training took approximately 16k GPU hours. The training dataset and recipe are detailed in <a href="https://arxiv.org/pdf/2505.24864v1#appendix.D">§D</a> and <a href="https://arxiv.org/pdf/2505.24864v1#appendix.E">§E</a>, respectively.</p>
+<h2 id="analysis-does-prorl-elicit-new-reasoning-patterns">Analysis: Does ProRL Elicit New Reasoning Patterns? </h2>
+<p>The above evaluation is the usual benchmarking. It doesn't address the question of "enhance capabilities vs improve sampling". To address this, the results of pass@<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span> are plotted as a function of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span></span></span></span>, from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>256</mn></mrow><annotation encoding="application/x-tex">256</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">256</span></span></span></span>. Additionally, the final Nemotron model (green) is compared with an intermediary checkpoint (orange) as well as the base model (blue).</p>
+<p><img src="attachments/ProRL%20-%20pass@k.png" alt="pass@k evaluations"></p>
+<p>Many more examples are plotted in <a href="https://arxiv.org/pdf/2505.24864v1#subsection.F.2">§F.2</a>.</p>
+<ul>
+<li>
+<details>
+<summary><i>Diminished Reasoning Boundary</i></summary>
+<p>Nemotron exhibits decreased or unchanged reasoning capacity on some benchmarks (particularly in maths): pass@1 improves, but pass@128, which reflects broader <em>reasoning abilities</em> over <em>sampling efficiency</em>, often declines. These <em>tend</em> to have a high baseline pass@128, suggesting the base model already possesses sufficient reasoning ability, and the RL training sharpens the output distribution at the expense of exploration and generality.</p>
+</details>
+</li>
+<li>
+<details>
+<summary><i>Gains Plateau with RL</i></summary>
+<p>For these tasks, RL boosts both pass@1 and pass@128, indicating improved <em>reasoning</em> (not just <em>sampling</em>). However, these were largely achieved early in the RL training, as seen by comparing with the intermediate checkpoint.</p>
+</details>
+</li>
+<li>
+<details>
+<summary><i>Sustained Gains from ProRL</i></summary>
+<p>Some benchmarks, particularly more complex ones such as coding, show continued improvement—final vs intermediate. Although, the improvement at the high end (pass@128 or pass@256) is often small, indicated that the prolonged nature may help the sampling efficiency primarily (low end).</p>
+</details>
+</li>
+</ul>
+<p>Generally, it was found that the RL-derived improvement was significantly <em>negatively</em> correlated with the baseline performance: little, or even negative, improvement was seen on tasks with a high baseline pass@128, but major improvements when the baseline was poor (even ~0% → ~100%).</p>
+<p><img src="attachments/ProRL%20-%20Relative%20Changes.png" alt="Relative improvement"></p>
+<p>The tasks highlighted in the circle tend to have a low creativity index, indicating a higher overlap with pre-training data, suggesting the model has already seen a lot of similar data during training.</p>
+<p>The last aspect we discuss is the <em>out-of-distribution reasoning</em>, which ProRL appears to enhance.</p>
+<ul>
+<li>
+<p>On <em>boxnet</em>, which was not seen during RL training, the base model is unable to solve the task. In contrast, with enough samples, ProRL is (almost) perfect—this is seen by both the final and intermediate versions, though.</p>
+</li>
+<li>
+<p>For <em>graph_color</em>, training data included only graphs of size 10. The pass@1 (solid lines) for both the baseline and Nemotron deteriorate with graph size, but pass@128 (dotted) persists for significantly longer for Nemotron versus the baseline.</p>
+</li>
+</ul>
+<p align="center">
+  <img src="attachments/ProRL%20-%20OOD%20-%20boxnet.png" width="49%">
+&nbsp;
+  <img src="attachments/ProRL%20-%20OOD%20-%20graph%20colour.png" width="49%">
+</p>
 
       </div>
       

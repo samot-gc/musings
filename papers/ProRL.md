@@ -68,12 +68,69 @@ These are taken from [DAPO](https://arxiv.org/abs/2503.14476).
     Typically RL implementations run for no more than a few hundred steps. Contrastingly, ProRL demonstrated continued improvement beyond 2000 training steps; see Figure 1 (left) above. This gave the algorithm sufficient time to explore and uncover new strategies—so they hypothesise.
 
 
-### Results: Nemotron-Research-Reasoning-Qwen-1.5B
+## Results: Nemotron-Research-Reasoning-Qwen-1.5B
 
-The result is, in their words, "the world's best 1.5B reasoning model"—and that is perhaps justified. Their base model is DeepSeek-R1-Distill-Qwen-1.5B.
+The result is, in their words, "the world's best 1.5B reasoning model"—and that is perhaps justified. In short, Nemotron-Research-Reasoning-Qwen-1.5B outperforms its baseline, DeepSeek-R1-Distill-Qwen-1.5B, by approximately
+
+>   15% on maths and code, 25% on STEM reasoning, 22% on instruction following and >50% on text-based logic puzzles from [Reasoning Gym](https://github.com/open-thought/reasoning-gym).
+
+It is comparable with, even outperforms, the much larger DeepSeek-R1-Distill-Qwen-7B.
+
+It also outperforms the domain-specialised baselines of DeepScaleR-1.5B and DeepCoder-1.5B on maths and code, respectively, by around 5%.
 
 ![Nemotron evaluation](attachments/ProRL%20-%20Tables.png)
 
----
+The subcategories in the "Reasoning [Gym]" benchmark are detailed in Table 5 in [§F.1](https://arxiv.org/pdf/2505.24864v1#subsection.F.1). The final three benchmarks in Table 3 (ie, acre, boxnet and game) are *out-of-distribution* tasks: these were not included in the RL training data.
 
-incomplete... to be continued...
+The training set-up used `verl`, with $\varepsilon_\textsf{low} = 0.2$ and $\varepsilon_\textsf{high} = 0.4$ (as mentioned above), alongside dynamic sampling for filtering too easy/hard questions. For each question, $16$ responses were sampled, with a (high) sampling temperature of $1.2$ and response length capped at 8k tokens "to maintain concise and stable generations". Evaluation used `vllm` with a sampling temperature of $0.6$ and a maximum response length of 32k.
+
+A context window limit of 8k was used throughout most of the training, until the final stage (~200 steps) in which it was increased to 16k tokens. It was observed that the model adapted quickly, with a noticeable increase in response length.
+
+![Training dynamics](attachments/ProRL%20-%20Dynamics.png){ style="display: block; margin: 0 auto" }
+
+The dataset consisted of 136k examples. On 4 8xH100-80GB boxes, the whole training took approximately 16k GPU hours. The training dataset and recipe are detailed in [§D](https://arxiv.org/pdf/2505.24864v1#appendix.D) and [§E](https://arxiv.org/pdf/2505.24864v1#appendix.E), respectively.
+
+
+## Analysis: Does ProRL Elicit New Reasoning Patterns?
+
+The above evaluation is the usual benchmarking. It doesn't address the question of "enhance capabilities vs improve sampling". To address this, the results of pass@$k$ are plotted as a function of $k$, from $1$ to $256$. Additionally, the final Nemotron model (green) is compared with an intermediary checkpoint (orange) as well as the base model (blue).
+
+![pass@k evaluations](attachments/ProRL%20-%20pass@k.png)
+
+Many more examples are plotted in [§F.2](https://arxiv.org/pdf/2505.24864v1#subsection.F.2).
+
+-   <details>
+    <summary><i>Diminished Reasoning Boundary</i></summary>
+
+    Nemotron exhibits decreased or unchanged reasoning capacity on some benchmarks (particularly in maths): pass@1 improves, but pass@128, which reflects broader *reasoning abilities* over *sampling efficiency*, often declines. These *tend* to have a high baseline pass@128, suggesting the base model already possesses sufficient reasoning ability, and the RL training sharpens the output distribution at the expense of exploration and generality.
+    </details>
+
+-   <details>
+    <summary><i>Gains Plateau with RL</i></summary>
+
+    For these tasks, RL boosts both pass@1 and pass@128, indicating improved *reasoning* (not just *sampling*). However, these were largely achieved early in the RL training, as seen by comparing with the intermediate checkpoint.
+    </details>
+
+-   <details>
+    <summary><i>Sustained Gains from ProRL</i></summary>
+
+    Some benchmarks, particularly more complex ones such as coding, show continued improvement—final vs intermediate. Although, the improvement at the high end (pass@128 or pass@256) is often small, indicated that the prolonged nature may help the sampling efficiency primarily (low end).
+    </details>
+
+Generally, it was found that the RL-derived improvement was significantly *negatively* correlated with the baseline performance: little, or even negative, improvement was seen on tasks with a high baseline pass@128, but major improvements when the baseline was poor (even ~0% → ~100%).
+
+![Relative improvement](attachments/ProRL%20-%20Relative%20Changes.png)
+
+The tasks highlighted in the circle tend to have a low creativity index, indicating a higher overlap with pre-training data, suggesting the model has already seen a lot of similar data during training.
+
+The last aspect we discuss is the *out-of-distribution reasoning*, which ProRL appears to enhance.
+
+-   On *boxnet*, which was not seen during RL training, the base model is unable to solve the task. In contrast, with enough samples, ProRL is (almost) perfect—this is seen by both the final and intermediate versions, though.
+
+-   For *graph\_color*, training data included only graphs of size 10. The pass@1 (solid lines) for both the baseline and Nemotron deteriorate with graph size, but pass@128 (dotted) persists for significantly longer for Nemotron versus the baseline.
+
+<p align="center">
+  <img src="attachments/ProRL%20-%20OOD%20-%20boxnet.png" width="49%" />
+&nbsp;
+  <img src="attachments/ProRL%20-%20OOD%20-%20graph%20colour.png" width="49%" />
+</p>
