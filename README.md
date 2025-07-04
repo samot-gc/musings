@@ -4,8 +4,9 @@ A searchable, filterable, and sortable version of this index is available on the
 
 | Title | Date | Authors | Tags |
 |-------|------|---------|------|
-| [Magistral](https://github.com/samot-gc/musings/blob/main/papers/Magistral.md) | 202506 | Minstral-AI | grpo, reasoning, rl, training |
-| [RL Algorithms Deep-Dive: TRPO, PPO & GRPO](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms%20Deep-Dive%20-%20TRPO%2C%20PPO%20%26%20GRPO.md) | 202506 | Olesker-Taylor | grpo, ppo, trpo, rl, training, own |
+| [Magistral](https://github.com/samot-gc/musings/blob/main/papers/Magistral.md) | 202506 | Minstral-AI | grpo, dapo, reasoning, rl, training |
+| [RL Algorithms: Deep-Dive](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms-%20Deep-Dive.md) | 202506 | Olesker-Taylor | dapo, grpo, ppo, trpo, rl, training, own |
+| [RL Algorithms: Overview for LLMs](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms-%20Overview.md) | 202506 | Olesker-Taylor | dapo, grpo, ppo, trpo, rl, training, own |
 | [Continous Chain of Thought Enables Parellel Exploration and Reasoning](https://github.com/samot-gc/musings/blob/main/papers/CoT2.md) | 202505 | Gozeten, Ildiz, Zhang, Harutyunyan, Rawat, Oymak | continuous thoughts, inference, reasoning, superposition, grpo, rl |
 | [ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models](https://github.com/samot-gc/musings/blob/main/papers/ProRL.md) | 202505 | NVIDIA | grpo, reasoning, rl, training |
 | [Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought](https://github.com/samot-gc/musings/blob/main/papers/Reasoning%20by%20Superposition.md) | 202505 | Zhu, Hao, Hu, Jiao, Russell, Tian | inference, reasoning, rl, superposition |

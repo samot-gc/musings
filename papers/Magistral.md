@@ -1,6 +1,7 @@
 ---
 tags:
     - grpo
+    - dapo
     - reasoning
     - rl
     - training
@@ -19,14 +20,14 @@ date: 202506
 
 ## High-Level Summary
 
--   Introduces Magistral, a reasoning model (Medium and Small)
+-   Introduces Magistral, a reasoning model, with two variants: Medium (~180B–200B) and Small (24B)
 -   Ground-up approach, relying on Minstral models and infrastructure
--   Adjusts and uses GRPO
--   Detailed description of training methods, good to learn from
+-   Adjusts and uses GRPO, providing a detailed description of training methods, good to learn from
+-   Magistral Small (24B) is on Hugging Face: https://huggingface.co/mistralai/Magistral-Small-2506
 
 ## Methodology
 
-This section describes the fundamental RL methodology. It is based on GRPO, but adapted and adjusted.
+This section describes the fundamental RL methodology. It is based on GRPO, but adapted and adjusted. The majority of these adaptations first appeared in [DAPO](https://arxiv.org/abs/2503.14476) a couple of months earlier.
 
 ### GRPO Adaptation
 
@@ -52,9 +53,9 @@ where $q$ represents the query, $o$ the generated output and $\pi_\text{ref}$ a 
 
 where $r_1, ..., r_G$ are the rewards corresponding to generations (outputs) $o_1, ..., o_G$.
 
-Minstral introduce several modifications (collapsible sections).
+Minstral uses several modifications to GRPO (collapsible sections).
 
-1.  <details open>
+1.  <details>
     <summary><i>Eliminating KL divergence.</i></summary>
 
     The KL penalty constrains the online policy from *ever* deviating too far from the initial model. In practice, they found that the policy diverged substantially regardless, and so discarded this term altogether (set $\beta = 0$). This also removes the need to store a copy of the reference model.
@@ -62,7 +63,7 @@ Minstral introduce several modifications (collapsible sections).
     Personally, I always found this KL term odd: it restricts the policy from deviating from the *reference*, rather than restricting an update (vs the current).
     </details>
 
-2.  <details open>
+2.  <details>
     <summary><i>Loss normalisation.</i></summary>
     
     Long sequences with few 'turning points'—ie, places where the policy ratio is not close to $1$—get significantly down-weighted by their large $|o_i|$. The normalisation
@@ -77,26 +78,27 @@ Minstral introduce several modifications (collapsible sections).
     This is no change if $|o_i|$ is a fixed length. No ablation study is conducted on this aspect directly, but there is one on batch/minibatch sizes.
     </details>
 
-3.  <details open>
+3.  <details>
     <summary><i>Advantage normalisation.</i></summary>
     
     The advantage is always centred wrt the question: $\widetilde A_i = r_i - \operatorname{mean}(r_1, ..., r_G)$, where $r_1, ..., r_G$ are the rewards received in the $G$ answers *to the same question*. The rewards are then normalised wrt the standard deviations *of the advantages $\widetilde A_i$ in a minibatch*, to get the final estimate $\widehat A_i = \widetilde A_i / \operatorname{std}((\widetilde A_i)_{i \in B})$, where $B$ is a minibatch.
     
     The idea is that easy/hard questions with low standard deviations get up-weighted in the original GRPO. However, an ablation study in [§6.4](https://arxiv.org/pdf/2506.10910#subsection.6.4) suggests this has little effect over the usual version.
+
+    This idea is original to *Magistral*, not taken from *DAPO*.
     </details>
 
-4.  <details open>
+4.  <details>
     <summary><i>Relaxing trust region.</i></summary>
 
-    Standard GRPO clipping $\varepsilon \approx 0.2$ limits exploration by restricting the increase in probability of low-likelihood tokens. Minstral allow the model to explore rare steps by following the *clip-higher* strategy: the upper threshold is replaced with a larger $\varepsilon_\text{high} \in [0.26, 0.28]$, with the lower $1\varepsilon_\text{low} \approx 0.2$ roughly unchanged.
+    Standard GRPO clipping $\varepsilon \approx 0.2$ limits exploration by restricting the increase in probability of low-likelihood tokens. Minstral allow the model to explore rare steps by following the *clip-higher* strategy: the upper threshold is replaced with a larger $\varepsilon_\text{high} \in [0.26, 0.28]$, with the lower $\varepsilon_\text{low} \approx 0.2$ roughly unchanged.
     </details>
 
-5.  <details open>
+5.  <details>
     <summary><i>Eliminating non-diverse groups.</i></summary>
 
     Groups where all generations are wrong/right contribute nothing, so are removed. Presumably, this is done in the original GRPO too, with the convention $\widehat A_i = (0 - 0)/0 := 0$ (ie, no advantage).
     </details>
-
 
 ### Reward
 
