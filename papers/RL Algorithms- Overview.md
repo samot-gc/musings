@@ -141,7 +141,7 @@ Observe that
 
 ### TRPO: Trusted Region Policy Optimisation
 
-In the usual RL framework, an entire trajectory of states (and actions) is sampled from the *new* policy. Sampling instead from the *old* policy leads to a first-order approximation. This is detailed in my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#first-order-simplification) or [Sergey Levine's Lecture 9.1](https://www.youtube.com/watch?v=ySenCHPsKJU&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=36). To ensure the new and old policies are close, a KL constraint is included:
+In the usual RL framework, an entire trajectory of states (and actions) is sampled from the *proposed* policy. In the state–action framework, sampling instead from the *old* policy—which is far preferable computationally, as the same rollouts can be used to compare multiple proposals—leads to a first-order approximation; this is detailed in my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#first-order-simplification) or [Sergey Levine's Lecture 9.1](https://www.youtube.com/watch?v=ySenCHPsKJU&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=36). To ensure the new and old policies are close, a KL constraint is included:
 \[
     \text{maximise}
 \quad
@@ -157,6 +157,9 @@ where
         \operatorname{KL}(\pi_\theta(\cdot \mid q) \mathrel{\|} \pi_{\theta_\text{old}}(\cdot \mid q))
     \bigr].
 \]
+
+This complication doesn't actually arise in the LLM framework: it is 'off-policy' there in the sense that there are no trajectories to depend on the current policy. Nevertheless, KL regularisation can often be helpful.
+
 Replacing the objective and constrain with leading-order approximations, gradient ascent actually solves this exactly:
 \[
     \theta_\star
@@ -166,6 +169,7 @@ Replacing the objective and constrain with leading-order approximations, gradien
 =   \sqrt{2 \varepsilon / J'(\theta_\text{old})^\top F(\theta_\text{old}) J'(\theta_\text{old})},
 \]
 and $F(\theta) = \mathbb E_{q \sim \mu, o \sim \pi_\theta(\cdot \mid q)}[ (\nabla_\theta \log \pi_\theta(q, o)) (\nabla_\theta \log \pi_\theta(q, o))^\top ]$ is the Fisher-information matrix. This is outlined in my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#using-gradient-ascent-and-the-fisher-information) and detailed in [Sergey Levine's Lecture 9.4](https://www.youtube.com/watch?v=QWnpF0FaKL4&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=40).
+
 
 
 ### PPO: Proximal Policy Optimisation
