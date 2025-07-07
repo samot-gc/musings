@@ -43,7 +43,7 @@ This overview is intended to give an overview of the most important details. Fur
 
 I found some lectures/courses useful.
 
--   Sergey Levine's [Deep RL course](https://rail.eecs.berkeley.edu/deeprlcourse/) is clear and in-depth; see, particularly, Lectures 5 and 9 on *(Advanced) Policy Gradients*
+-   Sergey Levine's [Deep RL course](https://rail.eecs.berkeley.edu/deeprlcourse/) is clear and in-depth; see, particularly, Lectures 5 and 9 on *(Advanced) Policy Gradients*.
 -   Pieter Abbeel's [Foundations of Deep RL](https://www.youtube.com/playlist?list=PLwRJQ4m4UJjNymuBM9RdmB3Z9N5-0IlY0) provides a decent overview, but the details are often fuzzy; see, particularly, Lectures 3 and 4 on *Policy Gradients* and *TRPO & PPO*.
 -   John Schulman covers policy gradients, TRPO and PPO in a single [Deep RL Bootcamp lecture](https://www.youtube.com/watch?v=xvRrgxcpaHY)—but somewhat runs out of time when covering clipping.
 
@@ -112,9 +112,9 @@ With this definition,
 \end{aligned}\]
 Applying the importance sampling trick,
 \[
-    J(\theta) - J(\theta_\text{old})
-=   \Delta(\theta, \theta_\text{old})
-:=  \mathbb E_{q \sim \pi, o \sim \pi_{\theta_\text{old}}(\cdot \mid q)}\biggl[
+    \Delta(\theta, \theta_\text{old})
+:=  J(\theta) - J(\theta_\text{old})
+=   \mathbb E_{q \sim \mu, o \sim \pi_{\theta_\text{old}}(\cdot \mid q)}\biggl[
         \frac{\pi_\theta(o \mid q)}{\pi_{\theta_\text{old}}(o \mid q)}
         A^{\pi_{\theta_\text{old}}}(q, o)
     \biggr].
@@ -164,11 +164,15 @@ Replacing the objective and constrain with leading-order approximations, gradien
 \[
     \theta_\star
 =   \theta_\text{old} + \alpha F(\theta_\text{old})^{-1} \Delta'(\theta_\text{old}, \theta_\text{old})
-\quad\text{where}\quad
+\]
+where
+\[
     \alpha
 =   \sqrt{2 \varepsilon / J'(\theta_\text{old})^\top F(\theta_\text{old}) J'(\theta_\text{old})},
-\]
-and $F(\theta) = \mathbb E_{q \sim \mu, o \sim \pi_\theta(\cdot \mid q)}[ (\nabla_\theta \log \pi_\theta(q, o)) (\nabla_\theta \log \pi_\theta(q, o))^\top ]$ is the Fisher-information matrix. This is outlined in my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#using-gradient-ascent-and-the-fisher-information) and detailed in [Sergey Levine's Lecture 9.4](https://www.youtube.com/watch?v=QWnpF0FaKL4&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=40).
+\quad\text{and}\quad
+    F(\theta)
+=   \mathbb E_{q \sim \mu, o \sim \pi_\theta(\cdot \mid q)}[ (\nabla_\theta \log \pi_\theta(q, o)) (\nabla_\theta \log \pi_\theta(q, o))^\top ]$
+is the Fisher-information matrix. This is outlined in my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#using-gradient-ascent-and-the-fisher-information) and detailed in [Sergey Levine's Lecture 9.4](https://www.youtube.com/watch?v=QWnpF0FaKL4&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=40).
 
 
 
@@ -191,7 +195,7 @@ The method of Lagrange multiplies means there is *some* $\lambda$ so that the op
 \qquad
     \lambda
 \leftarrow
-    \lambda + \alpha (\operatorname{KL}(\theta \mathrel{\|} \theta_\text{old}) - \varepsilon).
+    \lambda + \alpha \bigl( \operatorname{KL}(\theta \mathrel{\|} \theta_\text{old}) - \varepsilon \bigr).
 \]
 Or, more informally, maximise for a given penalty $\lambda$; if the resulting KL is too large/small, then increase/decrease the penalty $\lambda$.
 More details are given in [Sergey Levine's Lecture 9.3](https://www.youtube.com/watch?v=WuPauZgX7BM&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=38)
@@ -210,19 +214,17 @@ with
     \Delta_\text{PPO}^\text{clip}(\theta, \theta_\text{old}; \varepsilon)
 =   \mathbb E_{q \sim \mu, o \sim \pi_{\theta_\text{old}}(\cdot \mid q)}\biggl[
         \operatorname{min–clip}_\varepsilon^\varepsilon\biggl(
-            \frac{\pi_\theta(o \mid q)}{\pi_{\theta_\text{old}}(o \mid q)}
+            \frac{\pi_\theta(o \mid q)}{\pi_{\theta_\text{old}}(o \mid q)},
             A^{\pi_{\theta_\text{old}}}(q, o)
         \biggr)
     \biggr]
 \]
 where
 \[
-    \operatorname{min–clip}_{\varepsilon_\text{old}}^{\varepsilon_\text{high}}(x)
-:=  \min\{x, \operatorname{clip}(x, 1 - \varepsilon_\text{low}, 1 + \varepsilon_\text{high})\}
-\quad\text{for}\quad
-    x \in \mathbb R.
+    \operatorname{min–clip}_{\varepsilon_\text{old}}^{\varepsilon_\text{high}}(r, a)
+:=  \min\bigl\{r a, \operatorname{clip}(r, 1 - \varepsilon_\text{low}, 1 + \varepsilon_\text{high}) a \bigr\}.
 \]
-The clipping stops the probability ratio from changing too much, potentially over-reacting to the observed advantage. As such, the KL penalty is then sometimes removed. The default in many libraries is $\varepsilon_\text{high} = \varepsilon_\text{low} = \varepsilon = 0.2$.
+The clipping is a type of regularisation: it stops the probability ratio from changing too much, potentially over-reacting to the observed advantage. As such, the KL penalty is then sometimes removed. The default in many libraries is $\varepsilon_\text{high} = \varepsilon_\text{low} = \varepsilon = 0.2$.
 
 Calculating the advantage, which depends on the current policy, precisely is the hard part. An estimator $\widehat A^{\pi_{\theta_\text{old}}}(q, o)$ is required. One simple option is *Monte Carlo estimation* average 100 rollouts (which themselves may be long) from the proposed state–action. This is unbiased, but often high bias and computationally heavy. To reduce bias, an estimation $V_\varphi$ the value function $V_\varphi$ is learned—typically, $\varphi$ are the weights of a neural network—and used after a few steps, such as in GAE. See my [RL deep-dive](RL%20Algorithms-%20Deep-Dive.html#estimated-advantage) or [Sergey Levine's Lecture 6.4](https://www.youtube.com/watch?v=quRjnkj-MA0&list=PL_iWQOsE6TfVYGEGiAOMaOzzv41Jfm_Ps&index=24) for more details.
 
@@ -239,7 +241,7 @@ However, instead of discarding the 100 rollouts (here, just outputs/answers to t
         \frac1G \sum_{i=1}^G
         \frac1{|o_i|} \sum_{t=1}^{|o_i|}
         \operatorname{min–clip}_\varepsilon^\varepsilon\biggl(
-            \frac{\pi_\theta(o_{i, t} \mid q, o_{< t})}{\pi_{\theta_\text{old}}(o_{i, t} \mid q, o_{< t})}
+            \frac{\pi_\theta(o_{i, t} \mid q, o_{< t})}{\pi_{\theta_\text{old}}(o_{i, t} \mid q, o_{< t})},
             \widehat A_{i,t}
         \biggr)
     -   \lambda \operatorname{KL}(\theta \mathrel{\|} \theta_\text{ref})
@@ -282,7 +284,7 @@ DAPO introduces five many adjustments to GRPO.
     Batch gradients are diluted by groups with (little to) no signal. DAPO filters these out, sampling more groups until the batch is complete. An alternative to oversampling is to upweight the remainder.
 
 3.  **Token-Level Policy Gradient Loss.**
-    GRPO assigns each *sample* equal weight: $G^{-1} \sum_{i=1}^G |o_i|^{-1} \sum_{t=1}^G (...)$. As such, tokens in longer reponses are underrepresented. DAPO uses equal *token* weight: $(\sum_{i=1}^G |o_i|)^{-1} \sum_{i=1}^G \sum_{t=1}^{|o_i|} (...)$.
+    GRPO assigns each *sample* equal weight: $G^{-1} \sum_{i=1}^G |o_i|^{-1} \sum_{t=1}^{|o_i|} (...)$. As such, tokens in longer reponses are underrepresented. DAPO uses equal *token* weight: $(\sum_{i=1}^G |o_i|)^{-1} \sum_{i=1}^{|o_i|} \sum_{t=1}^{|o_i|} (...)$.
 
 4.  **Overlong Reward Shaping.**
     Truncating overlong responses could penalise sound reasoning. DAPO first filters overlong responses, masking their loss, then uses a *soft punishment*:
@@ -311,4 +313,4 @@ ProRL utilises *clip-higher* (with $\varepsilon_\text{high} = 0.4$) and *token-l
 Magistral uses all the extensions from DAPO (with $\varepsilon_\text{high} \approx 0.25$). Additionally, it introduces a new aspect.
 
 1.  **Advantage Normalisation.**
-    A correct answer to a hard question (which has low standard deviation) gets upweighted significantly. There is danger of noise fitting—particularly with a high $\varepsilon_\text{high}$. Instead, Magistral normalise with respect to *minibatches*. Concretely, the advantage is first *centred* wrt the question: $\widetilde A_i := r_i - \operatorname{mean}(r_1, ..., r_G)$. Then they are *normalised* wrt the minibatch: $\widehat A_i := \widetilde A_i / \operatorname{std}( (\widetilde A_i)_{i \in B})$, where $B$ is a minibatch.
+    A correct answer to a hard question (which has low standard deviation) gets upweighted significantly. There is danger of noise fitting—particularly with a high $\varepsilon_\text{high}$. Instead, Magistral normalise with respect to *minibatches*. Concretely, the advantage is first *centred* wrt the question: $\widetilde A_i := r_i - \operatorname{mean}(r_1, ..., r_G)$. Then they are *normalised* wrt the minibatch: $\widehat A_i := \widetilde A_i / \operatorname{std}\bigl( (\widetilde A_i)_{i \in B} \bigr)$, where $B$ is a minibatch. However, they perform an [ablation study](https://arxiv.org/pdf/2506.10910#subsection.6.4) suggesting this is of little benefit in their case.

@@ -516,7 +516,7 @@ Altogether, the final surrogate objective, to be maximised, is
         \tfrac1G
         \sum_{i=1}^G
         \bigl(
-            \mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(r_i \widehat{\mathcal A}_i)
+            \mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(r_i,  \widehat{\mathcal A}_i)
         -   \beta \mathop{\textsf{KL}}(\pi' \mathrel{\|} \pi_\textsf{ref})
         \bigr)
     \bigr]
@@ -527,7 +527,13 @@ where
     r_i
 :=  \pi'(A \mid S) / \pi(A \mid S)
 \)
-and $\widehat{\mathcal A}_i$ is the (relative) advantage, as before; here, $\mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(x) := \min\{x, \mathop{\textsf{clip}}(x, 1 + \varepsilon, 1 - \varepsilon)\}$. Importantly, the *whole* sum must be inside the expectation, since the (relative) advantage is calculated based on $(A_1, ..., A_G)$. Notice how $S \sim \mu$, not a measure which depends on the current policy $\pi$ (or the proposed $\pi'$).
+and $\widehat{\mathcal A}_i$ is the (relative) advantage, as before; here,
+\[
+    \mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(r, a)
+:=  \min\{r a, \mathop{\textsf{clip}}(r, 1 + \varepsilon, 1 - \varepsilon) a\}
+=   \min\{ r a, (1 + \operatorname{sgn}(a) \varepsilon) a\}.
+\]
+Importantly, the *whole* sum must be inside the expectation, since the (relative) advantage is calculated based on $(A_1, ..., A_G)$. Notice how $S \sim \mu$, not a measure which depends on the current policy $\pi$ (or the proposed $\pi'$). The clipping is a type of regularisation, preventing the ratio from changing too much: there is no insentive to go beyond $1 \pm \varepsilon$.
 
 We (unnecessarily) left the KL inside the expectation, and even the summation. This is because, rather than calculate the KL exactly, the following unbiased estimator is typically used:
 
@@ -556,7 +562,7 @@ Question–Answer models can, and frequently do, have *reasoning traces* (interp
     \sum_{i=1}^G
     \tfrac1{|O_i|}
     \sum_{t=1}^m
-    \mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(r_{i,t} \widehat{\mathcal A}_{i,t})
+    \mathop{\textsf{min--clip}}_\varepsilon^\varepsilon(r_{i,t}, \widehat{\mathcal A}_{i,t})
 \]
 
 where
@@ -671,7 +677,7 @@ GRPO really is designed with question–answer models in mind. TRPO/PPO make les
 
 ### Ablation-Type Study
 
-To assess the contribution of each aspect, they are added to the base model, DeepSeek-R1-Zero-Qwen-32B, one at a time—except the KL penalty, which is never included. The model is evaluated on AIM'24 using avg@32.
+To assess the contribution of each aspect, they are added to the base model, DeepSeek-R1-Zero-Qwen-32B, one at a time—except the KL penalty, which is never included. The model is evaluated on AIME'24 using avg@32.
 
 | Model                   | AIME'24 |
 | ----------------------- | ------- |
