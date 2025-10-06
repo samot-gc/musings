@@ -4,6 +4,7 @@ A searchable, filterable, and sortable version of this index is available on the
 
 | Title | Date | Authors | Tags |
 |-------|------|---------|------|
+| [FlowRL: Matching Reward Distributions for LLM Reasoning](https://github.com/samot-gc/musings/blob/main/papers/FlowRL.md) | 202509 | Zhu, Cheng, Zhang, Li, Zhang, Jiang, Sun, Hua, Zuo, Lv, Zhang, Chen, Shao, Xue, Song, Yang, Cui, Ding, Gao, Liu, Zhou, Mei, Lin | diversity, GFlowNets, reasoning, rl, training |
 | [Magistral](https://github.com/samot-gc/musings/blob/main/papers/Magistral.md) | 202506 | Minstral-AI | grpo, dapo, reasoning, rl, training |
 | [RL Algorithms: Deep-Dive](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms-%20Deep-Dive.md) | 202506 | Olesker-Taylor | dapo, grpo, ppo, trpo, rl, training, own |
 | [RL Algorithms: Overview for LLMs](https://github.com/samot-gc/musings/blob/main/papers/RL%20Algorithms-%20Overview.md) | 202506 | Olesker-Taylor | dapo, grpo, ppo, trpo, rl, training, own |
