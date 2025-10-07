@@ -52,7 +52,7 @@ date: 202509
     -   better scores on maths/code benchmarks
     -   more diverse reasoning traces, sometimes significantly
 -   Cons: no comparison with more recent GRPO variants which also promote diversity
--   Code is available on GitHub: [FlowRL](github.com/Xuekai-Zhu/FlowRL)
+-   Code is available on GitHub, based on [verl](https://github.com/volcengine/verl): [FlowRL](https://github.com/Xuekai-Zhu/FlowRL)
 
 
 ## Elevator Pitch
@@ -61,12 +61,12 @@ Mainstream reasoning LLMs are trained with *reward-maximising* RL methods. These
 
 The evaluation focusses on maths/code benchmarks and LLM-judged diversity of responses. Improvements in both are observed vs GRPO and PPO. However, it must be noted that there are many variants of GRPO explicitly designed to address diversity issues, such as [DAPO](http://arxiv.org/abs/2503.14476), [ProRL](http://arxiv.org/abs/2505.24864) or [GSPO](http://arxiv.org/abs/2507.18071)/[GMPO](http://arxiv.org/abs/2507.20673).
 
-![Distribution-matching vs reward-maximisation](attachments/FlowRL%20-%20Figure%201.png){ style="display: block; margin: 0 auto" }
+![Distribution-matching vs reward-maximisation](attachments/FlowRL%20-%20Distribution-Matching%20vs%20Reward-Maximisation.png){ style="display: block; margin: 0 auto" }
 
 
 ## Methodology
 
-### Reward Maxmisation to Distribution Matching
+### Reward Maximisation to Distribution Matching
 
 The objective is to minimise a (reverse) KL divergence between the LLM's policy and a target distribution. Inspired by energy-based modelling, which comes from statistical physics, the target is a Gibbs measure given question $x$:
 
@@ -113,7 +113,6 @@ The technical observation (not knew to FlowRL) is that, in terms of expected gra
         \underbrace{
             \bigl( \log Z_\phi(x) + \log \pi_\theta(y \mid x) - \beta r(x, y) \bigr)^2
         }_{\text{trajectory balance in GFlowNets}}
-    \tag{$\dagger$}
     \]
 
 Formally, this should be interpreted in the following way.
@@ -390,7 +389,7 @@ Additionally, as in GRPO, group normalisation is applied to $r(x, y)$:
 \]
 where $r = \{r_1, ..., r_G\}$ denotes a set of rewards within a sampled group.
 
-Substituting all this into $(\dagger)$ provides the following objective:
+Substituting all this into **Proposition 1** provides the following objective:
 \[
     \mathcal L^\mathsf{FlowRL}_{\theta, \phi}(x, y)
 :=  w \bigl( 
@@ -399,5 +398,15 @@ Substituting all this into $(\dagger)$ provides the following objective:
     -   \beta \hat r_i(x, y)
     -   \tfrac1{|y|} \log \pi_\mathsf{ref}(y \mid x)
     \bigr)^2.
-\tag{$\ddagger$}
 \]
+
+
+## Results
+
+FlowRL is compared with fairly 'vanilla' RL algorithms: REINFORCE++ ([2025/01](http://arxiv.org/abs/2501.03262)), PPO ([2017/07](https://arxiv.org/abs/1707.06347)) and GRPO ([2024/12](https://arxiv.org/abs/2402.03300)). There are modern variants, or tweaks, of GRPO which explicitly address diversity, such as DAPO ([2025/03](http://arxiv.org/abs/2503.14476)) or ProRL ([2025/05](http://arxiv.org/abs/2505.24864)). Others, such as GSPO ([2025/07](http://arxiv.org/abs/2507.18071)) and GMPO ([2025/07](http://arxiv.org/abs/2507.20673)), address stability. It is highly disappointing that no comparison with these is done—especially as multiple are mentioned in the paper. At least relatively large models are used: 7B and 32B.
+
+Nevertheless, the reported results are included below, for completeness.
+
+![Maths and code benchmarks](attachments/FlowRL%20-%20Benchmarks.png){ style="display: block; margin: 0 auto" }
+
+![Diversity](attachments/FlowRL%20-%20Diversity.png){ style="display: block; margin: 0 auto" }
