@@ -37,7 +37,7 @@ date: 202509
 # FlowRL Summary
 
 -   [FlowRL: Matching Reward Distributions for LLM Reasoning](https://arxiv.org/abs/2509.15207)
--   2025-05; Zhu, Cheng, Zhang, Li, Zhang, Jiang, Sun, Hua, Zuo, Lv, Zhang, Chen, Shao, Xue, Song, Yang, Cui, Ding, Gao, Liu, Zhou, Mei, Lin
+-   2025-09; Zhu, Cheng, Zhang, Li, Zhang, Jiang, Sun, Hua, Zuo, Lv, Zhang, Chen, Shao, Xue, Song, Yang, Cui, Ding, Gao, Liu, Zhou, Mei, Lin
 
 [TOC]
 
