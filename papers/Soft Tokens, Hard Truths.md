@@ -6,8 +6,8 @@ tags:
     - reasoning
     - rl
     - training
-method: FlowRL
-parent: 'FlowRL: Matching Reward Distributions for LLM Reasoning'
+method: soft tokens
+parent: 'Soft Tokens, Hard Truths'
 authors:
     - Meta FAIR
 date: 202509
@@ -111,22 +111,74 @@ The randomness means that the usual RL algorithms, such as RLOO, GRPO, DAPO and 
 There are many possible variants: soft tokens during training, hard sampling during inferences, trained on GSM8K and evaluated on MATH-500; etc. Laudably, many variations are run and compared—each taking up to four days!
 
 
-### Training–Inference Set-ups
+### Configurations
 
--   *Training*
-    -   *Hard tokens*: categorical sampling of ordinary hard CoT tokens with temp $\tau = 1.0$
-    -   *Soft tokens*: full mixture at temp $\tau = 0.5$, plus Gaussian noise
-    -   *Fuzzy tokens*: like soft tokens, but at temp $\tau = 0.00001$ (almost greedy + noise)
-    -   *Noise scale*: $\sigma = \tfrac13 \mathsf{RMSN}$ where $\mathsf{RMSN} := \mathsf{RMS}(\{\| E_{v, \cdot} \|\}_{v \in V})$ is the RMS of the norms of the token embeddings $E_{v, \cdot} \in \mathbb R^{n_0}$
--   *Inference*
-    -   *Hard Greedy*: discrete tokens, CoT temp $\tau = 0.0$ (greedy)
-    -   *Hard Sample*: discrete tokens, CoT temp $\tau = 1.0$
-    -   *Soft Greedy*: no noise (scale $\sigma = 0$), CoT temp $\tau = 0.5$
-    -   *Soft Sample*: noise scale $\sigma = \tfrac13 \mathsf{RMSN}$, CoT temp $\tau = 0.5$
-    -   *Fuzzy Greedy*: no noise (scale $\sigma = 0$), CoT temp $\tau = 0.00001$ (almost *hard greedy*)
-    -   *Fuzzy Sample*: noise scale $\sigma = \tfrac13 \mathsf{RMSN}$, CoT temp = $0.00001$
+Each configuration was run with 3 independent random seeds; the tablets report the resulting mean and standard deviation.
+
+-   *Training* settings
+
+    1.  *Hard tokens*: categorical sampling of ordinary hard CoT tokens with temp $\tau = 1.0$
+    2.  *Soft tokens*: full mixture at temp $\tau = 0.5$, plus Gaussian noise
+    3.  *Fuzzy tokens*: like soft tokens, but at temp $\tau = 0.00001$ (almost greedy + noise)
+    -   *Noise scale*: $\sigma = \tfrac13 \mathsf{RMSN}$ where $\mathsf{RMSN}$ is the RMS of the norms of the token embeddings $E_{v, \cdot} \in \mathbb R^{n_0}$
+    -   Train for 4k steps for each dataset (which is a lot!)
+
+-   *Inference* settings
+
+    1.  *Hard Greedy*: discrete tokens, CoT temp $\tau = 0.0$ (greedy)
+    2.  *Hard Sample*: discrete tokens, CoT temp $\tau = 1.0$
+    3.  *Soft Greedy*: no noise (scale $\sigma = 0$), CoT temp $\tau = 0.5$
+    4.  *Soft Sample*: noise scale $\sigma = \tfrac13 \mathsf{RMSN}$, CoT temp $\tau = 0.5$
+    5.  *Fuzzy Greedy*: no noise (scale $\sigma = 0$), CoT temp $\tau = 0.00001$ (almost *hard greedy*)
+    6.  *Fuzzy Sample*: noise scale $\sigma = \tfrac13 \mathsf{RMSN}$, CoT temp = $0.00001$
+
+-   *Base models*
+
+    1.  Llama 3.2 3B Instruct
+    2.  Llama 3.1 8B Instruct
+    3.  Qwen 2.5 3B Instruct
+
+-   *Datasets*
+
+    -   Training (maths):
+        1.  GSM8k
+        2.  MATH
+        3.  DeepScaleR
+    -   Evaluation (maths):
+        1.  GSM8K
+        2.  MATH (specifically, subset MATH-500)
+        3.  OlympiadBench (specifically, 675 questions with final answers and not containing images or figures)
+    -   Evaluation (out-of-distribution):
+        1.  HellaSwag
+        2.  MMLU
+        3.  ARC/AI2
 
 
-### Datasets and Base Models
+### Results
 
-...
+So many comparisons are undertaken that it would be too much to report them here—and that's *highly* commendable. Only some of those in the body are repeated here, but the reader is encouraged to view the full paper.
+
+Across datasets and models, the three training schemes are broadly comparable for greedy pass@1. This demonstrates that fuzzy and soft thinking are at least effective. Further, they have a clear overall advantage for pass@32 over hard training.
+
+For all training settings, hard inference generally performs the best, both for pass@1 and pass@32. In particular, previous reported benefits of soft inference on hard (normal) training is not recovered.
+
+![Hard inference - all models](attachments/Soft%20Tokens,%20Hard%20Truths%20-%20Hard%20Inference%20(all%20models).png){ style="display: block; margin: 0 auto" }
+
+The authors point out one particular set-up:
+
+>   Llama-8B-Instruct, trained on GSM8K and evaluated on MATH-500, only achieves good scores when soft/fuzzy CoT training is used; classical hard-token CoT is ineffective.
+
+Base Llama-8B-Instruct (no fine-tuning) has good performance on GSM8K (presumably due to exposure in training), but this does not translate to good performances on MATH. Hard fine-tuning makes things worse (on MATH), but soft/fuzzy improve. This *suggests* that soft/fuzzy training bring more generalisation on Llama-8B-Instruct.
+
+There is typically a gap between *hard greedy* ($\tau = 0.0$) and *hard sample* ($\tau = 1.0$) inference settings for the base models and models trained with soft/fuzzy CoT, whereas the gap with hard CoT training is small. This is highlighted by Figure 3.
+
+![Hard inference - Llama](attachments/Soft%20Tokens,%20Hard%20Truths%20-%20Hard%20Inference%20(Llama).png){ style="display: block; margin: 0 auto" }
+
+
+### Potential Red Flag
+
+Figure 3 does raise a red flag: by the time k reaches 32, the base model (no fine-tuning) is basically indistinguishable on pass@k from the models fine-tuned with soft/fuzzy CoT (hard CoT is worse).
+
+This gives evidences towards the idea that RL fine-tuning focuses the distribution to improve *sampling* (pass@k for small k) but not *capability* (large k). Certainly, at least for some of the plots, it *looks like* the orange line is steepers, even at k = 32.
+
+Certainly, soft/fuzzy CoT training *appear* to have less of a negative impact for large k. However, as much as the authors hint otherwise, on *sample* pass@1, hard CoT systematically beats soft/fuzzy. That said, they are close for *greedy* pass@1. This *suggests* that soft/fuzzy CoT is perhaps somewhere between the two (ie, the base and hard CoT)?
