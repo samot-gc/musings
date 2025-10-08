@@ -1,22 +1,23 @@
 ---
 tags:
-    - grpo
-    - dapo
+    - GRPO
+    - DAPO
     - reasoning
-    - rl
+    - RL
     - training
 method: GRPO
-parent: Magistral
-authors: Minstral-AI
+title: Magistral
+lab: Minstral-AI
 date: 202506
-
 ---
+
 # Magistral Summary
 
 -   [*Magistral*](http://arxiv.org/abs/2506.10910)
 -   2025-06; Magistral-AI
 
 [TOC]
+
 
 ## High-Level Summary
 

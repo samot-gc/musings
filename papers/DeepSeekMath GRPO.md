@@ -1,22 +1,23 @@
 ---
 tags:
-    - grpo
+    - GRPO
     - reasoning
-    - rl
+    - RL
     - training
 method: GRPO
-parent: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
-authors: DeepSeek-AI
-date: 202404
+title: 'DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models'
+lab: DeepSeek-AI
+date: 202402
 
 ---
 # DeepSeekMath Summary
 
 [*DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models*](https://arxiv.org/abs/2402.03300)
 
--   2024-04; DeepSeek-AI
+-   2024-02; DeepSeek-AI
 
 [TOC]
+
 
 ## High-Level Summary
 

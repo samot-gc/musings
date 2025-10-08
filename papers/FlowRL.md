@@ -3,34 +3,11 @@ tags:
     - diversity
     - GFlowNets
     - reasoning
-    - rl
+    - RL
     - training
 method: FlowRL
-parent: 'FlowRL: Matching Reward Distributions for LLM Reasoning'
-authors:
-    - Zhu
-    - Cheng
-    - Zhang
-    - Li
-    - Zhang
-    - Jiang
-    - Sun
-    - Hua
-    - Zuo
-    - Lv
-    - Zhang
-    - Chen
-    - Shao
-    - Xue
-    - Song
-    - Yang
-    - Cui
-    - Ding
-    - Gao
-    - Liu
-    - Zhou
-    - Mei
-    - Lin
+title: 'FlowRL: Matching Reward Distributions for LLM Reasoning'
+lab: mixed
 date: 202509
 ---
 
@@ -90,11 +67,11 @@ where $q$ is a distribution over potential questions. (The expectation over $x$ 
 
 This KL objective is approached via the framework of [GFlowNets](https://jmlr.org/papers/v24/22-0364.html).
 
->   <details>
->   <summary><i>GFlowNets: brief summary.</i></summary>
->    
->   Paraphrasing §2, GFlowNets are a probabilistic framework for training stochastic policies to sample discrete, compositional objects (eg, graphs or sequences) in proportion to a given reward. The core principle is to balance forward and backward probability flows at each state, inspired by flow matching (Bengio et al, [2021](https://arxiv.org/abs/2106.04399)).
->   </details>
+<details style="margin: 2em">
+<summary><i>GFlowNets: brief summary.</i></summary>
+
+Paraphrasing §2, GFlowNets are a probabilistic framework for training stochastic policies to sample discrete, compositional objects (eg, graphs or sequences) in proportion to a given reward. The core principle is to balance forward and backward probability flows at each state, inspired by flow matching (Bengio et al, [2021](https://arxiv.org/abs/2106.04399)).
+</details>
 
 The technical observation (not knew to FlowRL) is that, in terms of expected gradients, minimising the KL objective in $(\star)$ is equivalent to minimising the *trajectory balance* (TB) loss in GFlowNets. It is stated *informally and non-rigorously* in the FlowRL paper.
 
@@ -138,7 +115,7 @@ Formally, this should be interpreted in the following way.
     \]
     In other words, to get an unbiased estimator of $\mathcal L^\mathsf{KL}_\theta(x)$, sample $Y \sim \pi_\theta(\cdot \mid x)$ and compute $\nabla_\theta \mathcal L^\mathsf{TB}_{\theta, \phi}(x, Y)$.
 
-<details>
+<details style="margin: 2em">
 <summary><i>Derivation of formal version of <b>Proposition 1</b>.</i></summary>
 
 Define the KL and trajectory balance (TB) objectives (losses), pointwise wrt questions $x$:
@@ -173,7 +150,9 @@ The law of $Y \sim \pi_\theta(\cdot \mid x)$ depends on the parameters $\theta$.
 \[
     \delta_\theta(x, y)
 :=  \log \pi_\theta(y \mid x) + \log Z(x) - \beta r(x, y),
-\quad\textsf{which has}\quad
+\]
+which has
+\[
     \nabla_\theta
     \delta_\theta(x, y)
 =   \nabla_\theta \log \pi_\theta(y \mid x).
@@ -279,7 +258,7 @@ But, $\mathbb E_{Y \sim \pi_\theta(\cdot \mid x)}[\nabla_\theta \log \pi_\theta(
 
 That doesn't mean that $Z_\phi(x)$ should be ignored. Rather, it plays the same role as the *baseline* in standard RL training. The true partition function minimises the variance.
 
-<details>
+<details style="margin: 2em">
 <summary><i>Learning Z<sub>φ</sub>: gradients and regression.</i></summary>
 
 Looking back at the per-$x$ KL objective, define
@@ -403,7 +382,7 @@ Substituting all this into **Proposition 1** provides the following objective:
 
 ## Results
 
-FlowRL is compared with fairly 'vanilla' RL algorithms: REINFORCE++ ([2025/01](http://arxiv.org/abs/2501.03262)), PPO ([2017/07](https://arxiv.org/abs/1707.06347)) and GRPO ([2024/12](https://arxiv.org/abs/2402.03300)). There are modern variants, or tweaks, of GRPO which explicitly address diversity, such as DAPO ([2025/03](http://arxiv.org/abs/2503.14476)) or ProRL ([2025/05](http://arxiv.org/abs/2505.24864)). Others, such as GSPO ([2025/07](http://arxiv.org/abs/2507.18071)) and GMPO ([2025/07](http://arxiv.org/abs/2507.20673)), address stability. It is highly disappointing that no comparison with these is done—especially as multiple are mentioned in the paper. At least relatively large models are used: 7B and 32B.
+FlowRL is compared with fairly 'vanilla' RL algorithms: REINFORCE++ ([2025/01](http://arxiv.org/abs/2501.03262)), PPO ([2017/07](https://arxiv.org/abs/1707.06347)) and GRPO ([2024/02](https://arxiv.org/abs/2402.03300)). There are modern variants, or tweaks, of GRPO which explicitly address diversity, such as DAPO ([2025/03](http://arxiv.org/abs/2503.14476)) or ProRL ([2025/05](http://arxiv.org/abs/2505.24864)). Others, such as GSPO ([2025/07](http://arxiv.org/abs/2507.18071)) and GMPO ([2025/07](http://arxiv.org/abs/2507.20673)), address stability. It is highly disappointing that no comparison with these is done—especially as multiple are mentioned in the paper. At least relatively large models are used: 7B and 32B.
 
 Nevertheless, the reported results are included below, for completeness.
 

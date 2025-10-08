@@ -1,23 +1,17 @@
 ---
 tags:
-    - 'continuous thoughts'
+    - continuous thoughts
     - inference
+    - latent reasoning
     - reasoning
-    - superposition
-method: 'soft thinking'
-parent: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
-authors:
-    - Zhang
-    - He
-    - Yan
-    - Shen
-    - Zhao
-    - Wang
-    - Shen
-    - Wang
+method: soft thinking
+title: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
+lab:
+    - Unis of California
+    - others
 date: 202505
-
 ---
+
 # Soft Thinking Summary
 
 [*Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space*](https://arxiv.org/abs/2505.15778)

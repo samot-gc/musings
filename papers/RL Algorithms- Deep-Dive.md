@@ -1,24 +1,25 @@
 ---
 tags:
-    - dapo
-    - grpo
-    - ppo
-    - trpo
-    - rl
+    - DAPO
+    - GRPO
+    - PPO
+    - TRPO
+    - RL
     - training
     - own
 method: RL
-parent: 'RL Algorithms: Deep-Dive'
-authors: Olesker-Taylor
-date: 202506
-
+title: 'RL Algorithms: Overview for LLMs'
+lab: OT
+date: 202507
 ---
+
 # RL Algorithms: Deep-Dive
 
 -   *RL Algorithms: Deep-Dive*
 -   2025-06; Olesker-Taylor
 
 [TOC]
+
 
 ## High-Level Objective
 

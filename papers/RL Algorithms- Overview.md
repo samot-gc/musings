@@ -1,18 +1,18 @@
 ---
 tags:
-    - dapo
-    - grpo
-    - ppo
-    - trpo
-    - rl
+    - DAPO
+    - GRPO
+    - PPO
+    - TRPO
+    - RL
     - training
     - own
 method: RL
-parent: 'RL Algorithms: Overview for LLMs'
-authors: Olesker-Taylor
-date: 202506
-
+title: 'RL Algorithms: Overview for LLMs'
+lab: OT
+date: 202507
 ---
+
 # RL Algorithms: Overview for LLMs
 
 -   *RL Algorithms: Overview for LLMs*

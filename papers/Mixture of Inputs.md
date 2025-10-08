@@ -1,20 +1,17 @@
 ---
 tags:
-    - 'continuous thoughts'
+    - continuous thoughts
     - inference
+    - latent reasoning
     - reasoning
-    - superposition
-method: 'mixture of inputs'
-parent: 'Text Generation Beyond Discrete Token Sampling'
-authors:
-    - Zhuang
-    - Liu
-    - Singh
-    - Shang
-    - Gao
+method: mixture of inputs
+title: 'Text Generation Beyond Discrete Token Sampling'
+lab:
+    - UC San Diego
+    - Microsoft Research
 date: 202505
-
 ---
+
 # Mixture of Inputs Summary
 
 [*Text Generation Beyond Discrete Token Sampling*](https://arxiv.org/abs/2505.14827)
@@ -22,6 +19,7 @@ date: 202505
 -   2025-05; Zhuang, Liu, Singh, Shang, Gao
 
 [TOC]
+
 
 ## High-Level Ideas
 

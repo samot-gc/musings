@@ -1,22 +1,17 @@
 ---
 tags:
-    - 'continuous thoughts'
+    - continuous thoughts
+    - GRPO
     - inference
+    - latent reasoning
     - reasoning
-    - superposition
-    - grpo
-    - rl
+    - RL
 method: CoT2
-parent: 'Continous Chain of Thought Enables Parellel Exploration and Reasoning'
-authors:
-    - Gozeten
-    - Ildiz
-    - Zhang
-    - Harutyunyan
-    - Rawat
-    - Oymak
+title: 'Continous Chain of Thought Enables Parellel Exploration and Reasoning'
+lab:
+    - Uni of Michigan
+    - Google Research
 date: 202505
-
 ---
 
 # CoT2 Summary
@@ -26,6 +21,7 @@ date: 202505
 -   2025-05; Gozeten, Ildiz, Zhang, Harutyunyan, Rawat, Oymak
 
 [TOC]
+
 
 ## High-Level Ideas
 

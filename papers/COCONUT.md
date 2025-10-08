@@ -1,22 +1,16 @@
 ---
 tags:
-    - 'continuous thoughts'
+    - continuous thoughts
     - inference
+    - latent reasoning
     - reasoning
-    - superposition
+    - training
 method: COCONUT
-parent: 'Training Large Language Models to Reason in a Continuous Latent Space'
-authors:
-    - Hao
-    - Sukhbaatar
-    - Su
-    - Li
-    - Hu
-    - Weston
-    - Tian
+title: 'Training Large Language Models to Reason in a Continuous Latent Space'
+lab: Meta
 date: 202412
-
 ---
+
 # COCONUT Summary
 
 [*Training Large Language Models to Reason in a Continuous Latent Space*](https://arxiv.org/abs/2412.06769)
@@ -24,6 +18,7 @@ date: 202412
 -   2024-12; Hao, Sukhbaatar, Su, Li, Hu, Weston, Tian
 
 [TOC]
+
 
 ## High-Level Ideas
 

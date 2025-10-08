@@ -2,20 +2,13 @@
 tags:
     - inference
     - reasoning
-    - rl
-    - superposition
+    - RL
 method: COCONUT
-parent: 'Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought'
-authors:
-    - Zhu
-    - Hao
-    - Hu
-    - Jiao
-    - Russell
-    - Tian
+title: 'Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought'
+lab: Unis of California
 date: 202505
-
 ---
+
 # Reasoning by Superposition Summary
 
 [*Reasoning by Superposition: A Theoretical Perspective on Chain of Continuous Thought*](https://arxiv.org/abs/2505.12514)
@@ -23,6 +16,7 @@ date: 202505
 -   2025-05; Zhu, Hao, Hu, Jiao, Russell, Tian
 
 [TOC]
+
 
 ## High-Level Summary
 

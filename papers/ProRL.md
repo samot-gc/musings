@@ -1,12 +1,12 @@
 ---
 tags:
-    - grpo
+    - GRPO
     - reasoning
-    - rl
+    - RL
     - training
-method: grpo
-parent: 'ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models'
-authors: NVIDIA
+method: GRPO
+title: 'ProRL: Prolonged Reinforcement Learning Expands Reasoning Boundaries in Large Language Models'
+lab: NVIDIA
 date: 202505
 ---
 

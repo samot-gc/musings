@@ -61,16 +61,16 @@
     }
     /* Widths as requested */
     th.title-col {
-        width: 50%;
+        width: 40%;
     }
     th.date-col {
         width: 10%;
     }
-    th.authors-col {
+    th.lab-col {
         width: 20%;
     }
     th.tags-col {
-        width: 20%;
+        width: 30%;
     }
     td {
         padding: 0.5rem;
@@ -135,7 +135,7 @@
                 Date
                 <span class="sort-button desc" data-sort="date" role="button" aria-pressed="true" tabindex="0" title="Sort by Date"></span>
             </th>
-            <th class="authors-col">Authors</th>
+            <th class="lab-col">Lab</th>
             <th class="tags-col">Tags</th>
         </tr>
     </thead>
@@ -145,7 +145,7 @@
             <td><a href="papers/{{ paper.filename_url }}.html">{{ paper.title }}</a></td>
             <td>{{ paper.method if paper.method else "n/a" }}</td>
 			<td>{{ paper.date }}</td>
-            <td>{{ paper.authors }}</td>
+            <td>{{ paper.lab if paper.lab else "mixed" }}</td>
             <td>
                 {% for tag in paper.tags %}
                 <span>{{ tag }}</span>{% if not loop.last %}, {% endif %}

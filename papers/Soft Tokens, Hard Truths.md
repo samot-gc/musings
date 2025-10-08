@@ -2,14 +2,13 @@
 tags:
     - continuous thoughts
     - inference
-    - latent
+    - latent reasoning
     - reasoning
-    - rl
+    - RL
     - training
 method: soft tokens
-parent: 'Soft Tokens, Hard Truths'
-authors:
-    - Meta FAIR
+title: 'Soft Tokens, Hard Truths'
+lab: Meta
 date: 202509
 ---
 

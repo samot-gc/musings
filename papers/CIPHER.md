@@ -1,24 +1,15 @@
 ---
 tags:
-    - 'continuous thoughts'
+    - continuous thoughts
     - inference
+    - latent reasoning
     - reasoning
-    - superposition
 method: CIPHER
-parent: 'Let Models Speak Ciphers: Multiagent Debate through Embeddings'
-authors:
-    - Pham
-    - Liu
-    - Yang
-    - Chen
-    - Liu
-    - Yuan
-    - Plummer
-    - Wang
-    - Yang
+title: 'Let Models Speak Ciphers: Multiagent Debate through Embeddings'
+lab: ByteDance
 date: 202310
-
 ---
+
 # CIPHER Summary
 
 [*Let Models Speak Ciphers: Multiagent Debate through Embeddings*](http://arxiv.org/abs/2310.06272)
@@ -26,6 +17,7 @@ date: 202310
 -   2023-10; Pham, Liu, Yang, Chen, Liu, Yuan, Plummer, Wang, Yang
 
 [TOC]
+
 
 ## High-Level Ideas
 

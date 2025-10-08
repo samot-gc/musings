@@ -34,23 +34,18 @@ def build_paperlist():
         if not meta:
             continue
 
-        # Prepare authors string
-        authors = meta.get("authors", "N/A")
-        if isinstance(authors, list):
-            authors = ", ".join(authors)
-
-        # Prepare tags list
-        tags = meta.get("tags", [])
-        if tags is None:
-            tags = []
+        # Flatten lab if list
+        lab = meta.get("lab")
+        if isinstance(lab, list):
+            meta["lab"] = ", ".join(lab)
         
         filename_raw = os.path.splitext(filename)[0]
         paper_info = {
-            "title": meta.get("parent", filename_raw),
-            "authors": authors,
+            "title": meta.get("title", filename_raw),
+            "lab": meta.get("lab", "mixed"),
             "date": meta.get("date"),  # keep None if missing for sorting
             "method": meta.get("method", "n/a"),
-            "tags": tags,
+            "tags": meta.get("tags", []),
             "filename_raw": filename_raw,  # raw .md filename
             "filename_url": urllib.parse.quote(filename_raw),
         }
