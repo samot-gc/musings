@@ -363,3 +363,48 @@ for x_input, y_true in train_dataloader:
 ## Results
 
 Despite the impressive results, with such a small model, the results section is actually somewhat sparse.
+
+### Benchmarks
+
+Three different types of tasks are considered: ARC-AGI, Sudoku and (finding the optimal path in) Mazes. For all benchmarks, HRM models were randomly initialised and trained in the sequence-to-sequence set-up, using the input--output pairs:
+
+-   the input and output grids given in ARC-AGI;
+-   the initial and completed Sudokus;
+-   the initial maze and the one augmented with the optimal path.
+
+The resulting performance is shown in the previous figure, repeated here. These results are attained with just ~1000 training examples per task, and *without pre-training or CoT labels*. Various augmentations are implemented for ARC-AGI and Sudoku, but not for the mazes.
+
+![HRM results](attachments/HRM%20-%20Headline%20Results.png){ style="display: block; margin: 0 auto" }
+
+The baselines are grouped based on whether they are pre-trained and use CoT (o3-mini-high, Claude 3.7 8K and Deepseek R1) or neither. The "direct pred[iction]" baseline retrains the exact training set-up of HRM, but swaps in a Transformer architecture—eight layers, identical in size to HRM.
+
+-   *ARC-AGI.*
+    HRM outperforms all the LLMs. On ARC-AGI-1, even "direct pred[iction]" outperforms Deepseek R1 and matches the performance of a domain-specific network, carefully designed for learning the ARC-AGI task from scratch, without pre-training.
+
+-   *Sudoku and Maze*.
+    HRM *significantly* outperforms the baselines here. The benchmarks require lengthy reasoning traces, without much complexity—each step is simple, but there are many of them—making them particularly ill-suited to LLMs.
+
+
+### Visualisation
+
+HRM performs well on complex reasoning tasks, raising a question:
+
+>   "What underlying reasoning algorithm does the HRM neural network *actually implement*?"
+
+The intermediate stages are visualised. At each timestep $i$, a preliminary forward pass through the H module is performed, then fed through the decoder:
+\[
+    \tilde z^i
+:= f_H(z_H^i, z_L^i; \theta_H),
+\quad
+    \tilde y^i
+:=  f_O(\tilde z^i; \theta_O).
+\]
+The (intermediate) prediction $\tilde y^i$ is visualised in the figure below; its caption explains what is going on.
+
+![Intermediate visualisation](attachments/HRM%20-%20Intermediate%20Visualisation.png){ style="display: block; margin: 0 auto" }
+
+-   In the Maze task, HRM appears to explore several poential paths simultaneously, subsequently eliminating blocked/inefficient ones.
+-   In Sudoku, the strategy resembles a depth-first search, exploring potential solutions and backtracking when it hits dead ends.
+-   It approaches ARC differently, making incremental adjustments to the grid, iteratively improving until the solution, rather than trying and backtracking. That said, it only solved 5% of ARC-AGI-2, so possibly this is a bad choice.
+
+Inspecting *every* timestep (manually updating $z_H$) feels questionable. The low-level module should be thought of as 'latent reasoning', whilst the high-level one is the current guess (not yet decoded). It could make more sense to only look at the evolution of $f_O(z_H^{kT}; \theta_O)$.
