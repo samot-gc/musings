@@ -55,6 +55,18 @@
           <a href="#finding-1-minimal-impact-from-hierarchical-architecture" class="md-toc-link">
             <p>Finding #1: Minimal Impact from "Hierarchical" Architecture</p>
 
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#finding-2-outer-loop-refinement-drives-gains" class="md-toc-link">
+            <p>Finding #2: "Outer Loop" Refinement Drives Gains</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#finding-3-limited-impact-of-transfer-learning" class="md-toc-link">
+            <p>Finding #3: Limited Impact of Transfer Learning</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#finding-4-pretraining-task-augmentation-is-critical" class="md-toc-link">
+            <p>Finding #4: Pretraining Task Augmentation Is Critical</p>
+
           </a></div>
         </div>
       </details>
@@ -127,6 +139,31 @@ the use of data augmentation.</p>
 <li>Replace the HRM with a similarly sized transformer.</li>
 </ol>
 <p><img src="attachments/HRM%20-%20ARC%20-%20HRM%20vs%20Transformer.png" alt="HRM vs Transformer by Refinement Loops" style="display: block; margin: 0 auto"></p>
+<p>On ARC-AGI-1, a regular transformer comes within ~5pp of the HRM model, without hyperparameter optimisation. Varying the number of H- and L-level steps vs the baseline (L=2 and H=2) only decreased the performance.</p>
+<p>These suggest that, whilst the HRM architecture provides a small benefit, it is not the main driver of HRM's performance on ARC-AGI.</p>
+<h3 id="finding-2-outer-loop-refinement-drives-gains">Finding #2: "Outer Loop" Refinement Drives Gains </h3>
+<p>The model feeds its high-level output back into itself, allowing iterative refinements. It uses "adaptive computational time" (ACT) to control the number of iterations. To analyse this, the maximum number of outer loops during <em>training</em> (forcing maximum number during inference, as in the HRM implementation) was varied. Below, the mark "ACT N Loops" means a <em>maximum</em> of N loops, with ACT early stopping.</p>
+<p><img src="attachments/HRM%20-%20ARC%20-%20Performance%20by%20Max%20Loops.png" alt="Performance by Max Loops" style="display: block; margin: 0 auto"></p>
+<p>Clearly, this parameter has a large impact, doubling ~20% to ~40%. Interestingly, using ACT with <em>maximum</em> of 16 vs fixed 16 is a slight improvement.</p>
+<p>To understand refinement during training vs inference, the number of loops was varied during inference too.</p>
+<p><img src="attachments/HRM%20-%20ARC%20-%20Performance%20by%20ACT%20Type.png" alt="Performance by ACT Type" style="display: block; margin: 0 auto"></p>
+<p>Training with more refinement makes a big difference (doubles, &gt;15pp) when no inference refinement is allowed. More than 4 refinement loops <em>for inference</em> has little impact.</p>
+<h3 id="finding-3-limited-impact-of-transfer-learning">Finding #3: Limited Impact of Transfer Learning </h3>
+<p>The original HRM is trained on augmented version of the <em>demonstration</em> (<em>example</em>) <em>pairs</em>, from both the <em>training</em> and <em>evaluation</em> sets; <a href="https://arxiv.org/abs/2305.07141">ConceptARC</a> is also used.</p>
+<blockquote>
+<p>NB. This does not imply data leakage: the model never sees, at training time, the <em>test</em> (<em>problem</em>) pairs. Fundamentally, this is a <em>zero-pretraining test-time training</em> approach. To emphasise, it uses the example pairs, as well as augmented versions, from the entire evaluation set to train.</p>
+<p>This certainly raises questions about its generalisability: it relies heavily on data augmentation, including for other tasks such as Sudoku.</p>
+</blockquote>
+<p>This is similar to <a href="https://arxiv.org/pdf/2411.02272"><em>ARC-AGI without Pretraining</em></a> (Liao &amp; Gu, '24), and amounts to using the model as a kind of program synthesis substrate: gradient descent on example pairs encodes in the weights a program that performs the task.</p>
+<p>To understand <em>cross-task</em> transfer learning, the 400 <em>training</em> tasks and 160 ConceptARC tasks were removed. This dropped performance from 41% to 31%. The ARC Prize team suggests the performance is driven by test-time training. I'm not so sure.</p>
+<ul>
+<li>As they note, there is <em>some</em> cross-task learning between the 400 tasks in the eval set—which comprise &gt;40% of all the data.</li>
+<li>Perhaps cross-task learning is important, but 400 samples is enough to get good performance (31%). The remainder bump this up non-trivially (to 41%).</li>
+</ul>
+<p>The ARC Prize team suggest a stronger version: train on <em>just one</em> evaluation task (with augmentations). This is <a href="https://arxiv.org/pdf/2411.02272">Liao &amp; Gu's set-up</a>. They <em>speculate</em> the results would be similar (21% pass@2).</p>
+<p>Another interesting test would be to train <em>solely</em> on the training set, and evaluate on the eval set. Augmentations can still be used: create n augmented versions → make predictions → undo augmentation → majority selection. The weights wouldn't be updated during these augmentations, though.</p>
+<h3 id="finding-4-pretraining-task-augmentation-is-critical">Finding #4: Pretraining Task Augmentation Is Critical </h3>
+<p>...</p>
 
       </div>
       

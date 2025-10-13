@@ -26,9 +26,6 @@ date: 202508
 -   The *Hierarchical Reasoning Model* (HRM) is a small (~27M), 'hierarchical' model
 -   A recurrent architecture modelled on hierarchical and multi-timescale processing in human brains
 -   Attains significant computational depth whilst maintaining both training stability and efficiency
--   
-
-
 
 
 ## Summary
@@ -126,4 +123,29 @@ Another interesting test would be to train *solely* on the training set, and eva
 
 ### Finding #4: Pretraining Task Augmentation Is Critical
 
-...
+HRM makes predictions for all augmented versions of a task, then reverts the augmentation to place in the original format. Majority voting selects the final candidate(s). Two modifications are tested.
+
+1.  Changing the maximum number of augmentations when compiling the dataset.
+2.  Changing the maximum number of predictions used for majority voting.
+
+The latter is restricted to *reducing* the number, since HRM can't process augmentation types not encountered during training.
+
+![Performance by Number of Augmentations](attachments/HRM%20-%20ARC%20-%20Performance%20by%20Num%20Augmentations.png){ style="display: block; margin: 0 auto" }
+
+Two trends are exhibited.
+
+1.  Augmentations help significantly. But, 300 is plenty, vs the 1000 used by HRM; in fact, 30 gets within 4pp of the max.
+2.  Augmentation during training appears to be more important than for a bigger voting pool: "the lines at the top flatten out quickly" (and the horizontal axis is on a log scale).
+
+
+## Other Technical Observations
+
+First and foremost, the dataset: HRM "flattens" all input–output pairs. Each pair gets an id, which consists of the task hash and a code for the augmentation applied.
+
+At training and inference time, the model *only* receives the input and id—there is no few-shot context with other examples of the task. The model has to learn to relate an id to a specific transformation.
+
+To that end, the model feeds the id into a large embedding layer; without this, it wouldn't know what to do with an input. This presents a major limitation: the model can *only* be applied on puzzles with ids it's seen in training.
+
+In conversation with the ARC Prize team, the HRM authors claimed that changing the embeddings for few-shot contexts is complex engineeringwise. As such, inference data *has* to be part of the training dataset.
+
+Last, whilst the refinement loop clearly has significant impact on performance, HRM is purely *transductive*: at no point is the underlying program explicit. The ARC Prize team hypothesise this won't generalise.
