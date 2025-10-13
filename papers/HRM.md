@@ -385,6 +385,19 @@ The baselines are grouped based on whether they are pre-trained and use CoT (o3-
     HRM *significantly* outperforms the baselines here. The benchmarks require lengthy reasoning traces, without much complexity—each step is simple, but there are many of them—making them particularly ill-suited to LLMs.
 
 
+### Data Usage and Augmentation
+
+Data augmentation is relied heavily on for ARC-AGI and Sudoku; it is not used for mazes.
+
+For ARC-AGI, the training dataset starts with all *demonstration*/*example* and *test*/*problem* input–output pairs from the training set and all *demonstration*/*example* pairs from the evaluation set. The *test*/*problem* pairs from the evaluation set are saved for test time. The dataset is augmented (eg, colour permutations, rotations, etc). Each pair is prepended with a learnable special token representing its task id.
+
+At test time, for each *test*/*problem* pair in the evaluation set, 1000 augmented variants are generated and solved; the inverse augmentation is applied to obtain a prediction. The two most popular predictions are chosen as the final outputs.
+
+To emphasise, the training set is a *flattened* collection of simple input—output pairs, augmented with the task id. They *are not* batched by task id. There is no, "Here are X example input–output pairs of grids. The problem is to find the (hidden) output grid corresponding to [this] input grid."
+
+For Sudoku, band and digit permutations are applied. There is no concept of a task to which multiple datapoints belong.
+
+
 ### Visualisation
 
 HRM performs well on complex reasoning tasks, raising a question:

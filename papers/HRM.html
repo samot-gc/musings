@@ -81,6 +81,10 @@
             <p>Benchmarks</p>
 
           </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#data-usage-and-augmentation" class="md-toc-link">
+            <p>Data Usage and Augmentation</p>
+
+          </a></div><div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
           <a href="#visualisation" class="md-toc-link">
             <p>Visualisation</p>
 
@@ -398,6 +402,12 @@ HRM outperforms all the LLMs. On ARC-AGI-1, even "direct pred[iction]" outperfor
 HRM <em>significantly</em> outperforms the baselines here. The benchmarks require lengthy reasoning traces, without much complexity—each step is simple, but there are many of them—making them particularly ill-suited to LLMs.</p>
 </li>
 </ul>
+<h3 id="data-usage-and-augmentation">Data Usage and Augmentation </h3>
+<p>Data augmentation is relied heavily on for ARC-AGI and Sudoku; it is not used for mazes.</p>
+<p>For ARC-AGI, the training dataset starts with all <em>demonstration</em>/<em>example</em> and <em>test</em>/<em>problem</em> input–output pairs from the training set and all <em>demonstration</em>/<em>example</em> pairs from the evaluation set. The <em>test</em>/<em>problem</em> pairs from the evaluation set are saved for test time. The dataset is augmented (eg, colour permutations, rotations, etc). Each pair is prepended with a learnable special token representing its task id.</p>
+<p>At test time, for each <em>test</em>/<em>problem</em> pair in the evaluation set, 1000 augmented variants are generated and solved; the inverse augmentation is applied to obtain a prediction. The two most popular predictions are chosen as the final outputs.</p>
+<p>To emphasise, the training set is a <em>flattened</em> collection of simple input—output pairs, augmented with the task id. They <em>are not</em> batched by task id. There is no, "Here are X example input–output pairs of grids. The problem is to find the (hidden) output grid corresponding to [this] input grid."</p>
+<p>For Sudoku, band and digit permutations are applied. There is no concept of a task to which multiple datapoints belong.</p>
 <h3 id="visualisation">Visualisation </h3>
 <p>HRM performs well on complex reasoning tasks, raising a question:</p>
 <blockquote>
