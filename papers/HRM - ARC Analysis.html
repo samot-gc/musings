@@ -70,7 +70,11 @@
           </a></div>
         </div>
       </details>
-    
+    <div class="md-toc-link-wrapper" style="padding:0;;display:list-item;list-style:square;margin-left:42px">
+          <a href="#other-technical-observations" class="md-toc-link">
+            <p>Other Technical Observations</p>
+
+          </a></div>
         </div>
       </details>
     
@@ -80,7 +84,6 @@
 <li>The <em>Hierarchical Reasoning Model</em> (HRM) is a small (~27M), 'hierarchical' model</li>
 <li>A recurrent architecture modelled on hierarchical and multi-timescale processing in human brains</li>
 <li>Attains significant computational depth whilst maintaining both training stability and efficiency</li>
-<li></li>
 </ul>
 <h2 id="summary">Summary </h2>
 <p>The official ARC team have analysed HRM:</p>
@@ -163,7 +166,24 @@ the use of data augmentation.</p>
 <p>The ARC Prize team suggest a stronger version: train on <em>just one</em> evaluation task (with augmentations). This is <a href="https://arxiv.org/pdf/2411.02272">Liao &amp; Gu's set-up</a>. They <em>speculate</em> the results would be similar (21% pass@2).</p>
 <p>Another interesting test would be to train <em>solely</em> on the training set, and evaluate on the eval set. Augmentations can still be used: create n augmented versions → make predictions → undo augmentation → majority selection. The weights wouldn't be updated during these augmentations, though.</p>
 <h3 id="finding-4-pretraining-task-augmentation-is-critical">Finding #4: Pretraining Task Augmentation Is Critical </h3>
-<p>...</p>
+<p>HRM makes predictions for all augmented versions of a task, then reverts the augmentation to place in the original format. Majority voting selects the final candidate(s). Two modifications are tested.</p>
+<ol>
+<li>Changing the maximum number of augmentations when compiling the dataset.</li>
+<li>Changing the maximum number of predictions used for majority voting.</li>
+</ol>
+<p>The latter is restricted to <em>reducing</em> the number, since HRM can't process augmentation types not encountered during training.</p>
+<p><img src="attachments/HRM%20-%20ARC%20-%20Performance%20by%20Num%20Augmentations.png" alt="Performance by Number of Augmentations" style="display: block; margin: 0 auto"></p>
+<p>Two trends are exhibited.</p>
+<ol>
+<li>Augmentations help significantly. But, 300 is plenty, vs the 1000 used by HRM; in fact, 30 gets within 4pp of the max.</li>
+<li>Augmentation during training appears to be more important than for a bigger voting pool: "the lines at the top flatten out quickly" (and the horizontal axis is on a log scale).</li>
+</ol>
+<h2 id="other-technical-observations">Other Technical Observations </h2>
+<p>First and foremost, the dataset: HRM "flattens" all input–output pairs. Each pair gets an id, which consists of the task hash and a code for the augmentation applied.</p>
+<p>At training and inference time, the model <em>only</em> receives the input and id—there is no few-shot context with other examples of the task. The model has to learn to relate an id to a specific transformation.</p>
+<p>To that end, the model feeds the id into a large embedding layer; without this, it wouldn't know what to do with an input. This presents a major limitation: the model can <em>only</em> be applied on puzzles with ids it's seen in training.</p>
+<p>In conversation with the ARC Prize team, the HRM authors claimed that changing the embeddings for few-shot contexts is complex engineeringwise. As such, inference data <em>has</em> to be part of the training dataset.</p>
+<p>Last, whilst the refinement loop clearly has significant impact on performance, HRM is purely <em>transductive</em>: at no point is the underlying program explicit. The ARC Prize team hypothesise this won't generalise.</p>
 
       </div>
       
