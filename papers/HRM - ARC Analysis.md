@@ -13,9 +13,9 @@ lab: ARC Prize Team
 date: 202508
 ---
 
-# Hierarchical Reasoning Model Summary
+# ARC Prize Team's HRM Analysis
 
--   [Hierarchical Reasoning Model](https://arcprize.org/blog/hrm-analysis)
+-   [The Hidden Drivers of HRM's Performance on ARC-AGI](https://arcprize.org/blog/hrm-analysis)
 -   2025-06; Chollet, Knoop, Schürholt
 
 [TOC]
