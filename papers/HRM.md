@@ -12,7 +12,7 @@ lab: Sapient
 date: 202506
 ---
 
-# Hierarchical Reasoning Model Summary
+# Hierarchical Reasoning Model
 
 -   [Hierarchical Reasoning Model](https://arxiv.org/abs/2506.21734)
 -   2025-06; Wang, Li, Sun, Chen, Liu, Wu, Lu, Song, Yadkori
@@ -105,7 +105,7 @@ The HRM maps an input vector $x$ to an output prediction vector $\hat y$ as foll
     &\text{if}\quad
         i \not\equiv 0 \text{ mod } T,
     \\
-        f_H(z_H^{i-1}, z_L^{i-1}; \theta_H)
+        f_H(z_H^{i-1}, z_L^i; \theta_H)
     &\text{if}\quad
         i \equiv 0 \text{ mod } T.
     \end{cases}
