@@ -34,7 +34,7 @@ date: 202510
     -   high-/low-level networks use same parameters
     -   2-layer network repeated vs original 4-layer network
     -   stopping criterion is refined slightly
-    -   ...
+    -   a more memory-intensive recursion is used
 
 
 ## HRM Overview
