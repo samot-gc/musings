@@ -27,6 +27,9 @@ date: 202508
 -   A recurrent architecture modelled on hierarchical and multi-timescale processing in human brains
 -   Attains significant computational depth whilst maintaining both training stability and efficiency
 
+This overview assumes familiarity with the architecture used in HRM. This can be found in the HRM [summary](HRM.html), particularly the [*Framework*](HRM.html#framework) section.
+
+
 
 ## Summary
 
