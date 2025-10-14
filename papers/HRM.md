@@ -229,7 +229,7 @@ The training recipe consists of three main aspects. These are outlined below; de
     In other words,
     \[
         z_H^k
-    =   f(z_H^{k-1}; \theta, \tilde x)
+    =   f(z_H^{k-1}, \tilde x; \theta)
     \]
     for some $f$, where $\theta = (\theta_I, \theta_L, \theta_H)$. Its fixed point $z_H^\star = z_H^\star(\theta, \tilde x)$ satisfies
     \[
