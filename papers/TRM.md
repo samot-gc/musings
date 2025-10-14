@@ -6,7 +6,7 @@ tags:
     - RL
     - small model
     - training
-method: HRM
+method: TRM
 title: 'Less is More: Recursive Reasoning with Tiny Networks'
 lab: Samsung
 date: 202510
@@ -14,7 +14,7 @@ date: 202510
 
 # Tiny Recursive Model Summary
 
-![HRM architecture](attachments/TRM%20-%20Overview.png){ align="right", width="50%" style="padding: 20px; padding-top: 0ex; padding-right: 0ex" }
+![TRM architecture](attachments/TRM%20-%20Overview.png){ align="right", width="50%" style="padding: 20px; padding-top: 0ex; padding-right: 0ex" }
 
 -   [Less is More: Recursive Reasoning with Tiny Networks](https://arxiv.org/pdf/2510.04871)
 -   2025-10; Jolicoeur-Martineau
