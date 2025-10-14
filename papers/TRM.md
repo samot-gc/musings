@@ -12,7 +12,7 @@ lab: Samsung
 date: 202510
 ---
 
-# Tiny Recursive Model Summary
+# Tiny Recursive Model
 
 ![TRM architecture](attachments/TRM%20-%20Overview.png){ align="right", width="50%" style="padding: 20px; padding-top: 0ex; padding-right: 0ex" }
 
@@ -36,6 +36,7 @@ date: 202510
     -   stopping criterion is refined slightly
     -   a more memory-intensive recursion is used
 
+This overview assumes familiarity with the architecture used in HRM. This can be found in the HRM [summary](HRM.html), particularly the [*Framework*](HRM.html#framework) section.
 
 ## HRM Overview
 
