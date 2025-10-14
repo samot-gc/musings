@@ -98,14 +98,20 @@ The HRM maps an input vector $x$ to an output prediction vector $\hat y$ as foll
     &:=
         f_L(z_L^{i-1}, z_H^{i-1}, \tilde x; \theta_L);
     \\
-        z_H^{i/T}
+        z_H^i
     &:=
-        f_H(z_H^{i/T-1}, z_L^{i-1}; \theta_H)
-    \quad\text{if}\quad
+    \begin{cases}
+        z_H^{i-1}
+    &\text{if}\quad
+        i \not\equiv 0 \text{ mod } T,
+    \\
+        f_H(z_H^{i-1}, z_L^{i-1}; \theta_H)
+    &\text{if}\quad
         i \equiv 0 \text{ mod } T.
+    \end{cases}
     \end{aligned}
     \]
-    Alternatively, one could 'update' the H state every time, but with $z_H^i = z_H^{i-1}$ if $i \not\equiv 0 \text{ mod } T$; then, $z_H^0, z_H^T, ..., z_H^{NT}$ would be the 'real' updates. The HRM paper mixes the two versions, unfortunately.
+    Alternatively, one could only define the H state every T updates—ie, the 'real' updates, $z_H^0, z_H^T, ..., z_H^{NT}$. The HRM paper mixes the two versions, unfortunately.
 
 3.  After $N$ full cycles, a prediction $\hat y$ is extracted from the hidden state of the H module:
     \[
