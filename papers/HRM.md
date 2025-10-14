@@ -100,7 +100,7 @@ The HRM maps an input vector $x$ to an output prediction vector $\hat y$ as foll
     \\
         z_H^{i/T}
     &:=
-        f_H(z_H^{i-1}, z_L^{i-1}; \theta_H)
+        f_H(z_H^{i-1}, z_L^{i/T-1}; \theta_H)
     \quad\text{if}\quad
         i \equiv 0 \text{ mod } T.
     \end{aligned}
