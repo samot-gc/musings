@@ -3,8 +3,8 @@ tags:
     - hierarchy
     - latent reasoning
     - reasoning
-    - RL
     - small model
+    - supervised
     - training
 method: HRM
 title: 'Hierarchical Reasoning Model'

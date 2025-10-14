@@ -3,8 +3,8 @@ tags:
     - hierarchy
     - latent reasoning
     - reasoning
-    - RL
     - small model
+    - supervised
     - training
 method: TRM
 title: 'Less is More: Recursive Reasoning with Tiny Networks'
