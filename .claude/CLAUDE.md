@@ -182,3 +182,15 @@ When creating auxiliary files (notes, analysis, temp files, etc.), store them in
 - **BeautifulSoup4** for HTML manipulation (ToC generation)
 - **Vanilla HTML/CSS/JavaScript** for the static site (no frameworks)
 - **Markdown** for paper content
+
+## Git Configuration
+
+This repository is configured to use SSH for GitHub operations:
+- Remote URL: `git@github.com:samot-gc/summaries-with-sam.git`
+- GitHub CLI (`gh`) is used for authentication
+- Main branch is `main`
+
+If you need to clone the repository:
+```bash
+git clone git@github.com:samot-gc/summaries-with-sam.git
+```
