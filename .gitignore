@@ -1,0 +1,14 @@
+# Settings, inc AI tools
+.vscode/
+.claude/settings.local.json
+.claude/*.local.*
+
+# Virtual environment
+.venv
+
+# Cache
+__pycache__
+build_utils/__pycache__
+
+# Papers of the Month posts
+potm/

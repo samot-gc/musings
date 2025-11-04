@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Summaries with Sam</title>
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    h1 {
+        text-align: center;
+    }
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+    .search-box input {
+        padding: 0.5rem;
+        width: 200px;
+        font-size: 1rem;
+    }
+    .tag-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    .tag-button {
+        padding: 0.3rem 0.6rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background: #f5f5f5;
+        cursor: pointer;
+        font-size: 0.9rem;
+        user-select: none;
+        white-space: nowrap;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    .tag-button.active {
+        background: #007acc;
+        color: white;
+        border-color: #007acc;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th {
+        text-align: left;
+        border-bottom: 2px solid #ccc;
+        padding: 0.5rem;
+        user-select: none;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+    /* Widths as requested */
+    th.title-col {
+        width: 40%;
+    }
+    th.date-col {
+        width: 10%;
+    }
+    th.lab-col {
+        width: 20%;
+    }
+    th.tags-col {
+        width: 30%;
+    }
+    td {
+        padding: 0.5rem;
+        vertical-align: top;
+        overflow-wrap: break-word;
+    }
+    a {
+        color: #007acc;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    .sort-button {
+        font-size: 0.9rem;
+        margin-left: 0.3rem;
+        cursor: pointer;
+        color: #666;
+        user-select: none;
+        vertical-align: middle;
+        display: inline-block;
+        width: 1.2em;
+        text-align: center;
+    }
+    .sort-button:hover {
+        color: #000;
+    }
+    .sort-button.asc::after {
+        content: "▲";
+        font-size: 0.7rem;
+        margin-left: 0.2em;
+    }
+    .sort-button.desc::after {
+        content: "▼";
+        font-size: 0.7rem;
+        margin-left: 0.2em;
+    }
+</style>
+<link rel="icon" type="image/png" href="favicon.png">
+</head>
+<body>
+<h1>Summaries with Sam</h1>
+
+<div class="controls">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search paper titles..." aria-label="Search papers titles" />
+    </div>
+</div>
+
+<div class="tag-buttons" role="list">
+    {% for tag in all_tags %}
+    <button class="tag-button" data-tag="{{ tag }}" type="button">{{ tag }}</button>
+    {% endfor %}
+</div>
+
+<table id="papersTable" aria-label="List of papers">
+    <thead>
+        <tr>
+            <th class="title-col">Title</th>
+			<th class="method">Method</th>
+            <th class="date-col">
+                Date
+                <span class="sort-button desc" data-sort="date" role="button" aria-pressed="true" tabindex="0" title="Sort by Date"></span>
+            </th>
+            <th class="lab-col">Lab</th>
+            <th class="tags-col">Tags</th>
+        </tr>
+    </thead>
+    <tbody id="papersTbody">
+        {% for paper in papers %}
+        <tr data-title="{{ paper.title | lower }}" data-date="{{ paper.date | int(default=0) }}" data-tags="{{ paper.tags | join(',') }}">
+            <td><a href="papers/{{ paper.filename_url }}.html">{{ paper.title }}</a></td>
+            <td>{{ paper.method if paper.method else "n/a" }}</td>
+			<td>{{ paper.date }}</td>
+            <td>{{ paper.lab if paper.lab else "mixed" }}</td>
+            <td>
+                {% for tag in paper.tags %}
+                <span>{{ tag }}</span>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const tagButtons = document.querySelectorAll(".tag-button");
+    const tbody = document.getElementById("papersTbody");
+    const sortButton = document.querySelector(".sort-button[data-sort='date']");
+
+    let activeTag = null;
+    let sortOrder = "desc";  // default sort: date descending
+
+    function updateSortButtonUI() {
+        if (sortOrder === "asc") {
+            sortButton.classList.add("asc");
+            sortButton.classList.remove("desc");
+            sortButton.setAttribute("aria-pressed", "true");
+        } else {
+            sortButton.classList.add("desc");
+            sortButton.classList.remove("asc");
+            sortButton.setAttribute("aria-pressed", "true");
+        }
+    }
+
+    function filterAndSortRows() {
+        const query = searchInput.value.toLowerCase();
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+
+        rows.forEach(row => {
+            const title = row.dataset.title;
+            const tags = row.dataset.tags.split(",");
+            const matchQuery = title.includes(query);
+            const matchTag = !activeTag || tags.includes(activeTag);
+            row.style.display = (matchQuery && matchTag) ? "" : "none";
+        });
+
+        const visibleRows = rows.filter(row => row.style.display !== "none");
+
+        visibleRows.sort((a, b) => {
+            let aVal = parseInt(a.dataset.date) || 0;
+            let bVal = parseInt(b.dataset.date) || 0;
+
+            if (aVal === bVal) return 0;
+
+            if (sortOrder === "asc") {
+                return aVal > bVal ? 1 : -1;
+            } else {
+                return aVal < bVal ? 1 : -1;
+            }
+        });
+
+        visibleRows.forEach(row => tbody.appendChild(row));
+        updateSortButtonUI();
+    }
+
+    searchInput.addEventListener("input", filterAndSortRows);
+
+    tagButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            if (activeTag === button.dataset.tag) {
+                activeTag = null;
+                button.classList.remove("active");
+            } else {
+                activeTag = button.dataset.tag;
+                tagButtons.forEach(btn => btn.classList.toggle("active", btn === button));
+            }
+            filterAndSortRows();
+        });
+    });
+
+    sortButton.addEventListener("click", () => {
+        sortOrder = sortOrder === "asc" ? "desc" : "asc";
+        filterAndSortRows();
+    });
+    sortButton.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            sortButton.click();
+        }
+    });
+
+    filterAndSortRows();
+</script>
+
+<footer style="font-size: 0.8em; text-align: left; margin-top: 2em; color: #666;">
+<p>
+  <a href="https://www.flaticon.com/free-icons/ml-model" title="ml model icons">
+	ML model icons created by Freepik - Flaticon
+  </a>
+</p>
+</footer>
+
+</body>
+</html>
