@@ -10,5 +10,5 @@
 __pycache__
 build_utils/__pycache__
 
-# Papers of the Month posts
-potm/
+# PotM template
+potm/paper_summary_template.md
