@@ -4,6 +4,7 @@ tags:
     - inference
     - latent reasoning
     - reasoning
+    - training-free
 method: soft thinking
 title: 'Soft Thinking: Unlocking the Reasoning Potential of LLMs in Continuous Concept Space'
 lab:
