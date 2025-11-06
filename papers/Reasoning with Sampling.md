@@ -4,9 +4,9 @@ tags:
     - reasoning
     - RL
     - training-free
-method: Harvard
+method: MCMC
 title: 'Reasoning with Sampling: Your Base Model is Smarter Than You Think'
-lab: Meta
+lab: Harvard
 date: 202510
 ---
 
