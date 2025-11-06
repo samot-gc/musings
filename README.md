@@ -5,6 +5,7 @@ A searchable, filterable, and sortable version of this index is available on the
 | Title | Date | Lab | Tags |
 |-------|------|-----|------|
 | [Less is More: Recursive Reasoning with Tiny Networks](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/TRM.md) | 202510 | Samsung | hierarchy, latent reasoning, linear reasoning, reasoning, small model, supervised, training |
+| [Reasoning with Sampling: Your Base Model is Smarter Than You Think](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Reasoning%20with%20Sampling.md) | 202510 | Meta | inference, reasoning, RL, training-free |
 | [Rethinking Thinking Tokens: LLMs as Improvement Operators](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Rethinking%20Thinking.md) | 202510 | Meta | bounded context, inference, linear reasoning, reasoning, RL, training |
 | [FlowRL: Matching Reward Distributions for LLM Reasoning](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/FlowRL.md) | 202509 | mixed | diversity, GFlowNets, reasoning, RL, training |
 | [Soft Tokens, Hard Truths](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Soft%20Tokens%2C%20Hard%20Truths.md) | 202509 | Meta | continuous thoughts, inference, latent reasoning, reasoning, RL, training |
