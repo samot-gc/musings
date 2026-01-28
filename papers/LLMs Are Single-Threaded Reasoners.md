@@ -22,7 +22,7 @@ date: 202508
 ## High-Level Summary
 
 -   Latent reasoning ('soft thinking') became a hot topic in 2025
-    -   What: teplace discretely sampled tokens with continuous hidden layers or output probabilities
+    -   What: replace discretely sampled tokens with continuous hidden layers or output probabilities
     -   Hope: these cts tokens are more 'information dense', and allow 'fluid'/'soft' reasoning over abstract concepts
     -   Claim: able to explore multiple reasoning paths in parallel, not restricted by early token sampling
 -   This paper explores inner workings of *Soft Thinking*:
