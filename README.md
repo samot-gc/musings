@@ -5,6 +5,7 @@ A searchable, filterable, and sortable version of this index is available on the
 | Title | Date | Lab | Tags |
 |-------|------|-----|------|
 | [Controlling Thinking Speed in Reasoning Models](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Controlling%20Thinking%20Speed.md) | 202510 | Alibaba, Zhejiang University | efficiency, inference, reasoning, training-free |
+| [HRM-Agent: Training a recurrent reasoning model in dynamic environments using reinforcement learning](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/HRM-Agent.md) | 202510 | Cerenaut | agents, hierarchy, latent reasoning, reasoning, reinforcement learning, small model, training |
 | [Less is More: Recursive Reasoning with Tiny Networks](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/TRM.md) | 202510 | Samsung | hierarchy, latent reasoning, linear reasoning, reasoning, small model, supervised, training |
 | [Reasoning with Sampling: Your Base Model is Smarter Than You Think](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Reasoning%20with%20Sampling.md) | 202510 | Harvard | inference, reasoning, RL, training-free |
 | [Rethinking Thinking Tokens: LLMs as Improvement Operators](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Rethinking%20Thinking.md) | 202510 | Meta | bounded context, inference, linear reasoning, reasoning, RL, training |
