@@ -26,30 +26,37 @@
       
 <p><a href="https://arxiv.org/abs/2606.29712"><em>Why Struggle with Continuous Latents?</em></a> proposes <em>Discrete Latent Reasoning</em>:</p>
 <ul>
-<li>Replace explicit CoT with a short sequence of non-verbal tokens</li>
-<li>Constructs these by compressing real CoTs:
+<li>
+<p>TL;DR:</p>
 <ul>
-<li>take written CoT, render as image, encode with visual encoder</li>
-<li>quantise resulting features into codebook IDs, add those IDs as new tokens</li>
+<li>Replace explicit CoT with a short sequence of non-verbal tokens via image tokeniser</li>
+<li>Kinda insane, unprincipled idea (patches may not even cover full words!), but decent performance</li>
 </ul>
 </li>
-</ul>
-<p>The key algorithmic contribution is the <em>rendered-compression codebook</em>:</p>
+<li>
+<p>Constructs these by compressing real CoTs:</p>
 <ul>
-<li>Codebook trained so that latent tokens can be (approximately) decoded:
+<li>take written CoT, render as image ("screenshot"), tokenise with DeepEncoder V2</li>
+<li>reduces 1024 × 1024 image into 256 tokens, leading to up to 20× compression</li>
+</ul>
+</li>
+<li>
+<p>Codebook trained so that latent tokens can be (approximately) decoded:</p>
 <ul>
 <li>is a code from a learned compression scheme over actual CoTs</li>
 <li>has an approximate textual interpretation via the decoder</li>
 <li>can be supervised with ordinary token-level losses</li>
 </ul>
 </li>
-</ul>
+<li>
 <p>Training the LM is then fairly clean:</p>
 <ol>
 <li>Align the new latent tokens to the LM: learn projectors from codebook to LM space</li>
 <li>SFT on sequences like <code>problem -&gt; &lt;latent&gt; compressed-CoT tokens &lt;/latent&gt; -&gt; answer</code></li>
 <li>RL the model's latent-token policy: correctness, formatting and/or process-level via decode</li>
 </ol>
+</li>
+</ul>
 <p><a href="https://arxiv.org/abs/2604.22709"><em>Abstract-CoT</em></a> has similar goals, with discrete latents whose embeddings are learned, but differs in the implementation:</p>
 <ul>
 <li>Abstract-CoT: learns (reserved) latent language from scratch during training</li>

@@ -15,23 +15,23 @@ date: 202606
 
 [*Why Struggle with Continuous Latents?*](https://arxiv.org/abs/2606.29712) proposes *Discrete Latent Reasoning*:
 
-- Replace explicit CoT with a short sequence of non-verbal tokens
-- Constructs these by compressing real CoTs:
-  - take written CoT, render as image, encode with visual encoder
-  - quantise resulting features into codebook IDs, add those IDs as new tokens
+- TL;DR:
+  - Replace explicit CoT with a short sequence of non-verbal tokens via image tokeniser
+  - Kinda insane, unprincipled idea (patches may not even cover full words!), but decent performance
 
-The key algorithmic contribution is the *rendered-compression codebook*:
+- Constructs these by compressing real CoTs:
+  - take written CoT, render as image ("screenshot"), tokenise with DeepEncoder V2
+  - reduces 1024 × 1024 image into 256 tokens, leading to up to 20× compression
 
 - Codebook trained so that latent tokens can be (approximately) decoded:
   - is a code from a learned compression scheme over actual CoTs
   - has an approximate textual interpretation via the decoder
   - can be supervised with ordinary token-level losses
 
-Training the LM is then fairly clean:
-
-1. Align the new latent tokens to the LM: learn projectors from codebook to LM space
-2. SFT on sequences like `problem -> <latent> compressed-CoT tokens </latent> -> answer`
-3. RL the model's latent-token policy: correctness, formatting and/or process-level via decode
+- Training the LM is then fairly clean:
+  1. Align the new latent tokens to the LM: learn projectors from codebook to LM space
+  2. SFT on sequences like `problem -> <latent> compressed-CoT tokens </latent> -> answer`
+  3. RL the model's latent-token policy: correctness, formatting and/or process-level via decode
 
 [*Abstract-CoT*](https://arxiv.org/abs/2604.22709) has similar goals, with discrete latents whose embeddings are learned, but differs in the implementation:
 
