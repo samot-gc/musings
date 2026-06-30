@@ -4,6 +4,7 @@ A searchable, filterable, and sortable version of this index is available on the
 
 | Title | Date | Lab | Tags |
 |-------|------|-----|------|
+| [Why Struggle with Continuous Latents? Interpretable Discrete Latent Reasoning via Rendered Compression](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Discrete%20Latent%20Reasoning.md) | 202606 | Shanghai Jiao Tong University, Tongji University | continuous thoughts, latent reasoning, reasoning, RL, SFT |
 | [Diffusion Models: Deep Dive](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Diffusion%20Models-%20Deep-Dive.md) | 202603 | OT | diffusion, RL, training, own |
 | [Controlling Thinking Speed in Reasoning Models](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Controlling%20Thinking%20Speed.md) | 202510 | Alibaba, Zhejiang University | efficiency, inference, reasoning, training-free |
 | [HRM-Agent: Training a recurrent reasoning model in dynamic environments using reinforcement learning](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/HRM-Agent.md) | 202510 | Cerenaut | agents, hierarchy, latent reasoning, reasoning, reinforcement learning, small model, training |
