@@ -4,6 +4,7 @@ A searchable, filterable, and sortable version of this index is available on the
 
 | Title | Date | Lab | Tags |
 |-------|------|-----|------|
+| [Ring-Zero: Scaling Zero RL to a Trillion Parameters for Emergent Reasoning](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Ring-Zero.md) | 202607 | Ant Group, Gaoling School of AI | reasoning, RL, RLVR, scaling, training |
 | [Why Struggle with Continuous Latents? Interpretable Discrete Latent Reasoning via Rendered Compression](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Discrete%20Latent%20Reasoning.md) | 202606 | Shanghai Jiao Tong University, Tongji University | continuous thoughts, latent reasoning, reasoning, RL, SFT |
 | [Diffusion Models: Deep Dive](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Diffusion%20Models-%20Deep-Dive.md) | 202603 | OT | diffusion, RL, training, own |
 | [Controlling Thinking Speed in Reasoning Models](https://github.com/samot-gc/summaries-with-sam/blob/main/papers/Controlling%20Thinking%20Speed.md) | 202510 | Alibaba, Zhejiang University | efficiency, inference, reasoning, training-free |
